@@ -1,36 +1,123 @@
-let users = {
-    target: process.env.USERS_API_DOMAIN,
-    online: true    
-};
+const {SERVICES} = require('../types/services');
 
-getServicesStatus = () => {
-    return {
-        users: users
+class ServicesStatus {
+    
+    static _instance;
+
+    matches;
+    
+    messages;
+
+    profiles;
+
+    users;
+
+    constructor() {
+        this.matches = {
+            target: process.env.MATCHES_API_DOMAIN,
+            online: false    
+        };
+        this.messages = {
+            target: process.env.MESSAGES_API_DOMAIN,
+            online: false    
+        };
+        this.profiles = {
+            target: process.env.PROFILES_API_DOMAIN,
+            online: false    
+        };
+        this.users = {
+            target: process.env.USERS_API_DOMAIN,
+            online: true    
+        };
     }
+
+    static getInstance() {
+        if (this._instance) {
+            return this._instance;
+        }
+        this._instance = new ServicesStatus();
+        return this._instance;
+    }
+
+    getServices() {
+        return {
+            matches: this.matches,
+            messages: this.messages,
+            profiles: this.profiles,
+            users: this.users
+        }
+    }
+    
+    start(service) {
+        switch (service) {
+            case SERVICES.MATCHES:
+                this.matches.online = true;
+                break;
+            case SERVICES.MESSAGES:
+                this.messages.online = true;
+                break;
+            case SERVICES.PROFILES:
+                this.profiles.online = true;
+                break;            
+            case SERVICES.USERS:
+                this.users.online = true;
+                break;
+        }
+        return this.getService(service);
+    }
+
+    stop(service) {
+        switch (service) {
+            case SERVICES.MATCHES:
+                this.matches.online = false;
+                break;
+            case SERVICES.MESSAGES:
+                this.messages.online = false;
+                break;
+            case SERVICES.PROFILES:
+                this.profiles.online = false;
+                break;            
+            case SERVICES.USERS:
+                this.users.online = false;
+                break;
+        }
+        return this.getService(service);
+    }    
+    
+    getService(service) {
+        switch (service) {
+            case SERVICES.MATCHES:
+                return this.matches;
+            case SERVICES.MESSAGES:
+                return this.messages;
+            case SERVICES.PROFILES:
+                return this.profiles;
+            case SERVICES.USERS:
+                return this.users;
+        }
+    }
+
 }
 
-stopUsers = () => {
-    users = {
-        target: users.target,
-        online: false
-    };
+const getServicesStatus = () => {
+    return ServicesStatus.getInstance().getServices();
 }
 
-startUsers = () => {
-    users = {
-        target: users.target,
-        online: true
-    };
+const stopService = (service) => {
+    return ServicesStatus.getInstance().stop(service);
 }
 
-getUsersService = () => {
-    return users;
+const startService = (service) => {
+    return ServicesStatus.getInstance().start(service);
+}
+
+const getServiceStatus = (service) => {
+    return ServicesStatus.getInstance().getService(service);
 }
 
 module.exports = {
+    getServiceStatus,
     getServicesStatus,
-    stopUsers,
-    startUsers,
-    getUsersService
+    startService,
+    stopService
 }
-// transformar esto en un singleton
