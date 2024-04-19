@@ -2,10 +2,10 @@ name: Build and deploy a container to an Azure Web App
 
 on:
   push:
-    branches: [ "main"]
+    branches: [ "dev"]
   pull_request:
     types: [opened, synchronize, reopened, close]
-    branches: [ "main" ]
+    branches: [ "dev" ]
   workflow_dispatch:
 
 permissions:
