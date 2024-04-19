@@ -22,5 +22,5 @@ app.use('/api/auth', require('./routes/users'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
-    console.log(`Api REST USUARIOS corriendo en ${process.env.HOST}:${process.env.PORT}`);
+    console.log(`Api REST GATEWAY corriendo en ${process.env.HOST}:${process.env.PORT}`);
 });
