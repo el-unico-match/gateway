@@ -1,10 +1,15 @@
 const {response} = require('express');
 const {SERVICES} = require('../types/services')
-const {axios} = require('axios');
+const axios = require('axios');
+
 const {
     startService,
     stopService,
     getServiceStatus} = require('../servicesStatus/servicesStatus');
+
+const getUserStatus = () => {
+    return getService(SERVICES.USERS)
+}
 
 const start = async (req, res = response) => {
     res.json({
@@ -36,11 +41,18 @@ const getUsers = async (req, res = response) => {
 }
 
 const loginUser =  async (req, res = response) => {
+    if (getUserStatus()) {
+
+    } else {
+        
+    }
     let url = getServiceStatus(SERVICES.USERS).target+'/api/auth';
     console.log(req.body);
     //console.log(req.header('x_token'));
-    axios.post(url, req.body)
-    
+    let resultado = await axios.get('https://users-uniquegroup-match-fiuba.azurewebsites.net/api/status');
+    console.log(resultado);
+    console.log(axios.isCancel('something'));
+    //https://users-uniquegroup-match-fiuba.azurewebsites.net/api/status
     res.json({
         ok: true,
         service: getServiceStatus(SERVICES.USERS)

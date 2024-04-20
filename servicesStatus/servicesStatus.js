@@ -15,19 +15,19 @@ class ServicesStatus {
     constructor() {
         this.matches = {
             target: process.env.MATCHES_API_DOMAIN,
-            online: false    
+            active: false    
         };
         this.messages = {
             target: process.env.MESSAGES_API_DOMAIN,
-            online: false    
+            active: false    
         };
         this.profiles = {
             target: process.env.PROFILES_API_DOMAIN,
-            online: false    
+            active: false    
         };
         this.users = {
             target: process.env.USERS_API_DOMAIN,
-            online: true    
+            active: true    
         };
     }
 
@@ -51,16 +51,16 @@ class ServicesStatus {
     start(service) {
         switch (service) {
             case SERVICES.MATCHES:
-                this.matches.online = true;
+                this.matches.active = true;
                 break;
             case SERVICES.MESSAGES:
-                this.messages.online = true;
+                this.messages.active = true;
                 break;
             case SERVICES.PROFILES:
-                this.profiles.online = true;
+                this.profiles.active = true;
                 break;            
             case SERVICES.USERS:
-                this.users.online = true;
+                this.users.active = true;
                 break;
         }
         return this.getService(service);
@@ -69,16 +69,16 @@ class ServicesStatus {
     stop(service) {
         switch (service) {
             case SERVICES.MATCHES:
-                this.matches.online = false;
+                this.matches.active = false;
                 break;
             case SERVICES.MESSAGES:
-                this.messages.online = false;
+                this.messages.active = false;
                 break;
             case SERVICES.PROFILES:
-                this.profiles.online = false;
+                this.profiles.active = false;
                 break;            
             case SERVICES.USERS:
-                this.users.online = false;
+                this.users.active = false;
                 break;
         }
         return this.getService(service);
