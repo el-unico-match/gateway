@@ -14,18 +14,22 @@ class ServicesStatus {
 
     constructor() {
         this.matches = {
+            name: SERVICES.MATCHES,
             target: process.env.MATCHES_API_DOMAIN,
-            active: false    
+            active: true    
         };
         this.messages = {
+            name: SERVICES.MESSAGES,
             target: process.env.MESSAGES_API_DOMAIN,
-            active: false    
+            active: true    
         };
         this.profiles = {
+            name: SERVICES.PROFILES,
             target: process.env.PROFILES_API_DOMAIN,
-            active: false    
+            active: true    
         };
         this.users = {
+            name: SERVICES.USERS,
             target: process.env.USERS_API_DOMAIN,
             active: true    
         };
@@ -38,54 +42,27 @@ class ServicesStatus {
         this._instance = new ServicesStatus();
         return this._instance;
     }
-
-    getServices() {
-        return {
-            matches: this.matches,
-            messages: this.messages,
-            profiles: this.profiles,
-            users: this.users
-        }
-    }
     
-    start(service) {
-        switch (service) {
+    setActive(serviceName, active) {
+        switch (serviceName) {
             case SERVICES.MATCHES:
-                this.matches.active = true;
+                this.matches.active = active;
                 break;
             case SERVICES.MESSAGES:
-                this.messages.active = true;
+                this.messages.active = active;
                 break;
             case SERVICES.PROFILES:
-                this.profiles.active = true;
+                this.profiles.active = active;
                 break;            
             case SERVICES.USERS:
-                this.users.active = true;
+                this.users.active = active;
                 break;
         }
-        return this.getService(service);
+        return this.getService(serviceName);
     }
-
-    stop(service) {
-        switch (service) {
-            case SERVICES.MATCHES:
-                this.matches.active = false;
-                break;
-            case SERVICES.MESSAGES:
-                this.messages.active = false;
-                break;
-            case SERVICES.PROFILES:
-                this.profiles.active = false;
-                break;            
-            case SERVICES.USERS:
-                this.users.active = false;
-                break;
-        }
-        return this.getService(service);
-    }    
     
-    getService(service) {
-        switch (service) {
+    getService(serviceName) {
+        switch (serviceName) {
             case SERVICES.MATCHES:
                 return this.matches;
             case SERVICES.MESSAGES:
@@ -96,28 +73,17 @@ class ServicesStatus {
                 return this.users;
         }
     }
-
 }
 
-const getServicesStatus = () => {
-    return ServicesStatus.getInstance().getServices();
+const setServiceActive = (serviceName, active) => {
+    return ServicesStatus.getInstance().setActive(serviceName, active);
 }
 
-const stopService = (service) => {
-    return ServicesStatus.getInstance().stop(service);
-}
-
-const startService = (service) => {
-    return ServicesStatus.getInstance().start(service);
-}
-
-const getServiceStatus = (service) => {
-    return ServicesStatus.getInstance().getService(service);
+const getServiceStatus = (serviceName) => {
+    return ServicesStatus.getInstance().getService(serviceName);
 }
 
 module.exports = {
     getServiceStatus,
-    getServicesStatus,
-    startService,
-    stopService
+    setServiceActive
 }

@@ -8,7 +8,10 @@ const {
     getServiceStatus} = require('../servicesStatus/servicesStatus');
 
 const getUserStatus = () => {
-    return getService(SERVICES.USERS)
+    res.json({
+        ok: true,
+        service: getServiceStatus(SERVICES.USERS)
+    })
 }
 
 const start = async (req, res = response) => {

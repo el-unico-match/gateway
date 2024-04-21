@@ -1,7 +1,7 @@
 const {response} = require('express');
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
 const {HTTP_SERVER_ERROR_5XX} = require('../helpers/httpCodes');
-const {MSG_SERVICE_DISABLED} = require('../messages/uncategorized')
+const {MSG_SERVICE_DISABLED} = require('../messages/services')
 
 /**
  * Verificar que el servicio se encuentre activo

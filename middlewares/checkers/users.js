@@ -1,6 +1,6 @@
-const {response} = require('express');
-const {checkServiceIsActive} = require('../middlewares/uncategorized');
-const { SERVICES } = require('../types/services');
+const {check} = require('express-validator');
+const {checkServiceIsActive} = require('../uncategorized');
+const { SERVICES } = require('../../types/services');
 
 /**
  * Verificar que el servicio de usuario se encuentre activo
