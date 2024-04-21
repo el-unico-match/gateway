@@ -41,17 +41,17 @@ const getUsers = async (req, res = response) => {
 }
 
 const loginUser =  async (req, res = response) => {
-    const usersApiBaseUrl = getServiceStatus(SERVICES.USERS).target;
+    const usersApiLoginUrl = `${getServiceStatus(SERVICES.USERS).target}/api/login`;
     
     try {
-        const {data} = await axios.post(`${usersApiBaseUrl}/api/login`, req.body);
+        const {data} = await axios.post(usersApiLoginUrl, req.body);
         res.json(data);
     }
 
-    catch (exception) {
+    catch ({response}) {
         res
-            .status(502)
-            .json({ok: false, message: exception.message});
+            .status(response.status)
+            .json(response.data);
     }
 }
 
