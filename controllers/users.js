@@ -41,19 +41,14 @@ const getUsers = async (req, res = response) => {
 }
 
 const loginUser =  async (req, res = response) => {
-    const usersApiUrl = getServiceStatus(SERVICES.USERS).target;
+    const usersApiBaseUrl = getServiceStatus(SERVICES.USERS).target;
+    
     try {
-        const {data} = await axios.post(`${usersApiUrl}/api/login1`, req.body);
+        const {data} = await axios.post(`${usersApiBaseUrl}/api/login`, req.body);
         res.json(data);
     }
+
     catch (exception) {
-        // this could be a common gateway exception handling
-        // const result = await axios.get(`${usersApiUrl}/api/status`)
-        // if ( result.status == 400 )
-        // {
-        //     res.status(503);
-        // }
-        
         res
             .status(502)
             .json({ok: false, message: exception.message});
