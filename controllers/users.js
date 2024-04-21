@@ -41,22 +41,23 @@ const getUsers = async (req, res = response) => {
 }
 
 const loginUser =  async (req, res = response) => {
-    if (getUserStatus()) {
-
-    } else {
-        
+    const usersApiUrl = getServiceStatus(SERVICES.USERS).target;
+    try {
+        const {data} = await axios.post(`${usersApiUrl}/api/login1`, req.body);
+        res.json(data);
     }
-    let url = getServiceStatus(SERVICES.USERS).target+'/api/auth';
-    console.log(req.body);
-    //console.log(req.header('x_token'));
-    let resultado = await axios.get('https://users-uniquegroup-match-fiuba.azurewebsites.net/api/status');
-    console.log(resultado);
-    console.log(axios.isCancel('something'));
-    //https://users-uniquegroup-match-fiuba.azurewebsites.net/api/status
-    res.json({
-        ok: true,
-        service: getServiceStatus(SERVICES.USERS)
-    })
+    catch (exception) {
+        // this could be a common gateway exception handling
+        // const result = await axios.get(`${usersApiUrl}/api/status`)
+        // if ( result.status == 400 )
+        // {
+        //     res.status(503);
+        // }
+        
+        res
+            .status(502)
+            .json({ok: false, message: exception.message});
+    }
 }
 
 module.exports = {
