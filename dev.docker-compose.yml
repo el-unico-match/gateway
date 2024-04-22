@@ -6,4 +6,4 @@ services:
     env_file:
       - .dev.env
     ports:
-      - "5000:5000"
+      - "4001:4001"

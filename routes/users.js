@@ -6,16 +6,9 @@
 const {Router} = require('express');
 const router = Router();
 const {
-    start,
-    stop,
-    getService,
-    getUsers,
+    getDataUser,
     loginUser} = require('../controllers/users');
 const {checkUserServiceIsActive} = require('../middlewares/checkers/users');
-
-// Obtener estado del servicio usuarios
-router.get('/status', getService);
-
 
 // Obtener datos del usuario
 //router.get('/current', checkUserServiceIsActive, getDataUser);
