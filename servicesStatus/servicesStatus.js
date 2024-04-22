@@ -1,5 +1,10 @@
 const {SERVICES} = require('../types/services');
 
+/**
+ * Clase que resguarda el estado de cada uno de los servicios dado por
+ * su estado lógico de activo o inactivo, su nombre y la URL target
+ * del backend.
+ */
 class ServicesStatus {
     
     static _instance;
@@ -75,10 +80,21 @@ class ServicesStatus {
     }
 }
 
+/**
+ * 
+ * @param {*} serviceName nombre del servicio.
+ * @param {*} active verdadero para activarlo, falso para desactivarlo.
+ * @returns el estado del servicio luego de aplicar la operación.
+ */
 const setServiceActive = (serviceName, active) => {
     return ServicesStatus.getInstance().setActive(serviceName, active);
 }
 
+/**
+ * 
+ * @param {*} serviceName nombre del servicio.
+ * @returns el estado del servicio en cuestión.
+ */
 const getServiceStatus = (serviceName) => {
     return ServicesStatus.getInstance().getService(serviceName);
 }

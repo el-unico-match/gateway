@@ -6,30 +6,32 @@
 const {Router} = require('express');
 const router = Router();
 const {
-    getDataUser,
-    loginUser} = require('../controllers/users');
+    getDataUser,    
+    createUser,
+    updateUser,
+    deleteUser,
+    getUsers,
+    loginUser,
+    getStatus} = require('../controllers/users');
 const {checkUserServiceIsActive} = require('../middlewares/checkers/users');
 
 // Obtener datos del usuario
-//router.get('/current', checkUserServiceIsActive, getDataUser);
+router.get('/current', checkUserServiceIsActive, getDataUser);
 
 // Crear usuario
-//router.post('/edit', checkUserServiceIsActive, createUser);
+router.post('/edit', checkUserServiceIsActive, createUser);
 
 // Actualizar usuario
-//router.put('/edit/:id', checkUserServiceIsActive, updateUser);
+router.put('/edit/:id', checkUserServiceIsActive, updateUser);
 
 // Borrar usuario
-//router.delete('/edit/:id', checkUserServiceIsActive, deleteUser);
+router.delete('/edit/:id', checkUserServiceIsActive, deleteUser);
 
 // Obtener usuarios
-//router.get('/info', checkUserServiceIsActive, getUsers);
+router.get('/info', checkUserServiceIsActive, getUsers);
 
 // Login usuario
-//router.post('/login', checkUserServiceIsActive, loginUser);
-
-// Retornar estado del servicio
-//router.get('/login', checkUserServiceIsActive, getStatus);
+router.post('/login', checkUserServiceIsActive, loginUser);
 
 // Revalidar token
 //router.post('/token', checkUserServiceIsActive, revalidateToken);

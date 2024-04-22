@@ -1,7 +1,12 @@
 const {response} = require('express');
-const {HTTP_SUCCESS_2XX} = require('../helpers/httpCodes');
+const {
+    HTTP_SUCCESS_2XX,
+    HTTP_CLIENT_ERROR_4XX} = require('../helpers/httpCodes');
 const axios = require('axios');
 const {SERVICES} = require('../types/services');
+const {ROLES} = require('../types/role');
+const {checkAccessRoleBased} = require('../helpers/validateAccess');
+const {MSG_ACCESS_DENIED} = require('../messages/services');
 const {
     getServiceStatus,
     setServiceActive} = require('../servicesStatus/servicesStatus');
@@ -26,11 +31,19 @@ const getServices = async (req, res = response) => {
  */
 const updateServiceStatus = async (req, res = response) => {
     const {service, active} = req.body;
-    setServiceActive(service, active);
-    return res.status(HTTP_SUCCESS_2XX.OK).json({
-        ok: true,
-        services: await getServiceCompleteStatus(getServiceStatus(service))
-    })
+    if (await checkAccessRoleBased(req, ROLES.ADMINISTRATOR)) {
+        setServiceActive(service, active);
+        return res.status(HTTP_SUCCESS_2XX.OK).json({
+            ok: true,
+            name: service,
+            status: await getServiceCompleteStatus(getServiceStatus(service))
+        });
+    } else {
+        return res.status(HTTP_CLIENT_ERROR_4XX.UNAUTHORIZED).json({
+            ok:false,
+            msg: MSG_ACCESS_DENIED
+        });
+    }    
 }
 
 /**
