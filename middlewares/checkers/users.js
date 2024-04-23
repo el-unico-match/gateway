@@ -1,4 +1,3 @@
-const {check} = require('express-validator');
 const {createCheckServiceIsActive} = require('../uncategorized');
 const { SERVICES } = require('../../types/services');
 

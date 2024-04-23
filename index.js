@@ -16,9 +16,20 @@ app.use(express.static('public'));
 // Lectura y parseo del body
 app.use(express.json());
 
-// Rutas
+// Rutas Servicios
 app.use('/api/services', require('./routes/services'));
-app.use('/api/users', require('./routes/users'));
+// Rutas Matches
+
+// Rutas Messages
+
+// Rutas Profiles
+
+// Rutas Usuarios
+app.use('/api/users/current', require('./routes/users/current'));
+app.use('/api/users/edit', require('./routes/users/edit'));
+app.use('/api/users/info', require('./routes/users/info'));
+app.use('/api/users/login', require('./routes/users/login'));
+app.use('/api/users/token', require('./routes/users/token'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
