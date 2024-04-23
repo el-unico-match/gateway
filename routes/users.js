@@ -12,7 +12,8 @@ const {
     deleteUser,
     getUsers,
     loginUser,
-    getStatus} = require('../controllers/users');
+    revalidateToken,
+    validateToken} = require('../controllers/users');
 const {checkUserServiceIsActive} = require('../middlewares/checkers/users');
 
 // Obtener datos del usuario
@@ -34,9 +35,9 @@ router.get('/info', checkUserServiceIsActive, getUsers);
 router.post('/login', checkUserServiceIsActive, loginUser);
 
 // Revalidar token
-//router.post('/token', checkUserServiceIsActive, revalidateToken);
+router.post('/token', revalidateToken);
 
 // Check token
-//router.get('/token', checkUserServiceIsActive, validateToken);
+router.get('/token', checkUserServiceIsActive, validateToken);
 
 module.exports = router;
