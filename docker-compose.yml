@@ -2,8 +2,9 @@ version: "2.2"
 
 services:
   app:
+    container_name: gateway
     build: .
     env_file:
-      - .dev.env
+      - .env
     ports:
       - "4001:4001"
