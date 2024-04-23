@@ -78,20 +78,38 @@ const getServiceCompleteStatus = async (service) => {
  * @returns Si el servicio se encuentra el línea.
  */
 const checkServiceIsOnline = async (service) => {
+    const instanceAxios = axios.create({baseURL: service.target});
     switch (service.name) {
         case SERVICES.MATCHES:
-            return false;
-        case SERVICES.MESSAGES:
-            return false;
-        case SERVICES.PROFILES:
-            return false;
-        case SERVICES.USERS:
             try {
-                //TODO usar servicios del controlador
-                let resultado = await axios.get('https://users-uniquegroup-match-fiuba.azurewebsites.net/api/status');
+                let resultado = await instanceAxios.get('/status');
                 return (resultado.status === HTTP_SUCCESS_2XX.OK);
             } catch (error) {
-                console.log(error);
+                console.log(`On check service ${service.name} online: ${error.message}`);
+                return false;    
+            };
+        case SERVICES.MESSAGES:
+            try {
+                let resultado = await instanceAxios.get('/status');
+                return (resultado.status === HTTP_SUCCESS_2XX.OK);
+            } catch (error) {
+                console.log(`On check service ${service.name} online: ${error.message}`);
+                return false;    
+            };
+        case SERVICES.PROFILES:
+            try {
+                let resultado = await instanceAxios.get('/status');
+                return (resultado.status === HTTP_SUCCESS_2XX.OK);
+            } catch (error) {
+                console.log(`On check service ${service.name} online: ${error.message}`);
+                return false;    
+            };
+        case SERVICES.USERS:
+            try {
+                let resultado = await instanceAxios.get('/status');
+                return (resultado.status === HTTP_SUCCESS_2XX.OK);
+            } catch (error) {
+                console.log(`On check service ${service.name} online: ${error.message}`);
                 return false;    
             };
     }        

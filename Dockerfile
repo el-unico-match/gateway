@@ -8,4 +8,4 @@ RUN npm install
 
 EXPOSE 4001
 
-CMD ["npx", "nodemon", "index.js"]
+ENTRYPOINT [ "node", "index.js"]

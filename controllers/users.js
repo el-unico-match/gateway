@@ -2,10 +2,10 @@ const {response} = require('express');
 const axios = require('axios');
 const {ROLES} = require('../types/role');
 const {SERVICES} = require('../types/services');
-const {MSG_ERROR_500} = require('../messages/uncategorized');
 const {MSG_ERROR_WITH_SERVICE_REQUEST, MSG_SERVICE_DISABLED} = require('../messages/services');
-const {HTTP_SERVER_ERROR_5XX, HTTP_CLIENT_ERROR_4XX} = require('../helpers/httpCodes')
+const {HTTP_SERVER_ERROR_5XX} = require('../helpers/httpCodes')
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const {processErrorAxiosRequest} = require('../helpers/processErrorAxiosRequest');
 
 /**
  * 
@@ -30,11 +30,7 @@ const getDataUser = async (req, res = response) => {
             })    
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);        
     }
 }
 
@@ -60,11 +56,7 @@ const createUser =  async (req, res = response) => {
             })    
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);
     }
 }
 
@@ -91,11 +83,7 @@ const updateUser =  async (req, res = response) => {
             })    
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);
     }
 }
 
@@ -122,11 +110,7 @@ const deleteUser =  async (req, res = response) => {
             })    
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);
     }
 }
 
@@ -139,7 +123,7 @@ const getUsers =  async (req, res = response) => {
         let url = getServiceStatus(SERVICES.USERS).target;
         const instanceAxios = axios.create({baseURL: url});
         instanceAxios.defaults.headers.common['x-token'] = token;
-        let result = await instanceAxios.get('/info');
+        result = await instanceAxios.get('/info');
         try { 
             res.status(result.status).json(
                 result.data
@@ -152,11 +136,7 @@ const getUsers =  async (req, res = response) => {
             })    
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);
     }
 }
 
@@ -187,11 +167,7 @@ const loginUser =  async (req, res = response) => {
             })
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);
     }
 }
 
@@ -224,11 +200,7 @@ const revalidateToken =  async (req, res = response) => {
             })
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);
     }
 }
 
@@ -236,6 +208,7 @@ const revalidateToken =  async (req, res = response) => {
  * @returns Los datos del usuario correspondiente al token.
  */
 const validateToken =  async (req, res = response) => {
+    let result;
     try {
         const token = req.header('x-token');
         let url = getServiceStatus(SERVICES.USERS).target;
@@ -254,11 +227,7 @@ const validateToken =  async (req, res = response) => {
             })    
         }
     } catch (error) {
-        console.log(error);
-        res.status(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR).json({
-            ok: false,
-            msg: MSG_ERROR_500
-        })
+        processErrorAxiosRequest(res, error);
     }
 }
 

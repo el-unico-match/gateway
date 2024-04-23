@@ -3,5 +3,7 @@ version: "2.2"
 services:
   app:
     build: .
+    env_file:
+      - .dev.env
     ports:
-      - "5000:5000"
+      - "4001:4001"
