@@ -18,12 +18,13 @@ app.use(express.json());
 
 // Rutas Servicios
 app.use('/api/services', require('./routes/services'));
+
 // Rutas Matches
 
 // Rutas Messages
 
 // Rutas Profiles
-
+app.use('/api/profiles/user/profile', require('./routes/profiles/user_profile'));
 // Rutas Usuarios
 app.use('/api/users/current', require('./routes/users/current'));
 app.use('/api/users/edit', require('./routes/users/edit'));
