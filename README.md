@@ -25,19 +25,37 @@ docker compose -f docker-compose.yml up --build
 # TODO
 
 1) Se debe disponer de las siguientes variables de entorno para su ejecución (las cuales podrían
-econtrarse en un archivo .env en la raíz del proyecto):
+econtrarse en un archivo .dev.env en la raíz del proyecto):
 
 ```
 PORT=4001
 MATCHES_API_DOMAIN=TODO
 MESSAGES_API_DOMAIN=TODO
 PROFILES_API_DOMAIN=TODO
-USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
+USERS_API_DOMAIN=https://<your ipv4>:4000/api
 HOST=localhost
 ```
-
-
 
 ```
 docker compose -f dev.docker-compose.yml up --build
 ```
+
+# Como obtener tu ipv4:
+
+Son del estilo 172.26.x.x o 192.168.x.x.
+
+Terminal Windows:
+
+```
+ipconfig
+
+```
+
+Terminal Linux:
+
+```
+
+ip address
+
+```
+

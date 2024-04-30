@@ -10,7 +10,8 @@ const {MSG_ACCESS_DENIED} = require('../messages/services');
 const {
     getServiceStatus,
     setServiceActive} = require('../servicesStatus/servicesStatus');
-
+const { setDefaultResultOrder } = require("dns");
+setDefaultResultOrder("ipv4first");
 /**
  * 
  * @param {*} req body vacío
@@ -78,7 +79,7 @@ const getServiceCompleteStatus = async (service) => {
  * @returns Si el servicio se encuentra el línea.
  */
 const checkServiceIsOnline = async (service) => {
-    const instanceAxios = axios.create({baseURL: service.target});
+    const instanceAxios = axios.create({baseURL: service.target, proxy: false, timeout: 5000});
     switch (service.name) {
         case SERVICES.MATCHES:
             try {
@@ -106,13 +107,27 @@ const checkServiceIsOnline = async (service) => {
             };
         case SERVICES.USERS:
             try {
-                let resultado = await instanceAxios.get('/status');
+                let resultado = await instanceAxios.get('status');
                 return (resultado.status === HTTP_SUCCESS_2XX.OK);
             } catch (error) {
+                console.log(error);
+                console.log(process.env.MY_ROUTE);
                 console.log(`On check service ${service.name} online: ${error.message}`);
                 return false;    
             };
-    }        
+    }   
+    /*
+    const instanceAxios = axios.create({baseURL: 'http://localhost:4000'});
+    try {
+        let resultado = await instanceAxios.get('/api-doc/#/');
+        return (resultado.status === HTTP_SUCCESS_2XX.OK);
+    } catch (error) {
+        console.log(error);
+        console.log(`On check service ${service.name} online: ${error.message}`);
+        return false;    
+    };
+    //http://localhost:4000/api-doc/#/
+    return false;*/
 }
 
 module.exports = {
