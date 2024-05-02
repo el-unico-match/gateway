@@ -8,13 +8,14 @@ const {doRequestAxios} = require('../../helpers/axiosHelper');
  * @returns Los datos del usuario asociado el token del header.
  */
 const getDataUser = async (req, res = response) => {
-    let url = getServiceStatus(SERVICES.USERS).target;
-    let body = req.body;
-    let headers = {
+    const url = getServiceStatus(SERVICES.USERS).target;
+    const body = req.body;
+    const headers = {
         'x-token': req.header('x-token')
     };
-    let endpoint = '/current';
-    doRequestAxios(req, res, url, headers, body, endpoint);
+    const params = {}
+    const endpoint = 'current';
+    doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
 
 module.exports = {getDataUser}

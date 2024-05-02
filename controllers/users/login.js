@@ -7,11 +7,12 @@ const {doRequestAxios} = require('../../helpers/axiosHelper');
  * @returns Los datos del usuarios logueado.
  */
 const loginUser =  async (req, res = response) => {
-    let url = getServiceStatus(SERVICES.USERS).target;
-    let body = req.body;
+    const url = getServiceStatus(SERVICES.USERS).target;
+    const body = req.body;
     let headers = {};
-    let endpoint = '/login';
-    doRequestAxios(req, res, url, headers, body, endpoint);
+    const endpoint = 'login';
+    const params = {};
+    doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
 
 module.exports = {loginUser}

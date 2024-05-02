@@ -11,7 +11,7 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
 
 /**
  * @swagger
- * /api/login:
+ * /api/users/login:
  *  post:
  *      summary: login user 
  *      tags: [User]

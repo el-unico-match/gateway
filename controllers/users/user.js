@@ -1,49 +1,46 @@
 const {response} = require('express');
-const axios = require('axios');
 const {SERVICES} = require('../../types/services');
-const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../../messages/services');
-const {HTTP_SERVER_ERROR_5XX} = require('../../helpers/httpCodes')
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
+const {doRequestAxios} = require('../../helpers/axiosHelper');
 
 /**
  * @returns Los datos del usuarios creado.
  */
 const createUser =  async (req, res = response) => {
-    let url = getServiceStatus(SERVICES.USERS).target;
-    let body = req.body;
-    let headers = {
-        'x-token': req.header('x-token')
-    };
-    let endpoint = '/user';
-    doRequestAxios(req, res, url, headers, body, endpoint);
+    const url = getServiceStatus(SERVICES.USERS).target;
+    const body = req.body;
+    const headers = {};
+    const params = {};
+    const endpoint = 'user';
+    doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
 
 /**
  * @returns Los datos del usuarios actualizado.
  */
 const updateUser =  async (req, res = response) => {    
-    let url = getServiceStatus(SERVICES.USERS).target;
-    let body = req.body;
-    let headers = {
+    const url = getServiceStatus(SERVICES.USERS).target;
+    const body = req.body;
+    const headers = {
         'x-token': req.header('x-token')
     };
-    const userId = req.params.id;
-    let endpoint = '/user/' + userId;
-    doRequestAxios(req, res, url, headers, body, endpoint);
+    const params = {id: req.params.id};
+    const endpoint = `user/:`;
+    doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
 
 /**
  * @returns Informe de borrado.
  */
 const deleteUser =  async (req, res = response) => {
-    let url = getServiceStatus(SERVICES.USERS).target;
-    let body = req.body;
-    let headers = {
+    const url = getServiceStatus(SERVICES.USERS).target;
+    const body = req.body;
+    const headers = {
         'x-token': req.header('x-token')
     };
-    const userId = req.params.id;
-    let endpoint = '/user/' + userId;
-    doRequestAxios(req, res, url, headers, body, endpoint);
+    const params = {};
+    const endpoint = `user/${req.params.id}`;
+    doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
 
 module.exports = {
