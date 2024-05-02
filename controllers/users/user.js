@@ -1,7 +1,8 @@
 const {response} = require('express');
 const {SERVICES} = require('../../types/services');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
-const {doRequestAxios} = require('../../helpers/axiosHelper');
+const {doRequestAxiosSinglePathParameter,
+doRequestAxios} = require('../../helpers/axiosHelper');
 
 /**
  * @returns Los datos del usuarios creado.
@@ -10,9 +11,8 @@ const createUser =  async (req, res = response) => {
     const url = getServiceStatus(SERVICES.USERS).target;
     const body = req.body;
     const headers = {};
-    const params = {};
     const endpoint = 'user';
-    doRequestAxios(req, res, url, headers, body, params, endpoint);
+    doRequestAxiosSinglePathParameter(req, res, url, headers, body, endpoint);
 }
 
 /**
@@ -24,9 +24,9 @@ const updateUser =  async (req, res = response) => {
     const headers = {
         'x-token': req.header('x-token')
     };
-    const params = {id: req.params.id};
-    const endpoint = `user/:`;
-    doRequestAxios(req, res, url, headers, body, params, endpoint);
+    const uid = req.params.id;
+    const endpoint = `user/${uid}`;
+    doRequestAxiosSinglePathParameter(req, res, url, headers, body, endpoint);
 }
 
 /**
@@ -38,9 +38,9 @@ const deleteUser =  async (req, res = response) => {
     const headers = {
         'x-token': req.header('x-token')
     };
-    const params = {};
-    const endpoint = `user/${req.params.id}`;
-    doRequestAxios(req, res, url, headers, body, params, endpoint);
+    const uid = req.params.id;
+    const endpoint = `user/${uid}`;
+    doRequestAxiosSinglePathParameter(req, res, url, headers, body, endpoint);
 }
 
 module.exports = {
