@@ -4,7 +4,7 @@ const {SERVICES} = require('../../types/services');
 const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../../messages/services');
 const {HTTP_SERVER_ERROR_5XX} = require('../../helpers/httpCodes')
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
-const {processErrorAxiosRequest} = require('../../helpers/processErrorAxiosRequest');
+
 
 /**
  * @returns Los usuarios registrados.
@@ -28,7 +28,7 @@ const getUsers =  async (req, res = response) => {
             })    
         }
     } catch (error) {
-        processErrorAxiosRequest(res, error);
+      //  processErrorAxiosRequest(res, error);
     }
 }
 

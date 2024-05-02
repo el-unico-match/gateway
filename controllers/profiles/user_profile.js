@@ -6,7 +6,6 @@ const {
     HTTP_CLIENT_ERROR_4XX,
     HTTP_SERVER_ERROR_5XX} = require('../../helpers/httpCodes')
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
-const {processErrorAxiosRequest} = require('../../helpers/processErrorAxiosRequest');
 const {
     checkAccessOwnershipBased,
     checkAccessValidToken} = require('../../helpers/validateAccess');
@@ -42,7 +41,7 @@ const getUserProfile = async (req, res = response) => {
             });
         }
     } catch (error) {
-        processErrorAxiosRequest(res, error);        
+    
     }
 }
 
@@ -74,7 +73,7 @@ const updateUserProfile =  async (req, res = response) => {
             });
         }
     } catch (error) {
-        processErrorAxiosRequest(res, error);
+
     }
 }
 
@@ -106,7 +105,7 @@ const deleteUserProfile =  async (req, res = response) => {
             });
         }
     } catch (error) {
-        processErrorAxiosRequest(res, error);
+  
     }
 }
 

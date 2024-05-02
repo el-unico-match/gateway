@@ -1,18 +1,18 @@
 /*
-    Rutas de Usuarios /users/token
-    host + /api/users/token
+    Rutas de Usuarios /users/user
+    host + /api/users/users
 */
 
 const {Router} = require('express');
 const router = Router();
-const {refreshToken} = require('../../controllers/users/token');
+const {getUsers} = require('../../controllers/users/users');
 const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
 
 /**
  * @swagger
- * /api/users/token:
- *  post:
- *      summary: returns a new token from request's token. In case of error use login
+ * /api/users/users:
+ *  get:
+ *      summary: get all the users
  *      tags: [User]
  *      parameters:
  *          - in: header
@@ -22,8 +22,8 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *              required: true
  *              description: user token
  *      responses:
- *          201: 
- *              description: return user token!
+ *          200: 
+ *              description: return all the users!
  *              content:
  *                  application/json:
  *                      schema:
@@ -32,11 +32,13 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                              ok:
  *                                  type: boolean
  *                                  example: true
- *                              token:
- *                                  type: string
- *                                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJkMGMxMzRmMjA5MTk5ZDJmMjc0YTMiLCJuYW1lIjoicmFmYWVsIiwiaWF0IjoxNzE0MjUxMjUxLCJleHAiOjE3MTQyNTg0NTF9.ky8davH_RhQrscgs4k3dnLXJPB5mrdD6RVmWtv5dqUA
+ *                              users:
+ *                                  type: array
+ *                                  items:
+ *                                      type: object
+ *                                      $ref: '#/components/schemas/UserSharedData'
  *          400:
- *              description: error when there is no token in the request!
+ *              description: return error "There is no token in the request"
  *              content:
  *                  application/json:
  *                      schema:
@@ -49,7 +51,7 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                                  type: object
  *                                  example: There is no token in the request
  *          401:
- *              description: return error "The user has been blocked" or "Invalid token"!
+ *              description: return error "Invalid token"!
  *              content:
  *                  application/json:
  *                      schema:
@@ -60,20 +62,7 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                                  example: false
  *                              msg:
  *                                  type: string
- *                                  example: The user has been blocked
- *          404:
- *              description: return error when uid extracted from the token does not exist!
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              ok:
- *                                  type: boolean
- *                                  example: false
- *                              msg:
- *                                  type: string
- *                                  example: The user does not exist
+ *                                  example: Invalid token
  *          500:
  *              description: return internal error!
  *              content:
@@ -87,8 +76,7 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                              msg:
  *                                  type: string
  *                                  example: Please talk to the administrator
- * 
 */
-router.post('/', checkUserServiceIsActive, refreshToken);
+router.get('/', checkUserServiceIsActive, getUsers);
 
 module.exports = router;

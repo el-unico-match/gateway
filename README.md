@@ -22,8 +22,6 @@ docker compose -f docker-compose.yml up --build
 
 # Ejecución sobre servicios locales 
 
-# TODO
-
 1) Se debe disponer de las siguientes variables de entorno para su ejecución (las cuales podrían
 econtrarse en un archivo .dev.env en la raíz del proyecto):
 
@@ -35,6 +33,17 @@ PROFILES_API_DOMAIN=TODO
 USERS_API_DOMAIN=https://<your ipv4>:4000/api
 HOST=localhost
 ```
+Por ejemplo:
+
+```
+PORT=4001
+MATCHES_API_DOMAIN=TODO
+MESSAGES_API_DOMAIN=TODO
+PROFILES_API_DOMAIN=TODO
+USERS_API_DOMAIN=http://192.168.100.203:4000/api
+
+```
+2) Ejecutar el siguien comando en la carpeta del proyecto:
 
 ```
 docker compose -f dev.docker-compose.yml up --build
@@ -48,14 +57,15 @@ Terminal Windows:
 
 ```
 ipconfig
-
 ```
 
 Terminal Linux:
 
 ```
-
 ip address
-
 ```
+
+3) Acceder a documentación en local: http://localhost:/api-doc/
+
+NOTA: PORT normalmente es 4001 o sea: http://localhost:4000/api-doc/
 

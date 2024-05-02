@@ -10,7 +10,26 @@ const {
     updateServiceStatus} = require('../controllers/services');
 const {checkUpdateServiceStatus} = require('../middlewares/checkers/services')
 
-// Obtener información acerca de los servicios
+/**
+ * @swagger
+ * /api/services:
+ *  get:
+ *      summary: info about services
+ *      responses:
+ *          202: 
+ *              description: services status!
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              ok:
+ *                                  type: boolean
+ *                                  example: true
+ *                              services:
+ *                                  type: object
+ *                                  $ref: '#/components/schemas/ServicesStatus'
+*/
 router.get('/', getServices);
 
 // Iniciar o detener un servicio

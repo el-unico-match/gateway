@@ -10,8 +10,9 @@ const {MSG_ACCESS_DENIED} = require('../messages/services');
 const {
     getServiceStatus,
     setServiceActive} = require('../servicesStatus/servicesStatus');
-const { setDefaultResultOrder } = require("dns");
-setDefaultResultOrder("ipv4first");
+//const { setDefaultResultOrder } = require("dns");
+//setDefaultResultOrder("ipv4first");
+
 /**
  * 
  * @param {*} req body vacío
@@ -49,7 +50,7 @@ const updateServiceStatus = async (req, res = response) => {
 
 /**
  * 
- * @returns El estado de todos los servicios incluyendo si se encuentra online.
+ * @returns El estado de todos los servicios incluyendo el estado consultado remotamente.
  */
 const getAllServicesCompleteStatus = async () => {
     return {
@@ -63,71 +64,29 @@ const getAllServicesCompleteStatus = async () => {
 /**
  * 
  * @param {*} service Servicio sobre el cual se quiere chequear su estado.
- * @returns El estado completo del servicio incluyendo su estado en línea.
+ * @returns Estado del servicio al consultar el mismo de manera remota.
  */
 const getServiceCompleteStatus = async (service) => {
-    return {
-        active: service.active,
-        target: service.target,
-        online: await checkServiceIsOnline(service),
-    }
-}
-
-/**
- * 
- * @param {*} service Servicio sobre el cual se quiere chequear su estado.
- * @returns Si el servicio se encuentra el línea.
- */
-const checkServiceIsOnline = async (service) => {
     const instanceAxios = axios.create({baseURL: service.target, proxy: false, timeout: 5000});
-    switch (service.name) {
-        case SERVICES.MATCHES:
-            try {
-                let resultado = await instanceAxios.get('/status');
-                return (resultado.status === HTTP_SUCCESS_2XX.OK);
-            } catch (error) {
-                console.log(`On check service ${service.name} online: ${error.message}`);
-                return false;    
-            };
-        case SERVICES.MESSAGES:
-            try {
-                let resultado = await instanceAxios.get('/status');
-                return (resultado.status === HTTP_SUCCESS_2XX.OK);
-            } catch (error) {
-                console.log(`On check service ${service.name} online: ${error.message}`);
-                return false;    
-            };
-        case SERVICES.PROFILES:
-            try {
-                let resultado = await instanceAxios.get('/status');
-                return (resultado.status === HTTP_SUCCESS_2XX.OK);
-            } catch (error) {
-                console.log(`On check service ${service.name} online: ${error.message}`);
-                return false;    
-            };
-        case SERVICES.USERS:
-            try {
-                let resultado = await instanceAxios.get('status');
-                return (resultado.status === HTTP_SUCCESS_2XX.OK);
-            } catch (error) {
-                console.log(error);
-                console.log(process.env.MY_ROUTE);
-                console.log(`On check service ${service.name} online: ${error.message}`);
-                return false;    
-            };
-    }   
-    /*
-    const instanceAxios = axios.create({baseURL: 'http://localhost:4000'});
+    let serviceStatus;
     try {
-        let resultado = await instanceAxios.get('/api-doc/#/');
-        return (resultado.status === HTTP_SUCCESS_2XX.OK);
+        let result = await instanceAxios.get('/status');
+        serviceStatus = {
+            active: service.active,
+            target: service.target,
+            online: true,
+            detail: result.data.status
+        };
     } catch (error) {
-        console.log(error);
+        serviceStatus = {
+            active: service.active,
+            target: service.target,
+            online: false,
+            detail: error.message
+        };
         console.log(`On check service ${service.name} online: ${error.message}`);
-        return false;    
     };
-    //http://localhost:4000/api-doc/#/
-    return false;*/
+    return serviceStatus;    
 }
 
 module.exports = {
