@@ -25,7 +25,7 @@ const updateUser =  async (req, res = response) => {
         'x-token': req.header('x-token')
     };
     const uid = req.params.id;
-    const endpoint = `user/${uid}`;
+    const endpoint = `user/`+uid;
     doRequestAxiosSinglePathParameter(req, res, url, headers, body, endpoint);
 }
 

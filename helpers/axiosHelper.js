@@ -6,9 +6,10 @@ const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../messages/services');
 const doRequestAxios =  async (req, res = response, baseURL, headers, body, params, endpoint) => { 
     let result;
     try {
-        const instanceAxios = axios.create(
+        let instanceAxios = axios.create(
             {baseURL: baseURL, 
             headers: headers,
+            params: params
         });        
         switch (req.method) {
             case 'DELETE':
@@ -50,7 +51,7 @@ const doRequestAxios =  async (req, res = response, baseURL, headers, body, para
 const doRequestAxiosSinglePathParameter =  async (req, res = response, baseURL, headers, body, endpoint) => { 
     let result;
     try {
-        const instanceAxios = axios.create(
+        let instanceAxios = axios.create(
             {baseURL: baseURL, 
             headers: headers
         });        
