@@ -6,7 +6,6 @@
 const {Router} = require('express');
 const router = Router();
 const {refreshToken} = require('../../controllers/users/token');
-const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
 
 /**
  * @swagger
@@ -89,6 +88,6 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                                  example: Please talk to the administrator
  * 
 */
-router.post('/', checkUserServiceIsActive, refreshToken);
+router.post('/', refreshToken);
 
 module.exports = router;

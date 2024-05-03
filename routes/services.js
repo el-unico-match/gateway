@@ -5,10 +5,7 @@
 
 const {Router} = require('express');
 const router = Router();
-const {
-    getServices,
-    updateServiceStatus} = require('../controllers/services');
-const {checkUpdateServiceStatus} = require('../middlewares/checkers/services')
+const {getServices} = require('../controllers/services');
 
 /**
  * @swagger
@@ -31,8 +28,5 @@ const {checkUpdateServiceStatus} = require('../middlewares/checkers/services')
  *                                  $ref: '#/components/schemas/ServicesStatus'
 */
 router.get('/', getServices);
-
-// Iniciar o detener un servicio
-router.put('/', checkUpdateServiceStatus, updateServiceStatus);
 
 module.exports = router;

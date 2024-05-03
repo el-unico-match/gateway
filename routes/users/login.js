@@ -6,8 +6,6 @@
 const {Router} = require('express');
 const router = Router();
 const {loginUser} = require('../../controllers/users/login');
-const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
-
 
 /**
  * @swagger
@@ -100,6 +98,6 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                                  type: string
  *                                  example: Please talk to the administrator
 */
-router.post('/', checkUserServiceIsActive, loginUser);
+router.post('/', loginUser);
 
 module.exports = router;

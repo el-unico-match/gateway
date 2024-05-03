@@ -6,7 +6,6 @@
 const {Router} = require('express');
 const router = Router();
 const {getUsers} = require('../../controllers/users/users');
-const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
 
 /**
  * @swagger
@@ -77,6 +76,6 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                                  type: string
  *                                  example: Please talk to the administrator
 */
-router.get('/', checkUserServiceIsActive, getUsers);
+router.get('/', getUsers);
 
 module.exports = router;

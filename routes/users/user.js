@@ -9,7 +9,6 @@ const {
     createUser,
     updateUser,
     deleteUser} = require('../../controllers/users/user');
-const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
 
 /**
  * @swagger
@@ -81,7 +80,7 @@ const {checkUserServiceIsActive} = require('../../middlewares/checkers/users');
  *                                  type: string
  *                                  example: Please talk to the administrator
 */
-router.post('/', checkUserServiceIsActive, createUser);
+router.post('/', createUser);
 
 /**
  * @swagger
@@ -178,7 +177,7 @@ router.post('/', checkUserServiceIsActive, createUser);
  *                                  type: string
  *                                  example: Please talk to the administrator
 */
-router.put('/:id', checkUserServiceIsActive, updateUser);
+router.put('/:id', updateUser);
 
 /**
  * @swagger
@@ -262,6 +261,6 @@ router.put('/:id', checkUserServiceIsActive, updateUser);
  *                                  type: string
  *                                  example: Please talk to the administrator
 */
-router.delete('/:id', checkUserServiceIsActive, deleteUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;
