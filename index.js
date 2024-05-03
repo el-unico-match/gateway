@@ -25,9 +25,9 @@ const swaggerSpec = {
         ]
     },
     apis: [
-        `${path.join(__dirname, "./routes/*.js")}`,
-        `${path.join(__dirname, "./routes/*.yml")}`,
-        `${path.join(__dirname, "./routes/users/*.js")}`
+        `${path.join(__dirname, "./routes/*.*")}`,
+        `${path.join(__dirname, "./routes/users/*.*")}`,
+        `${path.join(__dirname, "./routes/profiles/*.*")}`,
     ]
 }
 

@@ -1,0 +1,45 @@
+components:
+    schemas:
+      Profile:
+        type: object
+        properties:
+          userid: 
+            type: string
+            description: unique user id
+          username:
+            type: string
+          description:
+            type: string
+          gender:
+            type: string
+            enum: [Hombre, Mujer]
+          looking_for:
+            type: string
+            enum: [Hombre, Mujer]
+        required: 
+          - userid
+          - username
+          - description
+          - gender
+          - looking_for
+        example:
+          userid: '1115'
+          username: Carlos Carlin
+          description: Argentino. Ingeniero Civil.
+          gender: Hombre
+          looking_for: Mujer
+      HTTPValidationError:
+        type: object
+        properties:
+          detail:
+            type: object
+      ValidationError:
+        type: object
+        properties:
+          loc:
+            type: object
+          msg:
+            type: string
+          type:
+            type: string
+

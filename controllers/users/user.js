@@ -24,8 +24,8 @@ const updateUser =  async (req, res = response) => {
     const headers = {
         'x-token': req.header('x-token')
     };
-    const uid = req.params.id;
     const params = {};
+    const uid = req.params.id;
     const endpoint = `user/`+uid;
     doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
@@ -39,8 +39,8 @@ const deleteUser =  async (req, res = response) => {
     const headers = {
         'x-token': req.header('x-token')
     };
-    const uid = req.params.id;
     const params = {};
+    const uid = req.params.id;
     const endpoint = `user/`+uid;
     doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
