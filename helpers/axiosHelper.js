@@ -2,6 +2,8 @@ const {response} = require('express');
 const axios = require('axios');
 const { HTTP_SERVER_ERROR_5XX } = require('./httpCodes');
 const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../messages/services');
+const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const TIMEOUT = 5000;
 
 const doRequestAxios =  async (req, res = response, baseURL, headers, body, params, endpoint) => { 
     let result;
@@ -49,6 +51,30 @@ const doRequestAxios =  async (req, res = response, baseURL, headers, body, para
             })
         }          
     }
+}
+
+const doGetAxios = async (service, endpoint) => {
+    const baseURL = getServiceStatus(SERVICES.USERS).target;
+    const instanceAxios = axios.create({baseURL: baseURL, proxy: false, timeout: TIMEOUT});
+    let serviceStatus;
+    try {
+        let result = await instanceAxios.get(endpoint);
+        serviceStatus = {
+            active: service.active,
+            target: service.target,
+            online: true,
+            detail: result.data.status
+        };
+    } catch (error) {
+        serviceStatus = {
+            active: service.active,
+            target: service.target,
+            online: false,
+            detail: error.message
+        };
+        console.log(`On check service ${service.name} online: ${error.message}`);
+    };
+    return serviceStatus;    
 }
 
 module.exports = {

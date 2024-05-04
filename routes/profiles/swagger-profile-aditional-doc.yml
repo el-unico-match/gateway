@@ -8,6 +8,8 @@ components:
             description: unique user id
           username:
             type: string
+          email:
+            type: string
           description:
             type: string
           gender:
@@ -16,18 +18,22 @@ components:
           looking_for:
             type: string
             enum: [Hombre, Mujer]
-        required: 
-          - userid
-          - username
-          - description
-          - gender
-          - looking_for
+          age:
+            type: integer
+          education:
+            type: string
+          ethnicity:
+            type: string
         example:
-          userid: '1115'
+          userid: '66304a6b2891cdcfebdbdc6c'
           username: Carlos Carlin
-          description: Argentino. Ingeniero Civil.
+          email: carlin@mail.com
+          description: Argentino. Estudié en la UBA.
           gender: Hombre
           looking_for: Mujer
+          age: 33
+          education: Ingeniero Civil
+          ethnicity: europeo
       HTTPValidationError:
         type: object
         properties:
