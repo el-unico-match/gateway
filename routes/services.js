@@ -13,7 +13,7 @@ const {getServices} = require('../controllers/services');
  *  get:
  *      summary: info about services
  *      responses:
- *          202: 
+ *          200: 
  *              description: services status!
  *              content:
  *                  application/json:

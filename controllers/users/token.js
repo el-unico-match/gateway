@@ -1,9 +1,10 @@
 const {response} = require('express');
 const {SERVICES} = require('../../types/services');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
+const {doRequestAxios} = require('../../helpers/axiosHelper');
 
 /**
- * @returns Los datos del usuarios logueado.
+ * @returns Un nuevo token a partir del pasado por header.
  */
 const refreshToken =  async (req, res = response) => {
     const url = getServiceStatus(SERVICES.USERS).target;
