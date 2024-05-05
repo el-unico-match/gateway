@@ -29,6 +29,9 @@ HOST=<host>
 ```
 docker compose -f docker-compose.yml up --build
 ```
+3) Acceder a documentación en el servidor de desarrollo: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api-doc
+
+4) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api/services
 
 # Ejecución sobre servicios locales 
 
@@ -58,9 +61,6 @@ USERS_API_DOMAIN=http://192.168.100.203:4000/api
 ```
 docker compose -f dev.docker-compose.yml up --build
 ```
-3) Acceder a documentación en el servidor de desarrollo: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api-doc
-
-4) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api/services
 
 # Como obtener tu ipv4:
 
