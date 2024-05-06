@@ -16,6 +16,12 @@ const {
  *  post:
  *      summary: creates user
  *      tags: [User]
+ *      parameters:
+ *          - in: header
+ *            name: x-token
+ *            schema:
+ *              type: string
+ *              description: user token
  *      requestBody:
  *          required: true
  *          content: 

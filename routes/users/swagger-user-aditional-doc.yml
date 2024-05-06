@@ -116,3 +116,16 @@ components:
                     type: boolean
                 detail:
                     type: object        
+        TokenPayload:
+            type: object
+            properties:
+                uid:
+                    type: string
+                    description: unique user id 
+                role:
+                    type: string
+                    description: cliente or administrador
+                    enum: [administrador, cliente]
+                blocked:
+                    type: boolean
+                    description: unique. Disables the service for the user.

@@ -1,37 +1,19 @@
-const {response} = require('express');
 const {SERVICES} = require('../../types/services');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
-const axios = require('axios');
+const {doGetAxios} = require('../../helpers/axiosHelper');
 
 /**
  * 
- * @return retorna como true (y el estado del servicio) si
- * el servicio funciona correctamente, y en caso contrario false 
- * con mensaje de error.
+ * @return retorna el resultado de consultar el estado del servicio
+ * pudiendo lanzar excepciones.
  */
-const getStatusUser = async (req, res = response) => {
-    const baseURL = getServiceStatus(SERVICES.USERS).target;
+const getStatusUsers = async () => {
+    const url = getServiceStatus(SERVICES.USERS).target;
+    const body = {};
+    const headers = {};
+    const params = {};
     const endpoint = 'status';
-    const instanceAxios = axios.create({baseURL: baseURL, proxy: false, timeout: 5000});
-    let serviceStatus;
-    try {
-        let result = await instanceAxios.get(endpoint);
-        serviceStatus = {
-            active: service.active,
-            target: service.target,
-            online: true,
-            detail: result.data.status
-        };
-    } catch (error) {
-        serviceStatus = {
-            active: service.active,
-            target: service.target,
-            online: false,
-            detail: error.message
-        };
-        console.log(`On check service ${service.name} online: ${error.message}`);
-    };
-    return serviceStatus;    
+    return await doGetAxios(url, headers, body, params, endpoint);
 }
 
 module.exports = {getStatusUsers}

@@ -57,7 +57,9 @@ app.use('/api/services', require('./routes/services'));
 // Rutas Messages
 
 // Rutas Profiles
+app.use('/api/profiles/users/profiles', require('./routes/profiles/users_profiles'));
 app.use('/api/profiles/user/profile', require('./routes/profiles/user_profile'));
+
 // Rutas Usuarios
 app.use('/api/users/current', require('./routes/users/current'));
 app.use('/api/users/user', require('./routes/users/user'));

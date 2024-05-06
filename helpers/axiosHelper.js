@@ -2,16 +2,16 @@ const {response} = require('express');
 const axios = require('axios');
 const { HTTP_SERVER_ERROR_5XX } = require('./httpCodes');
 const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../messages/services');
-const {getServiceStatus} = require('../servicesStatus/servicesStatus');
-const TIMEOUT = 5000;
+const TIMEOUT = 15000;
 
 const doRequestAxios =  async (req, res = response, baseURL, headers, body, params, endpoint) => { 
     let result;
     try {
-        let instanceAxios = axios.create(
-            {baseURL: baseURL, 
+        let instanceAxios = axios.create({
+            baseURL: baseURL, 
             headers: headers,
-            params: params
+            params: params,
+            timeout: TIMEOUT
         });        
         switch (req.method) {
             case 'DELETE':
@@ -39,44 +39,37 @@ const doRequestAxios =  async (req, res = response, baseURL, headers, body, para
                 error.response.data
             )
         } catch (_error) {
-            if (error.code) {
-                console.log(`GATEWAY: On request to ${baseURL}/${endpoint}: ${error.code}`);
-            } else {
-                console.log(`GATEWAY: On request to ${baseURL}/${endpoint}: ${_error}`);
-            }          
+            const errorDetail = error.code ? error.code : _error;
+            const url = `${baseURL}/${endpoint}`;
+            console.log(`GATEWAY: On request to ${url}: ${errorDetail}`);
             res.status(HTTP_SERVER_ERROR_5XX.SERVICE_NOT_AVAILABLE).json(
                 {
                     ok: false,
-                    msg: MSG_ERROR_WITH_SERVICE_REQUEST
+                    msg: `${MSG_ERROR_WITH_SERVICE_REQUEST}: ${errorDetail}`,
+                    url,
+                    headers,
+                    body,
+                    params
             })
         }          
     }
 }
 
-const doGetAxios = async (service, endpoint) => {
-    const baseURL = getServiceStatus(SERVICES.USERS).target;
-    const instanceAxios = axios.create({baseURL: baseURL, proxy: false, timeout: TIMEOUT});
-    let serviceStatus;
-    try {
-        let result = await instanceAxios.get(endpoint);
-        serviceStatus = {
-            active: service.active,
-            target: service.target,
-            online: true,
-            detail: result.data.status
-        };
-    } catch (error) {
-        serviceStatus = {
-            active: service.active,
-            target: service.target,
-            online: false,
-            detail: error.message
-        };
-        console.log(`On check service ${service.name} online: ${error.message}`);
-    };
-    return serviceStatus;    
+/**
+ * 
+ * @returns El resultado del request pudiendo lanzar excepciones.
+ */
+const doGetAxios = async (baseURL, headers, body, params, endpoint) => {
+    let instanceAxios = axios.create({
+        baseURL: baseURL, 
+        headers: headers,
+        params: params,
+        timeout: 4*TIMEOUT
+    });
+    return await instanceAxios.get(endpoint, body);
 }
 
 module.exports = {
-    doRequestAxios
+    doRequestAxios,
+    doGetAxios
 }

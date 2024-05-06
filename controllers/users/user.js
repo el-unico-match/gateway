@@ -9,7 +9,9 @@ const {doRequestAxios} = require('../../helpers/axiosHelper');
 const createUser =  async (req, res = response) => {
     const url = getServiceStatus(SERVICES.USERS).target;
     const body = req.body;
-    const headers = {};
+    const headers = {
+        'x-token': req.header('x-token')
+    };
     const params = {};
     const endpoint = 'user';
     doRequestAxios(req, res, url, headers, body, params, endpoint);

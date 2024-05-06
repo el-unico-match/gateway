@@ -1,8 +1,9 @@
 const {response} = require('express');
 const {HTTP_SUCCESS_2XX} = require('../helpers/httpCodes');
-const axios = require('axios');
 const {SERVICES} = require('../types/services');
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const {getStatusUsers} = require('../controllers/users/status');
+const {getStatusProfiles} = require('../controllers/profiles/user_profile')
 
 /**
  * 
@@ -35,10 +36,23 @@ const getAllServicesCompleteStatus = async () => {
  * @returns Estado del servicio al consultar el mismo de manera remota.
  */
 const getServiceCompleteStatus = async (service) => {
-    const instanceAxios = axios.create({baseURL: service.target, proxy: false, timeout: 5000});
     let serviceStatus;
     try {
-        let result = await instanceAxios.get('/status');
+        let result;
+        switch (service.name) {
+            case SERVICES.MATCHES:
+                throw new Error('TODO');
+                break;
+            case SERVICES.MESSAGES:
+                throw new Error('TODO');
+                break;
+            case SERVICES.PROFILES:
+                result = await getStatusProfiles();
+                break;
+            case SERVICES.USERS:
+                result = await getStatusUsers();
+                break;
+        }
         serviceStatus = {
             active: service.active,
             target: service.target,

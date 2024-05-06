@@ -2,20 +2,19 @@ const {response} = require('express');
 const {SERVICES} = require('../../types/services');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
 const {doRequestAxios} = require('../../helpers/axiosHelper');
+const {doGetAxios} = require('../../helpers/axiosHelper');
 
 /**
  * 
- * @returns El nuevo perfil creado.
+ * @return retorna el resultado de consultar el estado del servicio.
  */
-const createUserProfile = async (req, res = response) => {
+const getStatusProfiles = async () => {
     const url = getServiceStatus(SERVICES.PROFILES).target;
-    const body = req.body;
-    const headers = {
-        'x-token': req.header('x-token')
-    };
+    const body = {};
+    const headers = {};
     const params = {};
-    const endpoint = 'user/profile';
-    doRequestAxios(req, res, url, headers, body, params, endpoint);
+    const endpoint = 'status';
+    return await doGetAxios(url, headers, body, params, endpoint);
 }
 
 /**
@@ -31,6 +30,21 @@ const getUserProfile = async (req, res = response) => {
     const params = {};
     const uid = req.params.id;
     const endpoint = 'user/profile/'+uid;
+    doRequestAxios(req, res, url, headers, body, params, endpoint);
+}
+
+/**
+ * 
+ * @returns El nuevo perfil creado.
+ */
+const createUserProfile = async (req, res = response) => {
+    const url = getServiceStatus(SERVICES.PROFILES).target;
+    const body = req.body;
+    const headers = {
+        'x-token': req.header('x-token')
+    };
+    const params = {};
+    const endpoint = 'user/profile';
     doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
 
@@ -65,6 +79,7 @@ const deleteUserProfile =  async (req, res = response) => {
 }
 
 module.exports = {
+    getStatusProfiles,
     getUserProfile,
     createUserProfile,
     updateUserProfile,
