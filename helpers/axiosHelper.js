@@ -12,7 +12,8 @@ const doRequestAxios =  async (req, res = response, baseURL, headers, body, para
             headers: headers,
             params: params,
             timeout: TIMEOUT
-        });        
+        });
+        console.log(req.originalUrl);
         switch (req.method) {
             case 'DELETE':
                 result = await instanceAxios.delete(endpoint, body);

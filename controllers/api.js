@@ -1,12 +1,47 @@
 const {response} = require('express');
-const {SERVICES} = require('../../types/services');
-const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
-const {doRequestAxios} = require('../../helpers/axiosHelper');
+const {SERVICES} = require('../types/services');
+const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const {doRequestAxios} = require('../helpers/axiosHelper');
+
+/**
+ * @returns Respuesta de la solicitud http
+ */
+const deleteApi =  async (req, res = response) => {
+    
+}
+
+/**
+ * @returns Respuesta de la solicitud http
+ */
+const getApi =  async (req, res = response) => {
+    
+}
+
+/**
+ * @returns Respuesta de la solicitud http
+ */
+const postApi =  async (req, res = response) => {
+    
+}
+
+/**
+ * @returns Respuesta de la solicitud http
+ */
+const putApi =  async (req, res = response) => {
+    
+}
+
+/**
+ * @returns Respuesta de la solicitud http
+ */
+const patchApi =  async (req, res = response) => {
+    
+}
 
 /**
  * @returns Los datos del usuarios creado.
  */
-const createUser =  async (req, res = response) => {
+/*const createUser =  async (req, res = response) => {
     const url = getServiceStatus(SERVICES.USERS).target;
     const body = req.body;
     const headers = {
@@ -15,12 +50,12 @@ const createUser =  async (req, res = response) => {
     const params = {};
     const endpoint = 'user';
     doRequestAxios(req, res, url, headers, body, params, endpoint);
-}
+}*/
 
 /**
  * @returns Los datos del usuarios actualizado.
  */
-const updateUser =  async (req, res = response) => {    
+/*const updateUser =  async (req, res = response) => {    
     const url = getServiceStatus(SERVICES.USERS).target;
     const body = req.body;
     const headers = {
@@ -30,12 +65,12 @@ const updateUser =  async (req, res = response) => {
     const uid = req.params.id;
     const endpoint = `user/`+uid;
     doRequestAxios(req, res, url, headers, body, params, endpoint);
-}
+}*/
 
 /**
  * @returns Informe de borrado.
  */
-const deleteUser =  async (req, res = response) => {
+/*const deleteUser =  async (req, res = response) => {
     const url = getServiceStatus(SERVICES.USERS).target;
     const body = req.body;
     const headers = {
@@ -46,9 +81,12 @@ const deleteUser =  async (req, res = response) => {
     const endpoint = `user/`+uid;
     doRequestAxios(req, res, url, headers, body, params, endpoint);
 }
+*/
 
 module.exports = {
-    createUser,
-    updateUser,
-    deleteUser
+    deleteApi,
+    getApi,
+    patchApi,
+    postApi,
+    putApi
 }

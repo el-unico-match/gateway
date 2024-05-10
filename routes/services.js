@@ -1,6 +1,6 @@
 /*
     Rutas de Servicios /services
-    host + /api/services
+    host + /services
 */
 
 const {Router} = require('express');
@@ -9,7 +9,7 @@ const {getServices} = require('../controllers/services');
 
 /**
  * @swagger
- * /api/services:
+ * /services:
  *  get:
  *      summary: info about services
  *      responses:

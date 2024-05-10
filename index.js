@@ -27,11 +27,7 @@ const swaggerSpec = {
             }
         ]
     },
-    apis: [
-        `${path.join(__dirname, "./routes/*.*")}`,
-        `${path.join(__dirname, "./routes/users/*.*")}`,
-        `${path.join(__dirname, "./routes/profiles/*.*")}`,
-    ]
+    apis: [`${path.join(__dirname, "./routes/*.*")}`]
 }
 
 // Crear servidor express
@@ -49,23 +45,11 @@ app.use(express.json());
 // Ruta Swagger
 app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 
-// Rutas Servicios
-app.use('/api/services', require('./routes/services'));
+// Rutas Servicios 
+app.use('/services', require('./routes/services'));
 
-// Rutas Matches
-
-// Rutas Messages
-
-// Rutas Profiles
-app.use('/api/profiles/users/profiles', require('./routes/profiles/users_profiles'));
-app.use('/api/profiles/user/profile', require('./routes/profiles/user_profile'));
-
-// Rutas Usuarios
-app.use('/api/users/current', require('./routes/users/current'));
-app.use('/api/users/user', require('./routes/users/user'));
-app.use('/api/users/users', require('./routes/users/users'));
-app.use('/api/users/login', require('./routes/users/login'));
-app.use('/api/users/token', require('./routes/users/token'));
+// Rutas Api
+app.use('/api', require('./routes/api'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {

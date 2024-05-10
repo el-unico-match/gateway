@@ -1,0 +1,44 @@
+components:
+    schemas:
+        ServicesStatus:
+            type: object
+            properties:
+                services:
+                    type: object
+                    properties:
+                        matches: 
+                            type: object
+                            $ref: '#/components/schemas/ServiceStatus'
+                        messages:
+                            type: object
+                            $ref: '#/components/schemas/ServiceStatus'
+                        profiles:
+                            type: object
+                            $ref: '#/components/schemas/ServiceStatus'
+                        users:
+                            type: object
+                            $ref: '#/components/schemas/ServiceStatus'
+        ServiceStatus:
+            type: object
+            properties:
+                active: 
+                    type: boolean
+                target:
+                    type: string
+                online: 
+                    type: boolean
+                detail:
+                    type: object        
+        TokenPayload:
+            type: object
+            properties:
+                uid:
+                    type: string
+                    description: unique user id 
+                role:
+                    type: string
+                    description: cliente or administrador
+                    enum: [administrador, cliente]
+                blocked:
+                    type: boolean
+                    description: unique. Disables the service for the user.
