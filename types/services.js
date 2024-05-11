@@ -2,10 +2,10 @@
  * Servicios válidos.
  */
 const SERVICES = Object.freeze({
-    MESSAGES: "mensajes",
+    MESSAGES: "messages",
     MATCHES: "matches",
     PROFILES: "perfiles", 
-    USERS: "usuarios"    
+    USERS: "users"    
 });
 
 /**

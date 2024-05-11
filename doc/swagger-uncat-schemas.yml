@@ -42,3 +42,4 @@ components:
                 blocked:
                     type: boolean
                     description: unique. Disables the service for the user.
+                

@@ -31,7 +31,7 @@ docker compose -f docker-compose.yml up --build
 ```
 3) Acceder a documentación en el servidor de desarrollo: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api-doc
 
-4) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api/services
+4) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/services
 
 # Ejecución sobre servicios locales 
 
@@ -81,11 +81,10 @@ ip address
 3) Ejecutar el servicio de "usuario" en una terminal separada de acuerdo a las instrucciones del servicio 
 "usuario".
 
-
 4) Acceder a documentación en local: http://localhost:<PORT>/api-doc/
 
 NOTA: PORT normalmente es 4001 o sea: http://localhost:4001/api-doc/
 
 5) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: http://localhost:<PORT>/api/services
 
-NOTA: PORT normalmente es 4001 o sea: http://localhost:4001/api/services
+NOTA: PORT normalmente es 4001 o sea: http://localhost:4001/services

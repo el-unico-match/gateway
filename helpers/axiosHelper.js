@@ -4,7 +4,7 @@ const { HTTP_SERVER_ERROR_5XX } = require('./httpCodes');
 const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../messages/services');
 const TIMEOUT = 15000;
 
-const doRequestAxios =  async (req, res = response, baseURL, headers, body, params, endpoint) => { 
+const doRequestAxios =  async (method, baseURL, headers, body, params, endpoint, res = response) => { 
     let result;
     try {
         let instanceAxios = axios.create({
@@ -13,8 +13,7 @@ const doRequestAxios =  async (req, res = response, baseURL, headers, body, para
             params: params,
             timeout: TIMEOUT
         });
-        console.log(req.originalUrl);
-        switch (req.method) {
+        switch (method) {
             case 'DELETE':
                 result = await instanceAxios.delete(endpoint, body);
                 break;
@@ -41,7 +40,7 @@ const doRequestAxios =  async (req, res = response, baseURL, headers, body, para
             )
         } catch (_error) {
             const errorDetail = error.code ? error.code : _error;
-            const url = `${baseURL}/${endpoint}`;
+            const url = `${baseURL}${endpoint}`;
             console.log(`GATEWAY: On request to ${url}: ${errorDetail}`);
             res.status(HTTP_SERVER_ERROR_5XX.SERVICE_NOT_AVAILABLE).json(
                 {

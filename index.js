@@ -27,7 +27,10 @@ const swaggerSpec = {
             }
         ]
     },
-    apis: [`${path.join(__dirname, "./routes/*.*")}`]
+    apis: [
+        `${path.join(__dirname, "./routes/*.*")}`,
+        `${path.join(__dirname, "./doc/*.*")}`
+    ]
 }
 
 // Crear servidor express
@@ -45,11 +48,11 @@ app.use(express.json());
 // Ruta Swagger
 app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 
-// Rutas Servicios 
+// Rutas Servicios Provisoria
 app.use('/services', require('./routes/services'));
 
 // Rutas Api
-app.use('/api', require('./routes/api'));
+app.use('/api/', require('./routes/api'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
