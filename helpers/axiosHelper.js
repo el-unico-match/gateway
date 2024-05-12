@@ -10,7 +10,7 @@ const doRequestAxios =  async (method, baseURL, headers, body, params, endpoint,
         let instanceAxios = axios.create({
             baseURL: baseURL, 
             headers: headers,
-            params: params,
+            params: {},
             timeout: TIMEOUT
         });
         switch (method) {
@@ -49,7 +49,8 @@ const doRequestAxios =  async (method, baseURL, headers, body, params, endpoint,
                     url,
                     headers,
                     body,
-                    params
+                    params,
+                    method
             })
         }          
     }
