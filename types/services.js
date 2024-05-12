@@ -4,7 +4,7 @@
 const SERVICES = Object.freeze({
     MESSAGES: "messages",
     MATCHES: "matches",
-    PROFILES: "perfiles", 
+    PROFILES: "profiles", 
     USERS: "users"    
 });
 
