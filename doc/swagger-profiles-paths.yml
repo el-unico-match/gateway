@@ -18,25 +18,32 @@ paths:
                         type: object
                         $ref: '#/components/schemas/Profile'
         responses:
-            201: 
+            200: 
                 description: return profile!
                 content:
                     application/json:
                         schema:
-                            type: object
-                            $ref: '#/components/schemas/Profile'
-            400:
+                            type: string
+            422:
                 description: return error "info about requireds fields".
                 content:
                     application/json:
                         schema:
                             type: object
+                            $ref: '#/components/schemas/ValidationError'
             500:
                 description: return internal error!
                 content:
                     application/json:
                         schema:
                             type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
   /api/profiles/user/profile/{id}:
     get:
         summary: get profile (aún no es funcional token, se puede poner cualquier cosa)
@@ -54,25 +61,33 @@ paths:
               schema:
                 type: string
         responses:
-            201: 
+            200: 
                 description: return profile!
                 content:
                     application/json:
                         schema:
                             type: object
                             $ref: '#/components/schemas/Profile'
-            400:
+            422:
                 description: return error "info about requireds fields".
                 content:
                     application/json:
                         schema:
                             type: object
+                            $ref: '#/components/schemas/ValidationError'
             500:
                 description: return internal error!
                 content:
                     application/json:
                         schema:
                             type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
     put:
         summary: updates profile (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Profile]
@@ -101,14 +116,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: object
-                            $ref: '#/components/schemas/Profile'
-            404:
-                description: return error "user not exists".
-                content:
-                    application/json:
-                        schema:
-                            type: object
+                            type: string
             422:
                 description: return error "validation error".
                 content:
@@ -122,6 +130,13 @@ paths:
                     application/json:
                         schema:
                             type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
     delete:
         summary: deletes profile (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Profile]
@@ -143,14 +158,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: object
-                            $ref: '#/components/schemas/Profile'
-            404:
-                description: return error "user not exists".
-                content:
-                    application/json:
-                        schema:
-                            type: object
+                            type: string
             422:
                 description: return error "validation error".
                 content:
@@ -164,5 +172,72 @@ paths:
                     application/json:
                         schema:
                             type: object
-
-
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+/api/profiles/users/profiles:
+    get:
+        summary: returns profiles list (aún no es funcional token, se puede poner cualquier cosa)
+        tags: [Profile]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+        responses:
+            200: 
+                description: returns profiles list!
+                content:
+                    application/json:
+                        schema:
+                            type: array
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+/api/profiles/status:
+    get:
+        summary: returns service status (aún no es funcional token, se puede poner cualquier cosa)
+        tags: [Profile]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+        responses:
+            200: 
+                description: returns profiles list!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
