@@ -4,7 +4,6 @@ const cors = require('cors');
 // Importar y configurar variables de entorno
 require('dotenv').config();
 
-
 // Paths
 const path = require("path");
 
