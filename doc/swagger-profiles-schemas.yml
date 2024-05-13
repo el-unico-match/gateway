@@ -48,3 +48,22 @@ components:
             type: string
           type:
             type: string
+      Picture:
+        type: object
+        properties:
+          name: 
+            type: string
+          url: 
+            type: string
+          order: 
+            type: integer
+      Pictures:
+        type: object
+        properties:
+          userid: 
+            type: string
+          pictures: 
+            type: array
+            items:
+              type: object
+              $ref: '#/components/schemas/Picture'

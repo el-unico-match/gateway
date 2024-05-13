@@ -179,7 +179,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-/api/profiles/users/profiles:
+  /api/profiles/users/profiles:
     get:
         summary: returns profiles list (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Profile]
@@ -210,7 +210,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-/api/profiles/status:
+  /api/profiles/status:
     get:
         summary: returns service status (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Profile]
@@ -228,6 +228,144 @@ paths:
                     application/json:
                         schema:
                             type: object
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/profiles/user/profile/pictures:
+    post:
+        summary: creates pictures (aún no es funcional token, se puede poner cualquier cosa)
+        tags: [Picture]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        $ref: '#/components/schemas/Pictures'
+        responses:
+            200: 
+                description: return successful response!
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: return error "info about requireds fields".
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/profiles/user/profile/pictures/{id}:
+    get:
+        summary: view user pictures (aún no es funcional token, se puede poner cualquier cosa)
+        tags: [Picture]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200: 
+                description: returns pictures list!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/Pictures'
+            422:
+                description: return error "info about requireds fields".
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+    put:
+        summary: update user pictures (aún no es funcional token, se puede poner cualquier cosa)
+        tags: [Picture]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        $ref: '#/components/schemas/Pictures'
+        responses:
+            200: 
+                description: return successful response!
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: return error "info about requireds fields".
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
             500:
                 description: return internal error!
                 content:

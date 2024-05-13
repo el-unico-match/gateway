@@ -15,6 +15,8 @@ class ServicesStatus {
 
     profiles;
 
+    services;
+
     users;
 
     constructor() {
@@ -33,11 +35,16 @@ class ServicesStatus {
             target: process.env.PROFILES_API_DOMAIN,
             active: true    
         };
+        this.services = {
+            name: SERVICES.SERVICES,
+            target: process.env.SERVICES_API_DOMAIN,
+            active: true    
+        };
         this.users = {
             name: SERVICES.USERS,
             target: process.env.USERS_API_DOMAIN,
             active: true    
-        };
+        };        
     }
 
     static getInstance() {
@@ -59,6 +66,9 @@ class ServicesStatus {
             case SERVICES.PROFILES:
                 this.profiles.active = active;
                 break;            
+            case SERVICES.SERVICES:
+                this.services.active = active;
+                break;
             case SERVICES.USERS:
                 this.users.active = active;
                 break;
@@ -74,6 +84,8 @@ class ServicesStatus {
                 return this.messages;
             case SERVICES.PROFILES:
                 return this.profiles;
+            case SERVICES.SERVICES:
+                return this.services;
             case SERVICES.USERS:
                 return this.users;
         }

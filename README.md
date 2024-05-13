@@ -53,11 +53,12 @@ Por ejemplo:
 
 ```
 PORT=4001
-MATCHES_API_DOMAIN=TODO
-MESSAGES_API_DOMAIN=TODO
-PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net/
-USERS_API_DOMAIN=http://192.168.100.203:4000/api
-SERVICES_API_DOMAIN=http://localhost:4003
+MATCHES_API_DOMAIN=https://match-api-uniquegroup-match-fiuba.azurewebsites.net
+MESSAGES_API_DOMAIN=https://messages-uniquegroup-match-fiuba.azurewebsites.net
+PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
+SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net/
+USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
+HOST=0.0.0.0
 
 ```
 2) Ejecutar el siguiente comando en la carpeta del proyecto:

@@ -5,7 +5,8 @@ const SERVICES = Object.freeze({
     MESSAGES: "messages",
     MATCHES: "matches",
     PROFILES: "profiles", 
-    USERS: "users"    
+    USERS: "users",
+    SERVICES: "services"  
 });
 
 /**
@@ -22,6 +23,8 @@ const isService = (serviceName) => {
         case SERVICES.PROFILES:
             return true;   
         case SERVICES.USERS:
+            return true;   
+        case SERVICES.SERVICES:
             return true;   
         default:
             return false;

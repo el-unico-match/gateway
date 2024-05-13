@@ -26,6 +26,7 @@ const getAllServicesCompleteStatus = async () => {
         matches: await getServiceCompleteStatus(getServiceStatus(SERVICES.MATCHES)),
         messages: await getServiceCompleteStatus(getServiceStatus(SERVICES.MESSAGES)),
         profiles: await getServiceCompleteStatus(getServiceStatus(SERVICES.PROFILES)),
+        services: await getServiceCompleteStatus(getServiceStatus(SERVICES.SERVICES)),
         users: await getServiceCompleteStatus(getServiceStatus(SERVICES.USERS))
     }
 }
@@ -48,6 +49,9 @@ const getServiceCompleteStatus = async (service) => {
                 break;
             case SERVICES.PROFILES:
                 result = await getStatusProfiles();
+                break;
+            case SERVICES.SERVICES:
+                result = {};
                 break;
             case SERVICES.USERS:
                 result = await getStatusUsers();
