@@ -11,6 +11,7 @@ MATCHES_API_DOMAIN=<urel servicio matches>
 MESSAGES_API_DOMAIN=<url servicio messages>
 PROFILES_API_DOMAIN=<url servicio profiles>
 USERS_API_DOMAIN=<url servicio users>
+SERVICES_API_DOMAIN=<url servicio services>
 HOST=<host>
 ```
 Por ejemplo:
@@ -19,8 +20,9 @@ Por ejemplo:
 PORT=4001
 MATCHES_API_DOMAIN=<urel servicio matches>
 MESSAGES_API_DOMAIN=<url servicio messages>
-PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net/
+PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
+SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net
 HOST=<host>
 ```
 
@@ -44,6 +46,7 @@ MATCHES_API_DOMAIN=TODO
 MESSAGES_API_DOMAIN=TODO
 PROFILES_API_DOMAIN=TODO
 USERS_API_DOMAIN=https://<your ipv4>:4000/api
+SERVICES_API_DOMAIN=http://<ip/localhost>:<port>
 HOST=localhost
 ```
 Por ejemplo:
@@ -54,6 +57,7 @@ MATCHES_API_DOMAIN=TODO
 MESSAGES_API_DOMAIN=TODO
 PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net/
 USERS_API_DOMAIN=http://192.168.100.203:4000/api
+SERVICES_API_DOMAIN=http://localhost:4003
 
 ```
 2) Ejecutar el siguiente comando en la carpeta del proyecto:
