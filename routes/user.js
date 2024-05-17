@@ -1,6 +1,6 @@
 /*
     Rutas de Api /
-    host + /api
+    host + /api/user
 */
 
 const {Router} = require('express');
