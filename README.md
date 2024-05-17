@@ -7,22 +7,32 @@ econtrarse en un archivo .env en la raíz del proyecto):
 
 ```
 PORT=4001
-MATCHES_API_DOMAIN=<urel servicio matches>
+MATCHES_API_DOMAIN=<url servicio matches>
+MATCHES_API_ENDPOINTS=""
 MESSAGES_API_DOMAIN=<url servicio messages>
+MESSAGES_API_ENDPOINTS=""
 PROFILES_API_DOMAIN=<url servicio profiles>
+PROFILES_API_ENDPOINTS=""
 USERS_API_DOMAIN=<url servicio users>
+SERVICES_API_ENDPOINTS=""
 SERVICES_API_DOMAIN=<url servicio services>
+USERS_API_ENDPOINTS=""
 HOST=<host>
 ```
 Por ejemplo:
 
 ```
 PORT=4001
-MATCHES_API_DOMAIN=<urel servicio matches>
+MATCHES_API_DOMAIN=<url servicio matches>
+MATCHES_API_ENDPOINTS=""
 MESSAGES_API_DOMAIN=<url servicio messages>
+MESSAGES_API_ENDPOINTS=""
 PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
+PROFILES_API_ENDPOINTS="picture pictures profile profiles"
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
+SERVICES_API_ENDPOINTS=""
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net
+USERS_API_ENDPOINTS="current-user login token user users"
 HOST=<host>
 ```
 
@@ -43,10 +53,15 @@ econtrarse en un archivo .dev.env en la raíz del proyecto):
 ```
 PORT=4001
 MATCHES_API_DOMAIN=TODO
+MATCHES_API_ENDPOINTS=""
 MESSAGES_API_DOMAIN=TODO
+MESSAGES_API_ENDPOINTS=""
 PROFILES_API_DOMAIN=TODO
+PROFILES_API_ENDPOINTS="picture pictures profile profiles"
 USERS_API_DOMAIN=https://<your ipv4>:4000/api
+SERVICES_API_ENDPOINTS=""
 SERVICES_API_DOMAIN=http://<ip/localhost>:<port>
+USERS_API_ENDPOINTS="current-user login token user users"
 HOST=localhost
 ```
 Por ejemplo:
@@ -54,10 +69,15 @@ Por ejemplo:
 ```
 PORT=4001
 MATCHES_API_DOMAIN=https://match-api-uniquegroup-match-fiuba.azurewebsites.net
+MATCHES_API_ENDPOINTS=""
 MESSAGES_API_DOMAIN=https://messages-uniquegroup-match-fiuba.azurewebsites.net
+MESSAGES_API_ENDPOINTS=""
 PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
+PROFILES_API_ENDPOINTS="picture pictures profile profiles"
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net/
+SERVICES_API_ENDPOINTS=""
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
+USERS_API_ENDPOINTS="current-user login token user users"
 HOST=0.0.0.0
 
 ```
