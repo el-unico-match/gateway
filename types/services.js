@@ -2,7 +2,6 @@
  * Servicios válidos.
  */
 const SERVICES = Object.freeze({
-    MESSAGES: "messages",
     MATCHES: "matches",
     PROFILES: "profiles", 
     USERS: "users",
@@ -18,8 +17,6 @@ const isService = (serviceName) => {
     switch (serviceName) {
         case SERVICES.MATCHES:
             return true;    
-        case SERVICES.MESSAGES:
-            return true;   
         case SERVICES.PROFILES:
             return true;   
         case SERVICES.USERS:

@@ -11,8 +11,6 @@ class ServicesStatus {
 
     matches;
     
-    messages;
-
     profiles;
 
     services;
@@ -23,10 +21,6 @@ class ServicesStatus {
         this.matches = {
             name: SERVICES.MATCHES,
             target: process.env.MATCHES_API_DOMAIN,
-        };
-        this.messages = {
-            name: SERVICES.MESSAGES,
-            target: process.env.MESSAGES_API_DOMAIN,
         };
         this.profiles = {
             name: SERVICES.PROFILES,
@@ -54,8 +48,6 @@ class ServicesStatus {
         switch (serviceName) {
             case SERVICES.MATCHES:
                 return this.matches;
-            case SERVICES.MESSAGES:
-                return this.messages;
             case SERVICES.PROFILES:
                 return this.profiles;
             case SERVICES.SERVICES:

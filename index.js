@@ -48,7 +48,7 @@ app.use(express.json());
 app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 
 // Rutas Servicios Provisoria
-app.use('/services', require('./routes/services'));
+app.use('/status', require('./routes/status'));
 
 // Rutas Api
 //--app.use('/api/', require('./routes/api'));

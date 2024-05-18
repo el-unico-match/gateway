@@ -8,7 +8,6 @@ econtrarse en un archivo .env en la raíz del proyecto):
 ```
 PORT=4001
 MATCHES_API_DOMAIN=<url servicio matches>
-MESSAGES_API_DOMAIN=<url servicio messages>
 PROFILES_API_DOMAIN=<url servicio profiles>
 USERS_API_DOMAIN=<url servicio users>
 SERVICES_API_DOMAIN=<url servicio services>
@@ -19,7 +18,6 @@ Por ejemplo:
 ```
 PORT=4001
 MATCHES_API_DOMAIN=<url servicio matches>
-MESSAGES_API_DOMAIN=<url servicio messages>
 PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net
@@ -43,7 +41,6 @@ econtrarse en un archivo .dev.env en la raíz del proyecto):
 ```
 PORT=4001
 MATCHES_API_DOMAIN=TODO
-MESSAGES_API_DOMAIN=TODO
 PROFILES_API_DOMAIN=TODO
 PROFILES_API_ENDPOINTS="picture pictures profile profiles"
 USERS_API_DOMAIN=https://<your ipv4>:4000/api
@@ -55,7 +52,6 @@ Por ejemplo:
 ```
 PORT=4001
 MATCHES_API_DOMAIN=https://match-api-uniquegroup-match-fiuba.azurewebsites.net
-MESSAGES_API_DOMAIN=https://messages-uniquegroup-match-fiuba.azurewebsites.net
 PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net/
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api

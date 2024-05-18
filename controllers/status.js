@@ -1,9 +1,6 @@
 const {response} = require('express');
 const {HTTP_SUCCESS_2XX} = require('../helpers/httpCodes');
 const {SERVICES} = require('../types/services');
-const {getServiceStatus} = require('../servicesStatus/servicesStatus');
-const {getStatusUsers} = require('../controllers/users/status');
-const {getStatusProfiles} = require('../controllers/profiles/user_profile')
 
 /**
  * 
