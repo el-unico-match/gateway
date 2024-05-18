@@ -10,11 +10,11 @@ const {user, user_profile} = require('../controllers/user');
 /**
  * Única ruta para todos los request de la api
  */
-router.all('/user', user);
+router.all('/profile/*', user_profile);
 
 /**
  * Única ruta para todos los request de la api
  */
-router.all('/user/profile/*', user_profile);
+router.all('/', user);
 
 module.exports = router;

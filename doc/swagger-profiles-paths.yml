@@ -1,5 +1,5 @@
 paths:
-  /api/profiles/user/profile:
+  /api/user/profile:
     post:
         summary: creates profile (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Profile]
@@ -44,7 +44,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/profiles/user/profile/{id}:
+  /api/user/profile/{id}:
     get:
         summary: get profile (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Profile]
@@ -179,69 +179,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/profiles/users/profiles:
-    get:
-        summary: returns profiles list (aún no es funcional token, se puede poner cualquier cosa)
-        tags: [Profile]
-        parameters:
-            - in: header
-              name: x-token
-              schema:
-                type: string
-                required: true
-                description: user token
-        responses:
-            200: 
-                description: returns profiles list!
-                content:
-                    application/json:
-                        schema:
-                            type: array
-            500:
-                description: return internal error!
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                ok:
-                                    type: boolean
-                                    example: false
-                                msg:
-                                    type: string
-                                    example: Please talk to the administrator
-  /api/profiles/status:
-    get:
-        summary: returns service status (aún no es funcional token, se puede poner cualquier cosa)
-        tags: [Profile]
-        parameters:
-            - in: header
-              name: x-token
-              schema:
-                type: string
-                required: true
-                description: user token
-        responses:
-            200: 
-                description: returns profiles list!
-                content:
-                    application/json:
-                        schema:
-                            type: object
-            500:
-                description: return internal error!
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                ok:
-                                    type: boolean
-                                    example: false
-                                msg:
-                                    type: string
-                                    example: Please talk to the administrator
-  /api/profiles/user/profile/pictures:
+  /api/user/profile/pictures:
     post:
         summary: creates pictures (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Picture]
@@ -286,7 +224,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/profiles/user/profile/pictures/{id}:
+  /api/user/profile/pictures/{id}:
     get:
         summary: view user pictures (aún no es funcional token, se puede poner cualquier cosa)
         tags: [Picture]
@@ -379,3 +317,33 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+#  /api/users/profiles:
+#    get:
+#        summary: returns profiles list (aún no es funcional token, se puede poner cualquier cosa)
+#        tags: [Profile]
+#        parameters:
+#            - in: header
+#              name: x-token
+#              schema:
+#                type: string
+#                required: true
+#                description: user token
+#        responses:
+#                description: returns profiles list!
+#                content:
+#                    application/json:
+#                        schema:
+#                            type: array
+#            500:
+#                description: return internal error!
+#                content:
+#                    application/json:
+#                        schema:
+#                            type: object
+#                            properties:
+#                                ok:
+#                                    type: boolean
+#                                    example: false
+#                                msg:
+#                                    type: string
+#                                    example: Please talk to the administrator

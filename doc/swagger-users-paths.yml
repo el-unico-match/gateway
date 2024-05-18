@@ -1,6 +1,6 @@
 
 paths:
-  /api/users/current:
+  /api/user/current:
     get:
         summary: get data from the user associated with the token 
         tags: [User]
@@ -77,7 +77,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/users/login:
+  /api/login:
     post:
         summary: login user 
         tags: [User]
@@ -165,7 +165,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/users/token:
+  /api/token:
     post:
         summary: returns a new token from request's token. In case of error use login
         tags: [User]
@@ -247,7 +247,7 @@ paths:
 
 
 
-  /api/users/user:
+  /api/user:
     post:
         summary: creates user
         tags: [User]
@@ -320,7 +320,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/users/user/{id}:
+  /api/user/{id}:
     put:
         summary: updates user
         tags: [User]
@@ -490,7 +490,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/users/users:
+  /api/users:
     get:
         summary: get all the users
         tags: [User]
