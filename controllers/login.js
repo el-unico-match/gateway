@@ -3,8 +3,8 @@ const {doRequestAxios} = require('../helpers/axiosHelper');
 const {parseRequest} = require('../helpers/requestHelper');
 const {SERVICES} = require('../types/services');
 
-const ENDPOINT_FILTER_LOGIN = "";
-const PREFIX_LOGIN = "user";
+const ENDPOINT_FILTER_LOGIN = "api/";
+const PREFIX_LOGIN = "";
 
 /**
  * @returns Respuesta de la solicitud http

@@ -55,7 +55,7 @@ app.use('/services', require('./routes/services'));
 app.use('/api/login', require('./routes/login'));
 //app.use('/api/services', require('./routes/services'));
 //app.use('/api/token', require('./routes/token'));
-//app.use('/api/user', require('./routes/user'));
+app.use('/api/user', require('./routes/user'));
 //app.use('/api/users', require('./routes/users'));
 
 // Escuchar peticiones
