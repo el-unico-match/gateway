@@ -1,0 +1,145 @@
+paths:
+  /api/user/{id}/matchs:
+    get:
+        summary: get list of matchs for the user 
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/user/{id}/matchs/filter:
+    get:
+        summary: gets a filtered match
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/user/{id}/matchs/preference:
+    post:
+        summary: add new match
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/user/match/profile:
+    post:
+        summary: creates a new profile
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+        responses:
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/user/{id}/match/profile:
+    put:
+        summary: updates a profile
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator

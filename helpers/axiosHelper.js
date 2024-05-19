@@ -31,7 +31,7 @@ const doRequestAxios =  async (method, baseURL, headers, body, params, endpoint,
                 break;
         }
         res.status(result.status).json(
-            result.data                    
+            result.data                                
         );  
     } catch (error) {
         try {

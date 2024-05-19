@@ -1,0 +1,10 @@
+components:
+    schemas:
+        ViewMatchs:
+            type: object
+            properties:
+                matches:
+                  type: array
+                  items:
+                    type: object
+

@@ -242,11 +242,6 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
- 
-
-
-
-
   /api/user:
     post:
         summary: creates user
@@ -375,6 +370,87 @@ paths:
                                     example: The name must be at least 5 characters
             401:
                 description: return error "Invalid token" or "User without role" or "You do not have the necessary access level"
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Invalid token"
+            404:
+                description: return error "The user does not exist"
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: The user does not exist
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+    get:
+        summary: get user data
+        tags: [User]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200: 
+                description: return user data!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: true
+                                user:
+                                    type: object
+                                    $ref: '#/components/schemas/UserSharedData'                      
+            400:
+                description: return error "There is no token in the request" 
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: object
+                                    example: There is no token in the request
+            401:
+                description: return error "Invalid token"
                 content:
                     application/json:
                         schema:

@@ -317,33 +317,34 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-#  /api/users/profiles:
-#    get:
-#        summary: returns profiles list (aún no es funcional token, se puede poner cualquier cosa)
-#        tags: [Profile]
-#        parameters:
-#            - in: header
-#              name: x-token
-#              schema:
-#                type: string
-#                required: true
-#                description: user token
-#        responses:
-#                description: returns profiles list!
-#                content:
-#                    application/json:
-#                        schema:
-#                            type: array
-#            500:
-#                description: return internal error!
-#                content:
-#                    application/json:
-#                        schema:
-#                            type: object
-#                            properties:
-#                                ok:
-#                                    type: boolean
-#                                    example: false
-#                                msg:
-#                                    type: string
-#                                    example: Please talk to the administrator
+  /api/users/profiles:
+    get:
+        summary: returns profiles list (aún no es funcional token, se puede poner cualquier cosa)
+        tags: [Profile]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+        responses:
+            200:
+                description: returns profiles list!
+                content:
+                    application/json:
+                        schema:
+                            type: array
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator

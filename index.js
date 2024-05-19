@@ -51,12 +51,11 @@ app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
 app.use('/status', require('./routes/status'));
 
 // Rutas Api
-//--app.use('/api/', require('./routes/api'));
 app.use('/api/login', require('./routes/login'));
-//app.use('/api/services', require('./routes/services'));
-//app.use('/api/token', require('./routes/token'));
+app.use('/api/services', require('./routes/services'));
+app.use('/api/token', require('./routes/token'));
 app.use('/api/user', require('./routes/user'));
-//app.use('/api/users', require('./routes/users'));
+app.use('/api/users', require('./routes/users'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {

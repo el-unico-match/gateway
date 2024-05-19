@@ -5,7 +5,29 @@
 
 const {Router} = require('express');
 const router = Router();
-const {current, user, user_id, user_profile} = require('../controllers/user');
+const {
+    current, 
+    user, 
+    user_id, 
+    user_id_match, 
+    user_id_matchs, 
+    user_match, 
+    user_profile} = require('../controllers/user');
+
+/**
+ * Ruta consulta matchs del servicio match
+ */
+router.all('/:id/matchs*', user_id_matchs);
+
+/**
+ * Ruta consulta matchs del servicio match
+ */
+router.all('/:id/match/*', user_id_match);
+
+/**
+ * Ruta consulta matchs del servicio match
+ */
+router.all('/match*', user_match);
 
 /**
  * Ruta consulta profiles del servicio profile

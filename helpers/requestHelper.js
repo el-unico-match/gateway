@@ -17,8 +17,6 @@ const parseRequest = (req, serviceName, prefix, endpointFilter) => {
     const params = req.params;
     const endpoint = getEndpoint(req, prefix, endpointFilter);
     let url = getServiceStatus(serviceName).target;
-    console.log(url);
-    console.log(endpoint);
     return {
         method,
         headers,

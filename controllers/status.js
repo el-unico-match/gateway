@@ -1,13 +1,15 @@
 const {response} = require('express');
 const {HTTP_SUCCESS_2XX} = require('../helpers/httpCodes');
 const {SERVICES} = require('../types/services');
+const {requestServiceStatus} = require('../helpers/statusHelper');
+const {getServiceStatus} = require('../servicesStatus/servicesStatus');
 
 /**
  * 
  * @param {*} req body vacío
  * @returns respuesta con los servicios con su estado.
  */
-const getServices = async (req, res = response) => {
+const getStatus = async (req, res = response) => {
     return res.status(HTTP_SUCCESS_2XX.OK).json({
         ok: true,
         services: await getAllServicesCompleteStatus()
@@ -38,16 +40,16 @@ const getServiceCompleteStatus = async (service) => {
         let result;
         switch (service.name) {
             case SERVICES.MATCHES:
-                throw new Error('TODO');
+                result = await requestServiceStatus(SERVICES.MATCHES);
                 break;
             case SERVICES.PROFILES:
-                result = await getStatusProfiles();
+                result = await requestServiceStatus(SERVICES.PROFILES);
                 break;
             case SERVICES.SERVICES:
-                result = {};
+                result = await requestServiceStatus(SERVICES.SERVICES);
                 break;
             case SERVICES.USERS:
-                result = await getStatusUsers();
+                result = await requestServiceStatus(SERVICES.USERS);
                 break;
         }
         serviceStatus = {
@@ -67,5 +69,5 @@ const getServiceCompleteStatus = async (service) => {
 }
 
 module.exports = {
-    getServices,
+    getStatus,
 }

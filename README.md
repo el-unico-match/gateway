@@ -87,6 +87,6 @@ ip address
 
 NOTA: PORT normalmente es 4001 o sea: http://localhost:4001/api-doc/
 
-5) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: http://localhost:<PORT>/api/services
+5) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: http://localhost:<PORT>/api/status
 
-NOTA: PORT normalmente es 4001 o sea: http://localhost:4001/services
+NOTA: PORT normalmente es 4001 o sea: http://localhost:4001/status

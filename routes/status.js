@@ -5,11 +5,11 @@
 
 const {Router} = require('express');
 const router = Router();
-const {status} = require('../controllers/status');
+const {getStatus} = require('../controllers/status');
 
 /**
  * @swagger
- * /services:
+ * /status:
  *  get:
  *      summary: info about backend services
  *      responses:
@@ -27,6 +27,6 @@ const {status} = require('../controllers/status');
  *                                  type: object
  *                                  $ref: '#/components/schemas/ServicesStatus'
 */
-router.get('/', status);
+router.get('/', getStatus);
 
 module.exports = router;
