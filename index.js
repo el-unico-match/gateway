@@ -10,6 +10,8 @@ const path = require("path");
 // Configuración Swagger
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const fs = require('fs');
+
 const swaggerSpec = {
     definition: {
         openapi: "3.0.0",
@@ -44,8 +46,15 @@ app.use(express.static('public'));
 // Lectura y parseo del body
 app.use(express.json());
 
+const customCss = fs.existsSync(__dirname + `/swagger-theme.css`) ? fs.readFileSync(__dirname + `/swagger-theme.css`, 'utf8') : '';
+
 // Ruta Swagger
-app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec)))
+const options = {
+    explorer: true,
+    customCss: customCss,
+};
+
+app.use(["/api-doc","/api-specs"], swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec),options))
 
 // Rutas Servicios Provisoria
 app.use('/status', require('./routes/status'));
