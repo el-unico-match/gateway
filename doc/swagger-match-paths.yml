@@ -21,8 +21,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            type: object
-                            $ref: '#/components/schemas/Match'
+                            type: array
+                            items:
+                                type: object
+                                $ref: '#/components/schemas/Match'
             422:
                 description: Validation Error.
                 content:
@@ -59,7 +61,37 @@ paths:
               required: true
               schema:
                 type: string
+            - in: query
+              name: gender
+              schema:
+                type: string
+            - in: query
+              name: age
+              schema:
+                type: string
+            - in: query
+              name: education
+              schema:
+                type: string
+            - in: query
+              name: ethnicity
+              schema:
+                type: string
         responses:
+            200:
+                description: a match for the user with the filter
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/Profile'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
             500:
                 description: return internal error!
                 content:
@@ -73,7 +105,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/user/{id}/matchs/preference:
+  /api/user/{id}/match/preference:
     post:
         summary: add new match
         tags: [Match]
@@ -89,7 +121,30 @@ paths:
               required: true
               schema:
                 type: string
+            - in: query
+              name: candidateid
+              required: true
+              schema:
+                type: string
+            - in: query
+              name: qualification
+              required: true
+              schema:
+                type: string                      
         responses:
+            200:
+                description: successful
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
             500:
                 description: return internal error!
                 content:
@@ -107,6 +162,13 @@ paths:
     post:
         summary: creates a new profile
         tags: [Match]
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        $ref: '#/components/schemas/Profile'
         parameters:
             - in: header
               name: x-token
@@ -114,6 +176,19 @@ paths:
                 type: string
                 required: true
         responses:
+            200:
+                description: successful profile creation
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
             500:
                 description: return internal error!
                 content:
@@ -131,6 +206,13 @@ paths:
     put:
         summary: updates a profile
         tags: [Match]
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        $ref: '#/components/schemas/Profile'
         parameters:
             - in: header
               name: x-token
@@ -144,6 +226,19 @@ paths:
               schema:
                 type: string
         responses:
+            200:
+                description: successful profile update 
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
             500:
                 description: return internal error!
                 content:
