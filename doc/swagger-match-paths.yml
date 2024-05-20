@@ -16,6 +16,20 @@ paths:
               schema:
                 type: string
         responses:
+            200:
+                description: successful Response
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/Match'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
             500:
                 description: return internal error!
                 content:

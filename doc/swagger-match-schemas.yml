@@ -1,10 +1,22 @@
 components:
     schemas:
-        ViewMatchs:
+        Match:
             type: object
             properties:
-                matches:
-                  type: array
-                  items:
-                    type: object
+                matchid: 
+                  type: string
+                userid_1: 
+                  type: string
+                qualification_1: 
+                  type: string
+                userid_2:
+                  type: string
+                qualification_2:
+                  type: string
+            required:
+                - matchid
+                - userid_1
+                - qualification_1
+                - userid_2
+                - qualification_2
 
