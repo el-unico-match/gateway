@@ -1,0 +1,48 @@
+name: Tests coverage CI
+
+on:
+  push:
+    branches: [ "dev", "coveral-integration" ]
+  pull_request:
+    branches: [ "dev", "coveral-integration" ]
+
+jobs:
+  coverall:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set Node.js version
+      uses: actions/setup-node@v3
+
+    - name: Create Environment File
+      run: |
+          echo "PORT=${{ vars.PORT }}" > .env    
+          echo "HOST=${{ vars.HOST }}" >> .env
+          echo "USERS_API_DOMAIN=${{ vars.USERS_API_DOMAIN }}" >> .env
+          echo "MATCHES_API_DOMAIN=${{ vars.MATCHES_API_DOMAIN }}" >> .env
+          echo "MESSAGES_API_DOMAIN=${{ vars.MESSAGES_API_DOMAIN }}" >> .env
+          echo "PROFILES_API_DOMAIN=${{ vars.PROFILES_API_DOMAIN }}" >> .env
+          echo "SERVICES_API_DOMAIN=${{ vars.SERVICES_API_DOMAIN }}" >> .env
+
+    - name: Install dependencies
+      run: |
+        npm install --force
+        npm install --save-dev jest
+        npm install coveralls-next --save-dev
+
+    - name: Run coverage and report to Coveralls
+      run: npm run coverage
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }} 
+
+    - name: Upload coverage to Coveralls
+      if: always()
+      uses: coverallsapp/github-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./coverage/lcov.info
+        coveralls-endpoint: https://coveralls.io
+        repo-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
