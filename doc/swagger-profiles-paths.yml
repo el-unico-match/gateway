@@ -1,7 +1,7 @@
 paths:
   /api/user/profile:
     post:
-        summary: creates profile (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user creates profile (no func token).
         tags: [Profile]
         parameters:
             - in: header
@@ -46,7 +46,7 @@ paths:
                                     example: Please talk to the administrator
   /api/user/profile/{id}:
     get:
-        summary: get profile (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user or admin get a profile (no func token).
         tags: [Profile]
         parameters:
             - in: header
@@ -89,7 +89,7 @@ paths:
                                     type: string
                                     example: Please talk to the administrator
     put:
-        summary: updates profile (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user updates profile (no func token)
         tags: [Profile]
         parameters:
             - in: header
@@ -138,7 +138,7 @@ paths:
                                     type: string
                                     example: Please talk to the administrator
     delete:
-        summary: deletes profile (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user or admin deletes profile (no func token)
         tags: [Profile]
         parameters:
             - in: header
@@ -181,7 +181,7 @@ paths:
                                     example: Please talk to the administrator
   /api/user/profile/pictures:
     post:
-        summary: creates pictures (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user creates pictures (no func token)
         tags: [Picture]
         parameters:
             - in: header
@@ -226,7 +226,7 @@ paths:
                                     example: Please talk to the administrator
   /api/user/profile/pictures/{id}:
     get:
-        summary: view user pictures (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user of admin view user pictures (no func token)
         tags: [Picture]
         parameters:
             - in: header
@@ -269,7 +269,7 @@ paths:
                                     type: string
                                     example: Please talk to the administrator
     put:
-        summary: update user pictures (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user update pictures (no func token)
         tags: [Picture]
         parameters:
             - in: header
@@ -319,7 +319,7 @@ paths:
                                     example: Please talk to the administrator
   /api/users/profiles:
     get:
-        summary: returns profiles list (aún no es funcional token, se puede poner cualquier cosa)
+        summary: user or admin get profiles list (no func token)
         tags: [Profile]
         parameters:
             - in: header
