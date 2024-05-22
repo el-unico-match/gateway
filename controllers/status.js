@@ -63,7 +63,7 @@ const getServiceCompleteStatus = async (service) => {
             online: false,
             detail: error.message
         };
-        console.log(`On check service ${service.name} online: ${error.message}`);
+        console.log(`On check service ${service.name} online: ${error.message} url: ${service.target}`);
     };
     return serviceStatus;    
 }

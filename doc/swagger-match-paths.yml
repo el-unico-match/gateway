@@ -116,21 +116,24 @@ paths:
                 type: string
                 required: true
                 description: user token
-            - in: path
+            - in: path 
               name: id
               required: true
               schema:
                 type: string
-            - in: query
-              name: candidateid
-              required: true
-              schema:
-                type: string
-            - in: query
-              name: qualification
-              required: true
-              schema:
-                type: string                      
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            userid_1: 
+                                type: string
+                            userid_2:
+                                type: string
+                            qualification_2:
+                                type: string
         responses:
             200:
                 description: successful
