@@ -32,7 +32,6 @@ const router = Router();
  *         description: The user profile identifier
  *         schema:
  *           type: string
- *           format: uuid
  *         required: true
  *     tags: [Finder]
  *     responses:
