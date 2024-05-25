@@ -19,8 +19,14 @@ const router = Router();
  * /api/finder/candidates/:
  *   get:
  *     summary: Lista de candidatos
- *     description: Devuelve la lista de candidatos con su perfil completo
+ *     description: Devuelve la lista de candidatos con su perfil completo      
  *     parameters:
+ *       - in: header
+ *         name: x-token
+ *         schema:
+ *          type: string
+ *          format: JWT
+ *         required: true
  *       - in: query
  *         name: profileId
  *         description: The user profile identifier
@@ -32,6 +38,7 @@ const router = Router();
  *       200:
  *         description: Una lista de candidatos
  */
-router.get('/candidates', getCandidates.validation, getCandidates.handler);
+
+router.get('/candidates', getCandidates.requestValidation, getCandidates.handler);
 
 module.exports = router;

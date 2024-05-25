@@ -1,17 +1,19 @@
 const axios = require('axios');
 const {response} = require('express');
-const {query} = require('express-validator');
+const {header, query} = require('express-validator');
 const {validateFields} = require('../../middlewares/validateFields');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
 const {SERVICES} = require('../../types/services');
 const {HTTP_SUCCESS_2XX} = require('../../helpers/httpCodes');
+const {customValidateJwt} = require('../../middlewares/validateJWT')
 
-const validation = [
-    query('profileId', 'Is a required field').isString(),
-    query('gender', 'Is a required field').optional().isString(),
-    query('age', 'Is a required field').optional().isString(),
-    query('education', 'Is a required field').optional().isString(),
-    query('ethniticity', 'Is a required field').optional().isString(),
+const requestValidation = [
+    header('x-token', 'Is a required header.').custom(customValidateJwt),
+    query('profileId', 'Is a required parameter.').isString(),
+    query('gender', 'Is an optional parameter.').optional().isString(),
+    query('age', 'Is a required parameter.').optional().isString(),
+    query('education', 'Is a required parameter.').optional().isString(),
+    query('ethniticity', 'Is a required parameter.').optional().isString(),
     validateFields
 ];
 
@@ -42,7 +44,7 @@ const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
 } 
 
 const handler =  async (req, res = response) => {
-    
+
     const matchServiceBaseUrl = getServiceStatus(SERVICES.MATCHES).target;
     const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
 
@@ -62,7 +64,7 @@ const handler =  async (req, res = response) => {
         url: '/users/profiles'
     })
 
-    const candidatesProfile = profiles.filter( profile => profile.userId != req.query.profileId && matchUsersId.some( userId => userId != profile.userid )) 
+    const candidatesProfile = profiles.filter( profile => profile.userId != req.query.profileId && matchUsersId.some( userId => userId == profile.userid ) == false) 
 
     const candidates = await Promise.all(candidatesProfile.map(async (profile) => await fillProfileWithPictures(profile, profileServiceBaseUrl)));
 
@@ -72,4 +74,4 @@ const handler =  async (req, res = response) => {
     });
 }
 
-module.exports = { validation, handler }
+module.exports = { requestValidation, handler }

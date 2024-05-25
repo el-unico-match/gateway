@@ -5,6 +5,27 @@ const {HTTP_CLIENT_ERROR_4XX} = require('../helpers/httpCodes')
 const {MSG_NO_TOKEN, MSG_INVALID_TOKEN} = require('../messages/auth');
 
 /**
+ * Valida el token del request
+ * @param {*} input 
+ * @param {*} meta 
+ * @returns 
+ */
+const customValidateJwt = (token, {req}) => {
+    if (!token) {
+        throw new Error(message=MSG_NO_TOKEN);
+    }
+
+    try {
+        doValidateJWT(req, token);
+        return token;
+    }
+    
+    catch (error) {
+        throw new Error(message=MSG_INVALID_TOKEN);
+    }
+}
+
+/**
  * Valida un token que viene por el header como "x-token" 
  */
 const validateJWT = (req, res = response, next) => {
@@ -79,5 +100,6 @@ const doDecodeJWT = (req, token) =>  {
 
 module.exports = {
     validateJWT,
-    decodeJWT
+    decodeJWT,
+    customValidateJwt
 }
