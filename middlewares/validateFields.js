@@ -4,8 +4,6 @@ const {HTTP_CLIENT_ERROR_4XX} = require('../helpers/httpCodes');
 
 const validateFields = (req, res = response, next) => {
     const errors = validationResult(req);
-    
-    // error.type=='field'
 
     if(!errors.isEmpty()){
         return res
@@ -20,5 +18,5 @@ const validateFields = (req, res = response, next) => {
 }
 
 module.exports = {
-    validateFields
+    validateFields,
 }
