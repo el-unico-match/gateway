@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "gateway entre web/móvil y el backend",
   "main": "index.js",
+  "baseUrl": "./",
   "scripts": {
     "start": "node index.js",
     "test": "jest --forceExit"
@@ -25,6 +26,7 @@
     "express": "^4.19.2",
     "express-validator": "^7.0.1",
     "node-fetch": "^2.7.0",
+    "swagger-express": "^1.0.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
