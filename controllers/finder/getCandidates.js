@@ -62,7 +62,7 @@ const handler =  async (req, res = response) => {
         url: '/users/profiles'
     })
 
-    const candidatesProfile = profiles.filter( profile => profile.userId != req.query.profileId && matchUsersId.some( userId => userId != profile.userid )) 
+    const candidatesProfile = profiles.filter( profile => profile.userId != req.query.profileId && matchUsersId.some( userId => userId == profile.userid ) == false) 
 
     const candidates = await Promise.all(candidatesProfile.map(async (profile) => await fillProfileWithPictures(profile, profileServiceBaseUrl)));
 
