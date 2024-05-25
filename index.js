@@ -65,7 +65,7 @@ app.use('/api/services', require('./routes/services'));
 app.use('/api/token', require('./routes/token'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/users', require('./routes/users'));
-
+app.use('/api/finder', require('./routes/finder'))
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
     console.log(`Api REST GATEWAY corriendo en ${process.env.HOST}:${process.env.PORT}`);
