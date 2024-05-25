@@ -4,6 +4,7 @@
 */
 
 const {Router} = require('express');
+const getCandidates = require('../controllers/finder/getCandidates');
 
 /**
  * @swagger
@@ -12,7 +13,6 @@ const {Router} = require('express');
  *     description: API para hacer uso de la funcionalidad match finder.
  */ 
 const router = Router();
-const getCandidates = require('../controllers/finder/getCandidates');
 
 /**
  * @swagger
@@ -33,6 +33,5 @@ const getCandidates = require('../controllers/finder/getCandidates');
  *         description: Una lista de candidatos
  */
 router.get('/candidates', getCandidates.validation, getCandidates.handler);
-
 
 module.exports = router;
