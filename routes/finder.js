@@ -38,6 +38,7 @@ const router = Router();
  *       200:
  *         description: Una lista de candidatos
  */
+
 router.get('/candidates', getCandidates.requestValidation, getCandidates.handler);
 
 module.exports = router;
