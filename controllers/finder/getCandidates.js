@@ -1,14 +1,11 @@
-const axios = require('axios');
-const {response} = require('express');
-const {header, query} = require('express-validator');
+const axios  = require('axios'); 
+const {query} = require('express-validator');
 const {validateFields} = require('../../middlewares/validateFields');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
 const {SERVICES} = require('../../types/services');
 const {HTTP_SUCCESS_2XX} = require('../../helpers/httpCodes');
-const {customValidateJwt} = require('../../middlewares/validateJWT')
 
 const requestValidation = [
-    header('x-token', 'Is a required header.').custom(customValidateJwt),
     query('profileId', 'Is a required parameter.').isString(),
     query('gender', 'Is an optional parameter.').optional().isString(),
     query('age', 'Is a required parameter.').optional().isString(),
@@ -43,7 +40,7 @@ const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
     }
 } 
 
-const handler =  async (req, res = response) => {
+const handler =  async (req, res) => {
 
     const matchServiceBaseUrl = getServiceStatus(SERVICES.MATCHES).target;
     const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;

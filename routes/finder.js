@@ -2,9 +2,9 @@
     Rutas de Api /
     host + /api/users
 */
-
 const {Router} = require('express');
 const getCandidates = require('../controllers/finder/getCandidates');
+const {validateJWT} = require('../middlewares/validateJWT');
 
 /**
  * @swagger
@@ -13,6 +13,7 @@ const getCandidates = require('../controllers/finder/getCandidates');
  *     description: API para hacer uso de la funcionalidad match finder.
  */ 
 const router = Router();
+router.use(validateJWT);
 
 /**
  * @swagger

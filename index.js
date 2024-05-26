@@ -10,6 +10,7 @@ const path = require("path");
 // Configuración Swagger
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const {errorHandlerMiddleware} = require('./middlewares/errorHandlerMiddleware');
 const fs = require('fs');
 
 const swaggerSpec = {
@@ -70,3 +71,6 @@ app.use('/api/finder', require('./routes/finder'))
 app.listen(process.env.PORT, process.env.HOST, () => {
     console.log(`Api REST GATEWAY corriendo en ${process.env.HOST}:${process.env.PORT}`);
 });
+
+// errorHandlerMiddleware
+app.use(errorHandlerMiddleware)

@@ -1,49 +1,31 @@
-const {response} = require('express');
+const { CustomError } = require("../middlewares/errorHandlerMiddleware") 
 const jwt = require('jsonwebtoken');
-const {jwtDecode} = require('jwt-decode');
-const {HTTP_CLIENT_ERROR_4XX} = require('../helpers/httpCodes')
-const {MSG_NO_TOKEN, MSG_INVALID_TOKEN} = require('../messages/auth');
 
-/**
- * Valida el token del request
- * @param {*} input 
- * @param {*} meta 
- * @returns 
- */
-const customValidateJwt = (token, {req}) => {
-    if (!token) {
-        throw new Error(message=MSG_NO_TOKEN);
-    }
-
-    try {
-        doValidateJWT(req, token);
-        return token;
-    }
-    
-    catch (error) {
-        throw new Error(message=MSG_INVALID_TOKEN);
-    }
-}
+const {MSG_NO_TOKEN, MSG_INVALID_TOKEN,MSG_USER_BLOCKED} = require('../messages/auth');
+const { HttpStatusCode } = require('axios');
 
 /**
  * Valida un token que viene por el header como "x-token" 
  */
-const validateJWT = (req, res = response, next) => {
+const validateJWT = (req, res, next) => {
     const token = req.header('x-token');
+
     if (!token) {
-        return res.status(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST).json({
-            ok: false,
-            msg: MSG_NO_TOKEN
-        });
+        next( new CustomError(MSG_NO_TOKEN, HttpStatusCode.BadRequest));
     }
-    try {
-        doValidateJWT(req, token);
-    } catch (error) {
-        return res.status(HTTP_CLIENT_ERROR_4XX.UNAUTHORIZED).json({
-            ok: false,
-            msg: MSG_INVALID_TOKEN
-        })
+
+    const {isValid, isBlocked} = validateToken(req, token);
+
+    if (isValid === false)
+    {
+        next( new CustomError(MSG_INVALID_TOKEN, HttpStatusCode.Unauthorized));
     }
+
+    if (isBlocked === true)
+    {
+        next( new CustomError(MSG_USER_BLOCKED, HttpStatusCode.Forbidden));
+    }
+
     next();
 }
 
@@ -51,55 +33,29 @@ const validateJWT = (req, res = response, next) => {
  * 
  * Válida el token del request.
  */
-const doValidateJWT = (req, token) =>  {
-    const {uid, role, blocked} = jwt.verify(
-        token,
-        process.env.SECRET_JWT_SEED
-    );
-    req.tokenExtractedData = {
-        uid,
-        role,
-        blocked
-    };
-}
+const validateToken = (req, token) =>  {
 
-/**
- * Decodifica un token que viene por el header como "x-token" 
- */
-const decodeJWT = (req, res = response, next) => {
-    const token = req.header('x-token');
-    if (!token) {
-        return res.status(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST).json({
-            ok: false,
-            msg: MSG_NO_TOKEN
-        });
-    }
     try {
-        doDecodeJWT(req, token);
-    } catch (error) {
-        return res.status(HTTP_CLIENT_ERROR_4XX.UNAUTHORIZED).json({
-            ok: false,
-            msg: MSG_INVALID_TOKEN
-        })
+        const {uid, role, blocked} = jwt.verify(
+            token,
+            process.env.SECRET_JWT_SEED
+        );
+    
+        req.tokenExtractedData = {
+            uid,
+            role,
+            blocked
+        };
+    
+        return {isValid: true, uid, role, isBlocked: blocked}
     }
-    next();
-}
 
-/**
- * 
- * Decodifica el token del request.
- */
-const doDecodeJWT = (req, token) =>  {
-    const {uid, role, blocked} = jwtDecode(token);
-    req.tokenExtractedData = {
-        uid,
-        role,
-        blocked
-    };
+    catch (error) {
+        return {isValid: false}
+    }
+
 }
 
 module.exports = {
-    validateJWT,
-    decodeJWT,
-    customValidateJwt
+    validateJWT
 }
