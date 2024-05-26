@@ -4,6 +4,7 @@
 */
 const {Router} = require('express');
 const getCandidates = require('../controllers/finder/getCandidates');
+const getCrushes = require('../controllers/finder/getCrushes');
 const {validateJWT} = require('../middlewares/validateJWT');
 
 /**
@@ -24,6 +25,7 @@ router.use(validateJWT);
  *     parameters:
  *       - in: header
  *         name: x-token
+ *         description: The user active JWT token
  *         schema:
  *          type: string
  *          format: JWT
@@ -41,5 +43,33 @@ router.use(validateJWT);
  */
 
 router.get('/candidates', getCandidates.requestValidation, getCandidates.handler);
+
+/**
+ * @swagger
+ * /api/finder/crushes/:
+ *   get:
+ *     summary: Lista de crushes
+ *     description: Devuelve la lista de crushes      
+ *     parameters:
+ *       - in: header
+ *         name: x-token
+ *         description: The user active JWT token
+ *         schema:
+ *          type: string
+ *          format: JWT
+ *         required: true
+ *       - in: query
+ *         name: profileId
+ *         description: The user profile identifier
+ *         schema:
+ *           type: string
+ *         required: true
+ *     tags: [Finder]
+ *     responses:
+ *       200:
+ *         description: Una lista de candidatos
+ */
+
+router.get('/crushes', getCrushes.requestValidation, getCrushes.handler);
 
 module.exports = router;

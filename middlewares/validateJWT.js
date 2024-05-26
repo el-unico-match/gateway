@@ -11,7 +11,15 @@ const validateJWT = (req, res, next) => {
     const token = req.header('x-token');
 
     if (!token) {
-        next( new CustomError(MSG_NO_TOKEN, HttpStatusCode.BadRequest));
+        const message = {
+            "x-token": {
+                "type": "field",
+                "msg": "Is a required header.",
+                "path": "x-token",
+                "location": "header"
+            }
+        }
+        next( new CustomError(message, HttpStatusCode.BadRequest));
     }
 
     const {isValid, isBlocked} = validateToken(req, token);
@@ -21,12 +29,14 @@ const validateJWT = (req, res, next) => {
         next( new CustomError(MSG_INVALID_TOKEN, HttpStatusCode.Unauthorized));
     }
 
-    if (isBlocked === true)
+    else if (isBlocked === true)
     {
         next( new CustomError(MSG_USER_BLOCKED, HttpStatusCode.Forbidden));
     }
 
-    next();
+    else {
+        next();
+    }
 }
 
 /**
@@ -51,6 +61,7 @@ const validateToken = (req, token) =>  {
     }
 
     catch (error) {
+        console.log(error)
         return {isValid: false}
     }
 
