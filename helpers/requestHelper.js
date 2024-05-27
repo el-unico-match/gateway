@@ -1,39 +1,25 @@
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const TIMEOUT = 15000;
 
 /**
  * 
  * @param {*} req 
  * @param {*} serviceName 
- * @param {*} prefix example "user/" or ""
- * @param {*} endpointFilter example "api/user/" or ""
  * @returns 
  */
-const parseRequest = (req, serviceName, prefix, endpointFilter) => {
-    const method = req.method;
-    const headers = {
-        'x-token': req.header('x-token')
-    };
-    const body = req.body;
-    const params = req.params;
-    const endpoint = getEndpoint(req, prefix, endpointFilter);
-    let url = getServiceStatus(serviceName).target;
-    return {
-        method,
-        headers,
-        body,
-        params,
-        endpoint,
-        url
+const parseRequest = (req, serviceName) => {
+     
+    const axiosConfig = {
+        headers: {'x-token': req.header('x-token')},
+        method: req.method,
+        baseURL: getServiceStatus(serviceName).target + req.baseUrl.replace('/api',''),
+        url: req.url,
+        params: req.query,
+        data: req.body,
+        timeout: TIMEOUT,
     }
-}
 
-const getEndpoint = (req, prefix, endpointFilter) => {
-    const splitted = req.originalUrl.split(endpointFilter)[1];
-    if (splitted) {
-        return `/${prefix}${splitted}`;    
-    } else {
-        return `/${prefix}`;
-    }    
+    return axiosConfig;
 }
 
 module.exports = {

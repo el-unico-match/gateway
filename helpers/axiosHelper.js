@@ -1,57 +1,31 @@
-const {response} = require('express');
+const {parseRequest} = require('../helpers/requestHelper');
 const axios = require('axios');
 const { HTTP_SERVER_ERROR_5XX } = require('./httpCodes');
 const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../messages/services');
-const TIMEOUT = 15000;
 
-const doRequestAxios =  async (method, baseURL, headers, body, params, endpoint, res = response) => { 
-    let result;
+const doRequestAxios =  async (req, res, microservice) => { 
+
     try {
-        let instanceAxios = axios.create({
-            baseURL: baseURL, 
-            headers: headers,
-            params: {},
-            timeout: TIMEOUT
-        });
-        switch (method) {
-            case 'DELETE':
-                result = await instanceAxios.delete(endpoint, body);
-                break;
-            case 'GET':
-                result = await instanceAxios.get(endpoint, body);
-                break;
-            case 'PATCH':
-                result = await instanceAxios.patch(endpoint, body);
-                break;    
-            case 'POST':
-                result = await instanceAxios.post(endpoint, body);
-                break;    
-            case 'PUT':
-                result = await instanceAxios.put(endpoint, body);
-                break;
-        }
-        res.status(result.status).json(
-            result.data                                
-        );  
+        const axiosConfig = parseRequest(req, microservice);
+        const {status, data} = await axios(axiosConfig);
+        res.status(status).json(data);
     } catch (error) {
+        const {code, response} = error;
         try {
-            res.status(error.response.status).json(
-                error.response.data
-            )
+            res.status(response.status).json(response.data);
         } catch (_error) {
-            const errorDetail = error.code ? error.code : _error;
-            const url = `${baseURL}${endpoint}`;
+            let axiosConfig = parseRequest(req, microservice);
+
+            const errorDetail = code ? code : _error;
+            const url = `${axiosConfig.baseURL}${axiosConfig.endpoint}`;
             console.log(`GATEWAY: On request to ${url}: ${errorDetail}`);
-            res.status(HTTP_SERVER_ERROR_5XX.SERVICE_NOT_AVAILABLE).json(
-                {
+            
+            res.status(HTTP_SERVER_ERROR_5XX.SERVICE_NOT_AVAILABLE)
+               .json({
+                    ...axiosConfig,
                     ok: false,
                     msg: `${MSG_ERROR_WITH_SERVICE_REQUEST}: ${errorDetail}`,
-                    url,
-                    headers,
-                    body,
-                    params,
-                    method
-            })
+                })
         }          
     }
 }
