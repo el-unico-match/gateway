@@ -4,8 +4,9 @@
 */
 
 const {Router} = require('express');
-const router = Router();
 const {token} = require('../controllers/token');
+
+const router = Router();
 
 /**
  * Única ruta para todos los request de login

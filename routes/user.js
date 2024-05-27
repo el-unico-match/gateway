@@ -4,7 +4,11 @@
 */
 
 const {Router} = require('express');
+const {validateJWT} = require('../middlewares/validateJWT');
+
 const router = Router();
+router.use(validateJWT);
+
 const {
     current, 
     user, 

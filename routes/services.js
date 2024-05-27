@@ -4,8 +4,11 @@
 */
 
 const {Router} = require('express');
-const router = Router();
 const {services} = require('../controllers/services');
+const {validateJWT} = require('../middlewares/validateJWT');
+
+const router = Router();
+router.use(validateJWT);
 
 /**
  * Ruta única para el servicio Services
