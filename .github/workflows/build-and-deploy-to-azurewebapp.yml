@@ -20,7 +20,6 @@ jobs:
           echo "HOST=${{ vars.HOST }}" >> .env
           echo "USERS_API_DOMAIN=${{ vars.USERS_API_DOMAIN }}" >> .env
           echo "MATCHES_API_DOMAIN=${{ vars.MATCHES_API_DOMAIN }}" >> .env
-          echo "MESSAGES_API_DOMAIN=${{ vars.MESSAGES_API_DOMAIN }}" >> .env
           echo "PROFILES_API_DOMAIN=${{ vars.PROFILES_API_DOMAIN }}" >> .env
           echo "SERVICES_API_DOMAIN=${{ vars.SERVICES_API_DOMAIN }}" >> .env
           echo "SECRET_JWT_SEED=${{ secrets.SECRET_JWT_SEED }}" >> .env
