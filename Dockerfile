@@ -4,10 +4,11 @@ RUN curl -o swagger-theme.css https://settings-uniquegroup-match-fiuba.azurewebs
 
 FROM node:21
 
-COPY [".", "package.json","package-lock.json" , "/usr/src/"]
+COPY [".", "package.json","package-lock.json" , "/"]
+COPY .env /
 COPY --from=fetcher swagger-theme.css /
 
-WORKDIR /usr/src
+WORKDIR /
 
 RUN npm install
 
