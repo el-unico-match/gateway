@@ -16,7 +16,9 @@ const {
     user_id_match, 
     user_id_matchs, 
     user_match, 
-    user_profile} = require('../controllers/user');
+    user_profile,
+    match_filter,
+} = require('../controllers/user');
 
 /**
  * Ruta consulta matchs del servicio match
@@ -42,6 +44,11 @@ router.all('/profile*', user_profile);
  * Ruta current del servicio usuarios
  */
 router.all('/current', current);
+
+/**
+ * Ruta filtro de perfiles
+ */
+router.all('/:id/profiles/filter', match_filter);
 
 /**
  * Ruta consulta usuarios

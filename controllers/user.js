@@ -11,6 +11,13 @@ const current = async (req, res) => {
 /**
  * @returns Respuesta de la solicitud http
  */
+const match_filter = async (req, res) => {
+    doRequestAxios(req, res, SERVICES.MATCHES);
+}
+
+/**
+ * @returns Respuesta de la solicitud http
+ */
 const user = async (req, res) => {
     await doRequestAxios(req, res, SERVICES.USERS);
 }
@@ -57,5 +64,6 @@ module.exports = {
     user_id_match, 
     user_id_matchs, 
     user_match,
-    user_profile
+    user_profile,
+    match_filter,
 }
