@@ -1,71 +1,63 @@
 const axios  = require('axios'); 
-const {query} = require('express-validator');
-const {validateFields} = require('../../middlewares/validateFields');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
 const {SERVICES} = require('../../types/services');
-const {HTTP_SUCCESS_2XX} = require('../../helpers/httpCodes');
-
-const requestValidation = [
-    query('profileId', 'Is a required parameter.').isString(),
-    validateFields
-];
+const { handleAxiosRequestConfig } = require('../../helpers/axiosHelper')
+const { CustomError } = require("../../middlewares/errorHandlerMiddleware") 
 
 const fillProfileWithPicture = async(profile, profileServiceBaseUrl) => {
-    let picture = undefined
 
-    try {
-        const {data} = await axios({
-            method: 'GET',
-            baseURL: profileServiceBaseUrl,
-            url: `/user/profile/pictures/${profile.userid}`,
-        })
-
-        picture = data.pictures[0];
-    }
-
-    catch(e) {
-        if ( e?.response?.status != 404){
-            console.log(e)
-            throw e;
-        }
-    }
-    
-    return {
-        ...profile,
-        picture,
-    }
-} 
-
-const handler =  async (req, res) => {
-
-    const matchServiceBaseUrl = getServiceStatus(SERVICES.MATCHES).target;
-    const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
-
-    const {data: matchs} =  await axios({
-        method: 'GET',
-        baseURL: matchServiceBaseUrl,
-        url: `/user/${req.query.profileId}/matchs`,
-    })
-
-    const matchUsersId = matchs
-        .map( x => (x.userid_1 !== req.query.profileId) ? x.userid_1 : x.userid_2)
-        .filter( x => x != null);
-
-    const {data: profiles} =  await axios({
+    const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
         baseURL: profileServiceBaseUrl,
-        url: '/users/profiles'
+        url: `/user/profile/pictures/${profile.userid}`,
     })
 
-    const crushesProfiles = profiles.filter( profile => profile.userId != req.query.profileId 
-        && matchUsersId.some( userId => userId == profile.userid )) 
+    if ( status == 200 || status == 404 )
+    {   
+        return {
+            ...profile,
+            picture: status == 404 ? undefined : data.pictures[0],
+        }
+    }
 
-    const crushes = await Promise.all(crushesProfiles.map(async (profile) => await fillProfileWithPicture(profile, profileServiceBaseUrl)));
+    throw new CustomError('Failure retrieving profile images.', status);
+} 
 
-    res.status(HTTP_SUCCESS_2XX.OK).json({
-        'ok': true,
-        'data': crushes
-    });
+const handler =  async (req, res, next) => {
+
+    try {
+        const matchServiceBaseUrl = getServiceStatus(SERVICES.MATCHES).target;
+
+        const {status, data} =  await handleAxiosRequestConfig({
+            method: 'GET',
+            baseURL: matchServiceBaseUrl,
+            url: `/user/${req.query.profileId}/matchs`,
+        })
+
+        if (status != 200) {
+            return res.status(status).json(data);
+        }
+
+        crushesProfiles = Array.isArray(data) ? data : [data];
+
+        const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
+        const crushes = await Promise.all(crushesProfiles.map(async (profile) => await fillProfileWithPicture(profile, profileServiceBaseUrl)));
+
+        return res.status(axios.HttpStatusCode.Ok).json({
+            'ok': true,
+            'data': crushes
+        });
+
+    }
+
+    catch(exception) {
+        console.log(exception);
+        const error = typeof exception === 'CustomError' ? exception 
+            : new CustomError(message="Failure retrieving matchs.", statusCode=axios.HttpStatusCode.InternalServerError);
+        next(error);
+    }
 }
 
-module.exports = { requestValidation, handler }
+module.exports = { 
+    handler,
+}

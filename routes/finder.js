@@ -36,13 +36,49 @@ router.use(validateJWT);
  *         schema:
  *           type: string
  *         required: true
+ *       - in: query
+ *         name: gender
+ *         description: 
+ *         schema:
+ *           type: string
+ *         required: false
+ *       - in: query
+ *         name: age
+ *         description: 
+ *         schema:
+ *           type: int
+ *         required: false
+ *       - in: query
+ *         name: education
+ *         description: 
+ *         schema:
+ *           type: string
+ *         required: false
+ *       - in: query
+ *         name: ethniticity
+ *         description: 
+ *         schema:
+ *           type: string
+ *         required: false
+ *       - in: query
+ *         name: pageSize
+ *         description: The amount of candidates to retrieve per request.
+ *         schema:
+ *           type: int
+ *         required: false
+ *       - in: query
+ *         name: pageNumber
+ *         description: On paged requests, the number of the page being retrieved.
+ *         schema:
+ *           type: int
+ *         required: false
  *     tags: [Finder]
  *     responses:
  *       200:
  *         description: Una lista de candidatos
  */
 
-router.get('/candidates', getCandidates.requestValidation, getCandidates.handler);
+router.get('/candidates', getCandidates.handler);
 
 /**
  * @swagger
@@ -70,6 +106,6 @@ router.get('/candidates', getCandidates.requestValidation, getCandidates.handler
  *         description: Una lista de candidatos
  */
 
-router.get('/crushes', getCrushes.requestValidation, getCrushes.handler);
+router.get('/crushes', getCrushes.handler);
 
 module.exports = router;

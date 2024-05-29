@@ -5,53 +5,66 @@ const MAX_RETRY_ATTEMPTS = 3;
 const MS = 1000;
 const MUTIPLIER = 2;
 
-const sendRequestAsync = async (req, res, microservice) => {
-    const axiosConfig = parseRequest(req, microservice);
-    const {status, data} = await axios(axiosConfig);
-    res.status(status).json(data);
-}
-
-const doRequestAxios =  async (req, res, microservice, retryAttempt = 0) => { 
+const handleAxiosRequestConfig =  async (axiosConfig, retryAttempt) => { 
 
     try {
-        await sendRequestAsync(req, res, microservice);
+        return await axios(axiosConfig);
     } 
     
     catch (error) {
-        const status = error?.response?.status;
-        const data = error?.response?.data;
 
-        if ((error?.code === 'ECONNREFUSED' || status == axios.HttpStatusCode.ServiceUnavailable) && retryAttempt < MAX_RETRY_ATTEMPTS) {
+        if ((error?.code === 'ECONNREFUSED' || error?.response?.status == axios.HttpStatusCode.ServiceUnavailable) && retryAttempt < MAX_RETRY_ATTEMPTS) {
             retryAttempt++;
             console.log(`Retry attempt #${retryAttempt} because server was unavailable`);
             
             const delay = retryAttempt * MUTIPLIER * MS;
             await new Promise(r => setTimeout(r, delay));
 
-            await doRequestAxios(req, res, microservice, retryAttempt);
+            return await axios(axiosConfig);
+        }
+
+        const serviceRetunedStatus = error?.response?.status;
+
+        if ( serviceRetunedStatus !== undefined ) {
+
+            return {
+                status: serviceRetunedStatus, 
+                data: error?.response?.data,
+            };
         }
 
         try {
-            res.status(status).json(data);
-        }
-        
-        catch (_error) {
-            const url = `${req.baseUrl}${req.url}`;
-            console.log(`GATEWAY: On request to ${url}: ${errorDetail}`);
-
-            const axiosConfig = parseRequest(req, microservice);
-            const errorDetail = error?.code ?? _error;
             const status = error?.code === 'ECONNREFUSED' ? axios.HttpStatusCode.ServiceUnavailable : axios.HttpStatusCode.InternalServerError;
 
             const data = {
                 ok: false,
                 req: {...axiosConfig},
+                msg: MSG_ERROR_WITH_SERVICE_REQUEST,
+            }
+    
+            return { status, data }
+        }
+
+        catch (_error) {
+            const url = `${req.baseUrl}${req.url}`;
+            const errorDetail = error.code ? error.code : _error;
+            console.log(`GATEWAY: On request to ${url}: ${errorDetail}`);
+
+            const data = {
+                ok: false,
                 msg: `${MSG_ERROR_WITH_SERVICE_REQUEST}: ${errorDetail}`,
             }
 
-            res.status(status).json(data)
-        }          
+            return { status: axios.HttpStatusCode.InternalServerError, data }
+        }
     }
+}
+
+const doRequestAxios =  async (req, res, microservice, retryAttempt = 0) => { 
+
+     const axiosConfig = parseRequest(req, microservice);
+     const {status, data} = await handleAxiosRequestConfig(axiosConfig, res, retryAttempt = 0);
+     res.status(status).json(data);
 }
 
 /**
@@ -69,6 +82,7 @@ const doGetAxios = async (baseURL, headers, body, params, endpoint) => {
 }
 
 module.exports = {
+    handleAxiosRequestConfig,
     doRequestAxios,
     doGetAxios
 }
