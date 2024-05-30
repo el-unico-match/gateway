@@ -4,19 +4,30 @@ const {SERVICES} = require('../../types/services');
 const { handleAxiosRequestConfig } = require('../../helpers/axiosHelper')
 const { CustomError } = require("../../middlewares/errorHandlerMiddleware") 
 
-const fillProfileWithPicture = async(profile, profileServiceBaseUrl) => {
+const fillProfileWithPicture = async(profileId, profileServiceBaseUrl) => {
+
+    const {data: profileData, status: profileStatus} = await handleAxiosRequestConfig({
+        method: 'GET',
+        baseURL: profileServiceBaseUrl,
+        url: `/user/profile/${profileId}`,
+    })
 
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
         baseURL: profileServiceBaseUrl,
-        url: `/user/profile/pictures/${profile.userid}`,
+        url: `/user/profile/pictures/${profileId}`,
     })
+
+    if ( profileStatus != 200)
+    {
+        throw new CustomError('Failure retrieving profile data.', profileStatus);
+    }     
 
     if ( status == 200 || status == 404 )
     {   
         return {
-            ...profile,
-            picture: status == 404 ? undefined : data.pictures[0],
+            profileData,
+            pictures: status == 404 ? [] : data.pictures,
         }
     }
 
@@ -38,10 +49,10 @@ const handler =  async (req, res, next) => {
             return res.status(status).json(data);
         }
 
-        crushesProfiles = Array.isArray(data) ? data : [data];
+        const crushesProfilesIds = data.map( x => x.userid_1 != req.query.profileId ? x.userid_1 : x.userid_2)
 
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
-        const crushes = await Promise.all(crushesProfiles.map(async (profile) => await fillProfileWithPicture(profile, profileServiceBaseUrl)));
+        const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(profileId, profileServiceBaseUrl)));
 
         return res.status(axios.HttpStatusCode.Ok).json({
             'ok': true,
