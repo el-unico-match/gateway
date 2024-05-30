@@ -16,7 +16,7 @@ const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
     {   
         return {
             ...profile,
-            picture: status == 404 ? [] : data.pictures,
+            pictures: status == 404 ? [] : data.pictures,
         }
     }
 
@@ -48,14 +48,14 @@ const handler =  async (req, res, next) => {
             return res.json(status).json(data);
         }
 
-        const candidatesProfiles = Array.isArray(data) ? data : [data];
+        const candidatesProfiles = [data];
 
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
         const candidates = await Promise.all(candidatesProfiles.map(async (profile) => await fillProfileWithPictures(profile, profileServiceBaseUrl)));
     
         return res.status(axios.HttpStatusCode.Ok).json({
             'ok': true,
-            'data': candidates
+            'data': candidates[0]
         });
     }
 
