@@ -67,3 +67,32 @@ components:
             items:
               type: object
               $ref: '#/components/schemas/Picture'
+      ProfilePictures:
+        type: object
+        properties:
+          userid: 
+            type: string
+            description: unique user id
+          username:
+            type: string
+          email:
+            type: string
+          description:
+            type: string
+          gender:
+            type: string
+            enum: [Hombre, Mujer]
+          looking_for:
+            type: string
+            enum: [Hombre, Mujer]
+          age:
+            type: integer
+          education:
+            type: string
+          ethnicity:
+            type: string
+          pictures:
+            type: array
+            items: 
+              type: object
+              $ref: '#/components/schemas/Picture'

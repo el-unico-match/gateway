@@ -17,6 +17,7 @@ const {
     user_id_matchs, 
     user_match, 
     user_profile,
+    get_user_profile_pictures,
     match_filter,
 } = require('../controllers/user');
 
@@ -34,6 +35,11 @@ router.all('/:id/match/*', user_id_match);
  * Ruta consulta matchs del servicio match
  */
 router.all('/match*', user_match);
+
+/**
+ * Retorna el perfil con las url de las imágenes
+ */
+router.get('/profile/:id', get_user_profile_pictures);
 
 /**
  * Ruta consulta profiles del servicio profile

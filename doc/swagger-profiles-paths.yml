@@ -1,7 +1,7 @@
 paths:
   /api/user/profile:
     post:
-        summary: user creates profile (no func token).
+        summary: user creates profile.
         tags: [Profile]
         parameters:
             - in: header
@@ -46,7 +46,7 @@ paths:
                                     example: Please talk to the administrator
   /api/user/profile/{id}:
     get:
-        summary: user or admin get a profile (no func token).
+        summary: user or admin get a profile with pictures.
         tags: [Profile]
         parameters:
             - in: header
@@ -67,7 +67,7 @@ paths:
                     application/json:
                         schema:
                             type: object
-                            $ref: '#/components/schemas/Profile'
+                            $ref: '#/components/schemas/ProfilePictures'
             422:
                 description: return error "info about requireds fields".
                 content:
@@ -89,7 +89,7 @@ paths:
                                     type: string
                                     example: Please talk to the administrator
     put:
-        summary: user updates profile (no func token)
+        summary: user updates profile
         tags: [Profile]
         parameters:
             - in: header
@@ -138,7 +138,7 @@ paths:
                                     type: string
                                     example: Please talk to the administrator
     delete:
-        summary: user or admin deletes profile (no func token)
+        summary: user or admin deletes profile
         tags: [Profile]
         parameters:
             - in: header
@@ -181,7 +181,7 @@ paths:
                                     example: Please talk to the administrator
   /api/user/profile/pictures:
     post:
-        summary: user creates pictures (no func token)
+        summary: user creates pictures
         tags: [Picture]
         parameters:
             - in: header
@@ -226,7 +226,7 @@ paths:
                                     example: Please talk to the administrator
   /api/user/profile/pictures/{id}:
     get:
-        summary: user of admin view user pictures (no func token)
+        summary: user of admin view user pictures
         tags: [Picture]
         parameters:
             - in: header
@@ -269,7 +269,7 @@ paths:
                                     type: string
                                     example: Please talk to the administrator
     put:
-        summary: user update pictures (no func token)
+        summary: user update pictures 
         tags: [Picture]
         parameters:
             - in: header
@@ -319,7 +319,7 @@ paths:
                                     example: Please talk to the administrator
   /api/users/profiles:
     get:
-        summary: user or admin get profiles list (no func token)
+        summary: user or admin get profiles list 
         tags: [Profile]
         parameters:
             - in: header

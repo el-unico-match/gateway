@@ -5,7 +5,7 @@ const MAX_RETRY_ATTEMPTS = 3;
 const MS = 1000;
 const MUTIPLIER = 2;
 
-const handleAxiosRequestConfig =  async (axiosConfig, retryAttempt) => { 
+const handleAxiosRequestConfig = async (axiosConfig, retryAttempt) => { 
 
     try {
         return await axios(axiosConfig);
@@ -60,11 +60,24 @@ const handleAxiosRequestConfig =  async (axiosConfig, retryAttempt) => {
     }
 }
 
-const doRequestAxios =  async (req, res, microservice, retryAttempt = 0) => { 
+const sendRequestAxios = async (req, res, microservice, newUrl) => { 
+    const axiosConfig = parseRequest(req, microservice, newUrl);
+    return await handleAxiosRequestConfig(axiosConfig, res, 0);
+}
 
-     const axiosConfig = parseRequest(req, microservice);
-     const {status, data} = await handleAxiosRequestConfig(axiosConfig, res, retryAttempt = 0);
-     res.status(status).json(data);
+const doRequestAxios = async (req, res, microservice, newUrl) => { 
+    const {status, data} = await sendRequestAxios(req, res, microservice, newUrl);
+    res.status(status).json(data);
+}
+
+/**
+ * 
+ * @param {*} next : (req, res, status1, data1) => (status, data)
+ */
+const doChainRequestAxios = async (req, res, microservice, newUrl, next) => { 
+    const {status: status1, data: data1} = await sendRequestAxios(req, res, microservice, newUrl);
+    const {data, status} = await next(req, res, data1, status1);
+    res.status(status).json(data);
 }
 
 /**
@@ -84,5 +97,7 @@ const doGetAxios = async (baseURL, headers, body, params, endpoint) => {
 module.exports = {
     handleAxiosRequestConfig,
     doRequestAxios,
+    doChainRequestAxios,
+    sendRequestAxios,
     doGetAxios
 }
