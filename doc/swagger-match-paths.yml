@@ -24,7 +24,7 @@ paths:
                             type: array
                             items:
                                 type: object
-                                $ref: '#/components/schemas/Match'
+                                $ref: '#/components/schemas/MatchOut'
             422:
                 description: Validation Error.
                 content:
@@ -45,7 +45,7 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-  /api/user/{id}/matchs/filter:
+  /api/user/{id}/profiles/filter:
     get:
         summary: gets a filtered match
         tags: [Match]
@@ -66,9 +66,13 @@ paths:
               schema:
                 type: string
             - in: query
-              name: age
+              name: age_from
               schema:
-                type: string
+                type: number
+            - in: query
+              name: age_to
+              schema:
+                type: number
             - in: query
               name: education
               schema:
@@ -77,6 +81,10 @@ paths:
               name: ethnicity
               schema:
                 type: string
+            - in: query
+              name: distance
+              schema:
+                type: number
         responses:
             200:
                 description: a match for the user with the filter
@@ -84,7 +92,7 @@ paths:
                     application/json:
                         schema:
                             type: object
-                            $ref: '#/components/schemas/Profile'
+                            $ref: '#/components/schemas/MatchProfile'
             422:
                 description: Validation Error.
                 content:
@@ -127,13 +135,7 @@ paths:
                 application/json:
                     schema:
                         type: object
-                        properties:
-                            userid_1: 
-                                type: string
-                            userid_2:
-                                type: string
-                            qualification_2:
-                                type: string
+                        $ref: '#/components/schemas/MatchIn'
         responses:
             200:
                 description: successful
@@ -171,7 +173,7 @@ paths:
                 application/json:
                     schema:
                         type: object
-                        $ref: '#/components/schemas/Profile'
+                        $ref: '#/components/schemas/MatchProfile'
         parameters:
             - in: header
               name: x-token
@@ -215,7 +217,7 @@ paths:
                 application/json:
                     schema:
                         type: object
-                        $ref: '#/components/schemas/Profile'
+                        $ref: '#/components/schemas/MatchProfile'
         parameters:
             - in: header
               name: x-token
@@ -231,6 +233,96 @@ paths:
         responses:
             200:
                 description: successful profile update 
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/user/match/notification:
+    post:
+        summary: notifies messages has ben sended
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+            - in: query
+              name: userid_sender
+              schema:
+                type: string
+            - in: query
+              name: userid_reciever
+              schema:
+                type: string
+        responses:
+            200:
+                description: successful profile creation
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/user/match/block:
+    post:
+        summary: block user
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+            - in: query
+              name: userid_bloquer
+              schema:
+                type: string
+            - in: query
+              name: userid_blocked
+              schema:
+                type: string
+        responses:
+            200:
+                description: successful profile creation
                 content:
                     application/json:
                         schema:

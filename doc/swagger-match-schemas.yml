@@ -1,22 +1,89 @@
 components:
     schemas:
-        Match:
+        MatchIn:
             type: object
             properties:
-                matchid: 
+                userid_qualificator: 
                   type: string
-                userid_1: 
+                userid_qualificated: 
                   type: string
-                qualification_1: 
-                  type: string
-                userid_2:
-                  type: string
-                qualification_2:
+                qualification: 
                   type: string
             required:
-                - matchid
-                - userid_1
-                - qualification_1
-                - userid_2
-                - qualification_2
-
+                - userid_qualificator
+                - userid_qualificated
+                - qualification
+        MatchOut:
+            type: object
+            properties:
+                myself:
+                  type: object
+                matched: 
+                  type: object
+            required:
+                - myself
+                - matched
+        MatchProfile:
+            type: object
+            properties:
+              userid: 
+                type: string
+              username:
+                type: string
+              gender:
+                type: string
+                enum: [Hombre, Mujer]
+              looking_for:
+                type: string
+                enum: [Hombre, Mujer]
+              age:
+                type: integer
+              education:
+                type: string
+              ethnicity:
+                type: string
+              is_match_plus:
+                type: boolean
+              latitud:
+                type: number
+              longitud:
+                type: number
+              like_counter: 
+                type: integer
+              superlike_counter: 
+                type: integer
+            required:
+              - userid 
+              - username
+              - gender
+              - looking_for
+              - age
+              - education
+              - ethnicity
+              - is_match_plus
+              - latitud
+              - longitud
+              - like_counter
+              - superlike_counter
+            example:
+              userid: '66304a6b2891cdcfebdbdc6c'
+              username: Carlos Carlin
+              gender: Hombre
+              looking_for: Mujer
+              age: 33
+              education: Ingeniero Civil
+              ethnicity: europeo
+              is_match_plus: false
+              latitud: 3.14510
+              longitud: 3.1459256
+              like_counter: 0
+              superlike_counter: 0
+        UserOutModel:
+            userid: 
+              type: string
+            username: 
+              type: string
+            qualification:
+              type: string
+        
+            

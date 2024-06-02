@@ -34,7 +34,7 @@ router.all('/:id/match/*', user_id_match);
 /**
  * Ruta consulta matchs del servicio match
  */
-router.all('/match*', user_match);
+router.all('/match/*', user_match);
 
 /**
  * Retorna el perfil con las url de las imágenes
