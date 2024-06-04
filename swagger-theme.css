@@ -1,3 +1,13 @@
+#servers {
+    font-weight: 400 !important;
+    font-size: 24px;
+    background: none;
+    box-shadow: none;
+    padding: 0.75rem 2rem;
+    color: wheat;
+    background: #7d8293 !important;
+}
+
 .topbar {
     background-color: transparent !important;
 }
@@ -78,11 +88,29 @@
     margin: 0 0 1rem 0 !important;
 }
 
-.opblock {
+.opblock:not(.is-open) {
     border: solid 1px #0C0C0C !important;
+    background-color: #7d8293 !important;
 }
 
-.opblock-tag-section {
+.opblock.is-open {
+    border: solid 1px #0C0C0C !important;
+    background-color: antiquewhite !important;
+}
+
+.opblock.is-open .opblock-summary-method {
+    color: #c91a25 !important;
+}
+
+.opblock.is-open .opblock-summary-path{
+    color: #c91a25 !important;
+}
+
+.opblock.is-open .opblock-summary-description {
+    color: darkgray !important;
+}
+
+.opblock-tag-section.is-open {
     border: solid 2px grey;
     border-radius: 0.5rem;
     padding: 1rem 2rem;
@@ -95,7 +123,36 @@
     margin: 0 0 1rem 0 !important;
     border-bottom: none !important;
     padding: 1rem 0rem !important;
+    align-items: baseline !important;
 }
+
+
+.opblock-tag-section:not(.is-open) {
+    border-radius: 0.5rem;
+    padding: 1rem 2rem;
+    margin: 2rem 0rem;
+    background: #7d8293 !important;
+    color: white !important;
+}
+
+.opblock-tag-section:not(.is-open) > .opblock-tag {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: wheat !important;
+}
+
+.opblock-tag-section:not(.is-open) .renderedMarkdown {
+    margin: 0 !important;
+    color: lightgray !important;
+}
+
+.opblock-tag-section:not(.is-open) .renderedMarkdown p {
+    margin: 0 !important;
+    padding: 0 !important
+}
+
+
+
 
 .active span:after {
     background: none !important;
@@ -117,7 +174,6 @@
 }
 
 .opblock-summary {
-    background: #7d8293 !important;
     border: 0px !important;
 }
 
@@ -242,4 +298,14 @@ tr:hover .parameter__in {
 
 .microlight {
     background: #4990e2 !important;
+}
+
+.swagger-ui .errors-wrapper {
+    animation: scaleUp .5s;
+    color: white !important;
+    background: rgba(249, 62, 62, .80) !important;
+    border: 2px solid #f93e3e;
+    border-radius: o !important;
+    margin: 0 !important;
+    padding: 15px 20px;
 }
