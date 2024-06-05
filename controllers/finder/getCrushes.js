@@ -49,7 +49,7 @@ const handler =  async (req, res, next) => {
             return res.status(status).json(data);
         }
 
-        const crushesProfilesIds = data.map( x => x.userid_1 != req.query.profileId ? x.userid_1 : x.userid_2)
+        const crushesProfilesIds = data.map( x => x.matched.userid != req.query.profileId ? x.matched.userid : x.myself.userid)
 
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
         const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(profileId, profileServiceBaseUrl)));

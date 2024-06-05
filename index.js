@@ -55,7 +55,7 @@ const options = {
     customCss: customCss,
 };
 
-app.use(["/api-doc","/api-specs"], swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec),options))
+app.use(["/api-doc","/api-docs"], swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec),options))
 
 // Rutas Servicios Provisoria
 app.use('/status', require('./routes/status'));
