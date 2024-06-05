@@ -7,7 +7,6 @@ const {Router} = require('express');
 const {validateJWT} = require('../middlewares/validateJWT');
 
 const router = Router();
-router.use(validateJWT);
 
 const {
     current, 
@@ -24,27 +23,27 @@ const {
 /**
  * Ruta consulta matchs del servicio match
  */
-router.all('/:id/matchs*', user_id_matchs);
+router.all('/:id/matchs*', validateJWT, user_id_matchs);
 
 /**
  * Ruta consulta matchs del servicio match
  */
-router.all('/:id/match/*', user_id_match);
+router.all('/:id/match/*', validateJWT, user_id_match);
 
 /**
  * Ruta consulta matchs del servicio match
  */
-router.all('/match/*', user_match);
+router.all('/match/*', validateJWT, user_match);
 
 /**
  * Retorna el perfil con las url de las imágenes
  */
-router.get('/profile/:id', get_user_profile_pictures);
+router.get('/profile/:id', validateJWT, get_user_profile_pictures);
 
 /**
  * Ruta consulta profiles del servicio profile
  */
-router.all('/profile*', user_profile);
+router.all('/profile*', validateJWT, user_profile);
 
 /**
  * Ruta current del servicio usuarios
@@ -54,7 +53,7 @@ router.all('/current', current);
 /**
  * Ruta filtro de perfiles
  */
-router.all('/:id/profiles/filter', match_filter);
+router.all('/:id/profiles/filter', validateJWT, match_filter);
 
 /**
  * Ruta consulta usuarios
