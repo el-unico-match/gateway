@@ -35,7 +35,7 @@ const handler =  async (req, res, next) => {
             params: req.query,
         });
 
-        if ( status == 404 && data?.detail === 'No se han encontrado personas para esta consulta') {
+        if ( status == 404 ) {
             return res
                 .status(axios.HttpStatusCode.Ok)
                 .json({
