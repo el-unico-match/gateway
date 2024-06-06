@@ -35,7 +35,7 @@ const handler =  async (req, res, next) => {
             params: req.query,
         });
 
-        if ( status == 404 ) {
+        if ( status == 204 ) {
             return res
                 .status(axios.HttpStatusCode.Ok)
                 .json({
