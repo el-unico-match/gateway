@@ -13,15 +13,15 @@ const handleAxiosRequestConfig = async (axiosConfig, retryAttempt) => {
     
     catch (error) {
 
-        if ((error?.code === 'ECONNREFUSED' || error?.response?.status == axios.HttpStatusCode.ServiceUnavailable) && retryAttempt < MAX_RETRY_ATTEMPTS) {
-            retryAttempt++;
-            console.log(`Retry attempt #${retryAttempt} because server was unavailable`);
+        // if ((error?.code === 'ECONNREFUSED' || error?.response?.status == axios.HttpStatusCode.ServiceUnavailable) && retryAttempt < MAX_RETRY_ATTEMPTS) {
+        //     retryAttempt++;
+        //     console.log(`Retry attempt #${retryAttempt} because server was unavailable`);
             
-            const delay = retryAttempt * MUTIPLIER * MS;
-            await new Promise(r => setTimeout(r, delay));
+        //     const delay = retryAttempt * MUTIPLIER * MS;
+        //     await new Promise(r => setTimeout(r, delay));
 
-            return await axios(axiosConfig);
-        }
+        //     return await axios(axiosConfig);
+        // }
 
         const serviceRetunedStatus = error?.response?.status;
 
