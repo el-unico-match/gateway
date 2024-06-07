@@ -1,5 +1,5 @@
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
-const TIMEOUT = 15000;
+const TIMEOUT = 120000;
 
 /**
  * 
