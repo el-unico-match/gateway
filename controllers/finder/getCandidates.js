@@ -31,8 +31,8 @@ const handler =  async (req, res, next) => {
         const {data, status} =  await handleAxiosRequestConfig({
             method: 'GET',
             baseURL: matchServiceBaseUrl,
-            url: `/user/${req.query.profileId}/profiles/filter`,
-            params: req.query,
+            url: `/user/${req.query.profileId}/match/nextcandidate`,
+            //params: req.query,
         });
 
         if ( status == 204 ) {
