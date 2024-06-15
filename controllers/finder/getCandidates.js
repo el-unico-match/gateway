@@ -89,9 +89,11 @@ const handler = async (req, res, next) => {
             }
         };
     
+    var candidate = data_candidate[0];
+    
     const {data: data_pictures, status: status_pictures} = await handleAxiosRequestConfig({
         method: 'GET', baseURL: profileBaseUrl,
-        url: `/user/profile/pictures/${req.query.profileId}`,
+        url: `/user/profile/pictures/${candidate.userid}`,
     });
 
     if (status_pictures != HTTP_SUCCESS_2XX.OK)
@@ -106,7 +108,7 @@ const handler = async (req, res, next) => {
     return {
         status: status_pictures,
         data: {
-            ...data_candidate,
+            ...candidate,
             pictures: data_pictures,
             steperror: "",
             errormsj: {}
