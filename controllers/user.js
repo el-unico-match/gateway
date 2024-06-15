@@ -75,7 +75,10 @@ const get_user_profile_pictures = async (req, res = response) => {
             if (status_perfil != HTTP_SUCCESS_2XX.OK)
                 return {
                     status: status_perfil,
-                    data: data_perfil
+                    data: {
+                        steperror: "get_userprofile",
+                        errormsj: data_perfil
+                    }
                 };
 
             const {status: status_pictures, data: data_pictures} = 
@@ -83,8 +86,12 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_pictures != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_perfil,
-                    data: data_perfil
+                    status: status_pictures,
+                    data: {
+                        ...data_perfil,
+                        steperror: "get_pictures",
+                        errormsj: data_pictures
+                    }
                 };
             
             const {status: status_filter, data: data_filter} = 
@@ -92,15 +99,12 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_filter != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_perfil,
+                    status: status_filter,
                     data: {
                         ...data_perfil,
                         pictures: data_pictures.pictures,
-                        filter: {
-                            call: url_filter,
-                            status: status_filter,
-                            data: data_filter
-                        }
+                        steperror: "get_getfilter",
+                        errormsj: data_filter
                     }
                 };
             
@@ -109,16 +113,13 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_match_profile != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_perfil,
+                    status: status_match_profile,
                     data: {
                         ...data_perfil,
                         pictures: data_pictures.pictures,
                         filter: data_filter,
-                        is_match_plus: {
-                            call: url_match_profile,
-                            status: status_match_profile,
-                            data: data_match_profile
-                        }
+                        steperror: "get_matchprofile",
+                        errormsj: data_match_profile
                     }
                 };
 
@@ -128,7 +129,9 @@ const get_user_profile_pictures = async (req, res = response) => {
                     ...data_perfil,
                     pictures: data_pictures.pictures,
                     filter: data_filter,
-                    is_match_plus: data_match_profile.is_match_plus
+                    is_match_plus: data_match_profile.is_match_plus,
+                    steperror: "",
+                    errormsj: {}
                 }
             };
         }, 
