@@ -86,15 +86,36 @@ const get_user_profile_pictures = async (req, res = response) => {
                     status: status_pictures,
                     data: data_pictures
                 };
+            
+            const {status: status_filter, data: data_filter} = 
+                await sendRequestAxios(req, res, SERVICES.PROFILES, url_filter);
+            
+            if (status_filter != HTTP_SUCCESS_2XX.OK)
+                return {
+                    status: status_filter,
+                    data: data_filter
+                };
+            
+            const {status: status_match_profile, data: data_match_profile} = 
+                await sendRequestAxios(req, res, SERVICES.PROFILES, url_match_profile);
+            
+            if (status_match_profile != HTTP_SUCCESS_2XX.OK)
+                return {
+                    status: status_match_profile,
+                    data: data_match_profile
+                };
+            
 
             return {
-                status: status_pictures,
+                status: status_match_profile,
                 data: {
                     ...data_perfil,
-                    pictures: data_pictures.pictures
+                    pictures: data_pictures.pictures,
+                    filter: data_filter,
+                    is_match_plus: data_match_profile.is_match_plus
                 }
-            };     
-        }
+            };
+        }, 
     );
 }
 
