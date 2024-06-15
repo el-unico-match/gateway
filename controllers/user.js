@@ -83,8 +83,8 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_pictures != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_pictures,
-                    data: data_pictures
+                    status: status_perfil,
+                    data: data_perfil
                 };
             
             const {status: status_filter, data: data_filter} = 
@@ -92,8 +92,11 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_filter != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_filter,
-                    data: data_filter
+                    status: status_perfil,
+                    data: {
+                        ...data_perfil,
+                        pictures: data_pictures.pictures
+                    }
                 };
             
             const {status: status_match_profile, data: data_match_profile} = 
@@ -101,10 +104,13 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_match_profile != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_match_profile,
-                    data: data_match_profile
+                    status: status_perfil,
+                    data: {
+                        ...data_perfil,
+                        pictures: data_pictures.pictures,
+                        filter: data_filter
+                    }
                 };
-            
 
             return {
                 status: status_match_profile,
