@@ -24,7 +24,6 @@ const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
     throw new CustomError('Failure retrieving profile images.', status);
 } 
 
-/*
 const handler =  async (req, res, next) => {
 
     try {
@@ -33,8 +32,8 @@ const handler =  async (req, res, next) => {
         const {data, status} =  await handleAxiosRequestConfig({
             method: 'GET',
             baseURL: matchServiceBaseUrl,
-            url: `/user/${req.query.profileId}/match/nextcandidate`
-            //,params: req.query,
+            url: `/user/${req.query.profileId}/profile/filter`,
+            params: req.query,
         });
 
         if ( status == 204 ) {
@@ -69,8 +68,8 @@ const handler =  async (req, res, next) => {
         next(error);
     }
 }
-*/
 
+/*
 const handler = async (req, res, next) => {
     const matchBaseUrl = getServiceStatus(SERVICES.MATCHES).target;
     const profileBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
@@ -115,5 +114,5 @@ const handler = async (req, res, next) => {
         }
     }
 }
-
+*/
 module.exports = { handler }
