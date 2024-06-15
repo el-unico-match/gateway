@@ -67,8 +67,8 @@ const user_profile = async (req, res) => {
  */
 const get_user_profile_pictures = async (req, res = response) => {
     const url_pictures = req.url.replace('/profile','/profile/pictures');
-    const url_filter = req.url.replace('/profile','')+'/match/filter';
-    const url_match_profile = req.url.replace('/profile','')+'/match/profile';
+    const url_filter = req.url.replace('/profile','/user')+'/match/filter';
+    const url_match_profile = req.url.replace('/profile','/user')+'/match/profile';
 
     await doChainRequestAxios(req, res, SERVICES.PROFILES, null, 
         async (req, res, data_perfil, status_perfil) => {
@@ -88,7 +88,7 @@ const get_user_profile_pictures = async (req, res = response) => {
                 };
             
             const {status: status_filter, data: data_filter} = 
-                await sendRequestAxios(req, res, SERVICES.PROFILES, url_filter);
+                await sendRequestAxios(req, res, SERVICES.MATCHES, url_filter);
             
             if (status_filter != HTTP_SUCCESS_2XX.OK)
                 return {
@@ -105,7 +105,7 @@ const get_user_profile_pictures = async (req, res = response) => {
                 };
             
             const {status: status_match_profile, data: data_match_profile} = 
-                await sendRequestAxios(req, res, SERVICES.PROFILES, url_match_profile);
+                await sendRequestAxios(req, res, SERVICES.MATCHES, url_match_profile);
             
             if (status_match_profile != HTTP_SUCCESS_2XX.OK)
                 return {
