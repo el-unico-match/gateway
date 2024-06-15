@@ -95,7 +95,12 @@ const get_user_profile_pictures = async (req, res = response) => {
                     status: status_perfil,
                     data: {
                         ...data_perfil,
-                        pictures: data_pictures.pictures
+                        pictures: data_pictures.pictures,
+                        filter: {
+                            call: url_filter,
+                            status: status_filter,
+                            data: data_filter
+                        }
                     }
                 };
             
@@ -108,7 +113,12 @@ const get_user_profile_pictures = async (req, res = response) => {
                     data: {
                         ...data_perfil,
                         pictures: data_pictures.pictures,
-                        filter: data_filter
+                        filter: data_filter,
+                        is_match_plus: {
+                            call: url_match_profile,
+                            status: status_match_profile,
+                            data: data_match_profile
+                        }
                     }
                 };
 
