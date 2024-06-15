@@ -67,8 +67,8 @@ const user_profile = async (req, res) => {
  */
 const get_user_profile_pictures = async (req, res = response) => {
     const url_pictures = req.url.replace('/profile','/profile/pictures');
-    const url_filter = req.url.replace('/profile','/user')+'/match/filter/';
-    const url_match_profile = req.url.replace('/profile','/user')+'/match/profile/';
+    const url_filter = req.url.replace('/profile','')+'/match/filter/';
+    const url_match_profile = req.url.replace('/profile','')+'/match/profile/';
 
     await doChainRequestAxios(req, res, SERVICES.PROFILES, null, 
         async (req, res, data_perfil, status_perfil) => {
