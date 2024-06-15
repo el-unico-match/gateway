@@ -66,35 +66,34 @@ const user_profile = async (req, res) => {
  * @returns Respuesta de la solicitud http
  */
 const get_user_profile_pictures = async (req, res = response) => {
-    const newUrl = req.url.replace('/profile','/profile/pictures');
-    await  doChainRequestAxios(req, res, SERVICES.PROFILES, null, 
-        async (req, res, data1, status1) => {
-            const {status: status2, data: data2} = await sendRequestAxios(
-                req, 
-                res, 
-                SERVICES.PROFILES, 
-                newUrl);
-            if (status1 === HTTP_SUCCESS_2XX.OK) {
-                if (status2 === HTTP_SUCCESS_2XX.OK) {
-                    return {
-                        status: status2,
-                        data: {
-                            ...data1,
-                            pictures: data2.pictures
-                        }
-                    };
-                } else {
-                    return {
-                        status: status2,
-                        data: data2
-                    };
-                };                    
-            } else {
+    const url_filter        = req.url.replace('/profile','/match/filter');
+    const url_match_profile = req.url.replace('/profile','/match/profile');
+    const url_pictures      = req.url.replace('/profile','/profile/pictures');
+
+    await doChainRequestAxios(req, res, SERVICES.PROFILES, null, 
+        async (req, res, data_perfil, status_perfil) => {
+            if (status_perfil != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status1,
-                    data: data1
+                    status: status_perfil,
+                    data: data_perfil
                 };
-            };           
+
+            const {status: status_pictures, data: data_pictures} = 
+                await sendRequestAxios(req, res, SERVICES.PROFILES, url_pictures);
+            
+            if (status_pictures != HTTP_SUCCESS_2XX.OK)
+                return {
+                    status: status_pictures,
+                    data: data_pictures
+                };
+
+            return {
+                status: status_pictures,
+                data: {
+                    ...data_perfil,
+                    pictures: data_pictures.pictures
+                }
+            };     
         }
     );
 }
