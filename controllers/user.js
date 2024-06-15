@@ -86,7 +86,7 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_pictures != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_pictures,
+                    status: status_perfil,
                     data: {
                         ...data_perfil,
                         steperror: "get_pictures",
@@ -99,7 +99,7 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_filter != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_filter,
+                    status: status_perfil,
                     data: {
                         ...data_perfil,
                         pictures: data_pictures.pictures,
@@ -113,7 +113,7 @@ const get_user_profile_pictures = async (req, res = response) => {
             
             if (status_match_profile != HTTP_SUCCESS_2XX.OK)
                 return {
-                    status: status_match_profile,
+                    status: status_perfil,
                     data: {
                         ...data_perfil,
                         pictures: data_pictures.pictures,
@@ -124,7 +124,7 @@ const get_user_profile_pictures = async (req, res = response) => {
                 };
 
             return {
-                status: status_match_profile,
+                status: status_perfil,
                 data: {
                     ...data_perfil,
                     pictures: data_pictures.pictures,
