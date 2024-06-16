@@ -94,20 +94,6 @@ const get_user_profile_pictures = async (req, res = response) => {
                     }
                 };
             
-            const {status: status_filter, data: data_filter} = 
-                await sendRequestAxios(req, res, SERVICES.MATCHES, url_filter);
-            
-            if (status_filter != HTTP_SUCCESS_2XX.OK)
-                return {
-                    status: status_perfil,
-                    data: {
-                        ...data_perfil,
-                        pictures: data_pictures.pictures,
-                        steperror: "get_getfilter",
-                        errormsj: data_filter
-                    }
-                };
-            
             const {status: status_match_profile, data: data_match_profile} = 
                 await sendRequestAxios(req, res, SERVICES.MATCHES, url_match_profile);
             
@@ -117,9 +103,23 @@ const get_user_profile_pictures = async (req, res = response) => {
                     data: {
                         ...data_perfil,
                         pictures: data_pictures.pictures,
-                        filter: data_filter,
                         steperror: "get_matchprofile",
                         errormsj: data_match_profile
+                    }
+                };
+            
+            const {status: status_filter, data: data_filter} = 
+                await sendRequestAxios(req, res, SERVICES.MATCHES, url_filter);
+            
+            if (status_filter != HTTP_SUCCESS_2XX.OK)
+                return {
+                    status: status_perfil,
+                    data: {
+                        ...data_perfil,
+                        pictures: data_pictures.pictures,
+                        is_match_plus: data_match_profile.is_match_plus,
+                        steperror: "get_getfilter",
+                        errormsj: data_filter
                     }
                 };
 
@@ -128,8 +128,8 @@ const get_user_profile_pictures = async (req, res = response) => {
                 data: {
                     ...data_perfil,
                     pictures: data_pictures.pictures,
-                    filter: data_filter,
                     is_match_plus: data_match_profile.is_match_plus,
+                    filter: data_filter,                    
                     steperror: "",
                     errormsj: {}
                 }
