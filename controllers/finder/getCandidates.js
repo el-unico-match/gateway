@@ -20,12 +20,8 @@ const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
             pictures: status == 404 ? [] : data.pictures,
         }
     }
-    
-    return {
-        ...profile,
-        //pictures: status == 404 ? [] : data.pictures,
-    }
-    //throw new CustomError('Failure retrieving profile images.', status);
+
+    throw new CustomError('Failure retrieving profile images.', status);
 } 
 
 const handler =  async (req, res, next) => {
@@ -36,7 +32,7 @@ const handler =  async (req, res, next) => {
         const {data, status} =  await handleAxiosRequestConfig({
             method: 'GET',
             baseURL: matchServiceBaseUrl,
-            url: `/user/${req.query.profileId}/profile/filter`,
+            url: `/user/${req.query.profileId}/profiles/filter`,
             params: req.query,
         });
 
