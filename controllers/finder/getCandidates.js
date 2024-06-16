@@ -20,8 +20,12 @@ const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
             pictures: status == 404 ? [] : data.pictures,
         }
     }
-
-    throw new CustomError('Failure retrieving profile images.', status);
+    
+    return {
+        ...profile,
+        //pictures: status == 404 ? [] : data.pictures,
+    }
+    //throw new CustomError('Failure retrieving profile images.', status);
 } 
 
 const handler =  async (req, res, next) => {
