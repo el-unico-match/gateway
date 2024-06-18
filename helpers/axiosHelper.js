@@ -4,6 +4,7 @@ const {MSG_ERROR_WITH_SERVICE_REQUEST} = require('../messages/services');
 const MAX_RETRY_ATTEMPTS = 3;
 const MS = 1000;
 const MUTIPLIER = 2;
+const TIMEOUT = 10000;
 
 const handleAxiosRequestConfig = async (axiosConfig, retryAttempt) => { 
 
@@ -89,7 +90,7 @@ const doGetAxios = async (baseURL, headers, body, params, endpoint) => {
         baseURL: baseURL, 
         headers: headers,
         params: params,
-        timeout: 4*TIMEOUT
+        timeout: TIMEOUT
     });
     return await instanceAxios.get(endpoint, body);
 }

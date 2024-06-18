@@ -1,8 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const {
+    initLog,
+    logInfo} = require('./helpers/log/log');
 
 // Importar y configurar variables de entorno
 require('dotenv').config();
+
+// Inicializar log
+initLog();
 
 // Paths
 const path = require("path");
@@ -33,7 +39,7 @@ const swaggerSpec = {
         `${path.join(__dirname, "./routes/*.*")}`,
         `${path.join(__dirname, "./doc/*.*")}`
     ]
-}
+};
 
 // Crear servidor express
 const app = express();
@@ -55,9 +61,11 @@ const options = {
     customCss: customCss,
 };
 
+logInfo(`Swagger initialized: ${JSON.stringify(swaggerSpec.definition)}`);
+
 app.use(["/api-doc","/api-docs"], swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec),options))
 
-// Rutas Servicios Provisoria
+// Rutas Status Servicios
 app.use('/status', require('./routes/status'));
 
 // Rutas Api
@@ -71,7 +79,7 @@ app.use('/api/match', require('./routes/match'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
-    console.log(`Api REST GATEWAY corriendo en ${process.env.HOST}:${process.env.PORT}`);
+    logInfo(`Api GATEWAY running on ${process.env.HOST}:${process.env.PORT}`);
 });
 
 // errorHandlerMiddleware

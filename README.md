@@ -11,6 +11,8 @@ MATCHES_API_DOMAIN=<url servicio matches>
 PROFILES_API_DOMAIN=<url servicio profiles>
 USERS_API_DOMAIN=<url servicio users>
 SERVICES_API_DOMAIN=<url servicio services>
+LOG_FILENAME=<log file name>
+LOG_LEVEL=<log level>
 HOST=<host>
 ```
 Por ejemplo:
@@ -21,6 +23,8 @@ MATCHES_API_DOMAIN=<url servicio matches>
 PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net
+LOG_FILENAME="log.txt"
+LOG_LEVEL=10
 HOST=<host>
 ```
 
@@ -45,6 +49,8 @@ PROFILES_API_DOMAIN=TODO
 PROFILES_API_ENDPOINTS="picture pictures profile profiles"
 USERS_API_DOMAIN=https://<your ipv4>:4000/api
 SERVICES_API_DOMAIN=http://<ip/localhost>:<port>
+LOG_FILENAME=<log file name>
+LOG_LEVEL=<log level>
 HOST=localhost
 ```
 Por ejemplo:
@@ -55,6 +61,8 @@ MATCHES_API_DOMAIN=https://match-api-uniquegroup-match-fiuba.azurewebsites.net
 PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net/
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
+LOG_FILENAME="log.txt"
+LOG_LEVEL=10
 HOST=0.0.0.0
 
 ```
