@@ -258,7 +258,7 @@ paths:
                 application/json:
                     schema:
                         type: object
-                        $ref: '#/components/schemas/User'
+                        $ref: '#/components/schemas/UserCreateData'
         responses:
             201: 
                 description: return user data and token!
@@ -632,4 +632,329 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
-
+  /api/pin:
+    post:
+        summary: init user's verification 
+        tags: [User]
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            email:
+                                type: string
+                                example: rputaro@fi.uba.ar
+        responses:
+            201: 
+                description: returns applicant credentials and token for verification. Also send the verification email!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: true
+                                user:
+                                    type: object
+                                    properties:
+                                    mail:
+                                        type: string
+                                        example: rputaro@fi.uba.ar
+                                token:
+                                    type: string
+                                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJkMGMxMzRmMjA5MTk5ZDJmMjc0YTMiLCJuYW1lIjoicmFmYWVsIiwiaWF0IjoxNzE0MjUxMjUxLCJleHAiOjE3MTQyNTg0NTF9.ky8davH_RhQrscgs4k3dnLXJPB5mrdD6RVmWtv5dqUA
+            400:
+                description: return error "Email is required"
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Email is required
+            404:
+                description: return error not found!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: The user does not exist
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/pin/{pin}:
+    post:
+        summary: check pin and verificate the user 
+        tags: [User]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: pin
+              required: true
+              schema:
+                type: string
+        responses:
+            201: 
+                description: validate the user and return's user data and token!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: true
+                                user:
+                                    type: object
+                                    $ref: '#/components/schemas/UserSharedData'
+                                token:
+                                    type: string
+                                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJkMGMxMzRmMjA5MTk5ZDJmMjc0YTMiLCJuYW1lIjoicmFmYWVsIiwiaWF0IjoxNzE0MjUxMjUxLCJleHAiOjE3MTQyNTg0NTF9.ky8davH_RhQrscgs4k3dnLXJPB5mrdD6RVmWtv5dqUA            
+            400:
+                description: return error "pin is required"
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Pin is required
+            401:
+                description: return error invalidad token!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Invalidad token
+            404:
+                description: return error not found!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: The user does not exist
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/restorer:
+    post:
+        summary: init password restore 
+        tags: [User]
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            email:
+                                type: string
+                                example: rputaro@fi.uba.ar
+        responses:
+            201: 
+                description: returns applicant credentials and token for restoration!. Also send the restore email!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: true
+                                user:
+                                    type: object
+                                    properties:
+                                    mail:
+                                        type: string
+                                        example: rputaro@fi.uba.ar
+                                token:
+                                    type: string
+                                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJkMGMxMzRmMjA5MTk5ZDJmMjc0YTMiLCJuYW1lIjoicmFmYWVsIiwiaWF0IjoxNzE0MjUxMjUxLCJleHAiOjE3MTQyNTg0NTF9.ky8davH_RhQrscgs4k3dnLXJPB5mrdD6RVmWtv5dqUA
+            400:
+                description: return error "Email is required"
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Email is required
+            404:
+                description: return error not found!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: The user does not exist
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+  /api/restorer/{pin}:
+    post:
+        summary: checks pin and restore password 
+        tags: [User]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: pin
+              required: true
+              schema:
+                type: string
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            password:
+                                type: string
+                                example: cli123te1**
+        responses:
+            200: 
+                description: validate the user and return's a regular token!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: true
+                                user:
+                                    type: object
+                                    $ref: '#/components/schemas/UserSharedData'
+                                token:
+                                    type: string
+                                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NjJkMGMxMzRmMjA5MTk5ZDJmMjc0YTMiLCJuYW1lIjoicmFmYWVsIiwiaWF0IjoxNzE0MjUxMjUxLCJleHAiOjE3MTQyNTg0NTF9.ky8davH_RhQrscgs4k3dnLXJPB5mrdD6RVmWtv5dqUA            
+            400:
+                description: return error "pin is required"
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Pin is required
+            401:
+                description: return error invalidad token!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Invalidad token
+            404:
+                description: return error not found!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: The user does not exist
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator

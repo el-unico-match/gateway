@@ -76,6 +76,8 @@ app.use('/api/user', require('./routes/user'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/finder', require('./routes/finder'));
 app.use('/api/match', require('./routes/match'));
+app.use('/api/restorer', require('./routes/restorer'));
+app.use('/api/pin', require('./routes/pin'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
