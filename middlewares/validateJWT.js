@@ -1,7 +1,7 @@
 const { CustomError } = require("../middlewares/errorHandlerMiddleware") 
 const jwt = require('jsonwebtoken');
-
-const {MSG_NO_TOKEN, MSG_INVALID_TOKEN,MSG_USER_BLOCKED} = require('../messages/auth');
+const {logWarning} = require('../helpers/log/log');
+const {MSG_INVALID_TOKEN,MSG_USER_BLOCKED} = require('../messages/auth');
 const { HttpStatusCode } = require('axios');
 
 /**
@@ -61,7 +61,7 @@ const validateToken = (req, token) =>  {
     }
 
     catch (error) {
-        console.log(error)
+        logWarning(`On validate Token: ${JSON.stringify(error)}`);
         return {isValid: false}
     }
 

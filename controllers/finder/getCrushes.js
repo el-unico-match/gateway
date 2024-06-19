@@ -3,6 +3,16 @@ const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
 const {SERVICES} = require('../../types/services');
 const { handleAxiosRequestConfig } = require('../../helpers/axiosHelper')
 const { CustomError } = require("../../middlewares/errorHandlerMiddleware") 
+const {
+    MSG_FAILURE_RETRIEVING_PROFILE_IMAGES,
+    MSG_FAILURE_RETRIEVING_PROFILE_DATA} = require('../../messages/finder');
+const {
+    HTTP_SUCCESS_2XX,
+    HTTP_CLIENT_ERROR_4XX} = require('../../helpers/httpCodes');
+const {
+    logInfo,
+    logDebug,
+    logWarning} = require('../../helpers/log/log');
 
 const fillProfileWithPicture = async(profileId, profileServiceBaseUrl) => {
 
@@ -12,26 +22,31 @@ const fillProfileWithPicture = async(profileId, profileServiceBaseUrl) => {
         url: `/user/profile/${profileId}`,
     })
 
+    logDebug(`On fill profile with picture: ${status} ${JSON.stringify(data)}`);
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
         baseURL: profileServiceBaseUrl,
         url: `/user/profile/pictures/${profileId}`,
     })
 
-    if ( profileStatus != 200)
+    if ( profileStatus != HTTP_SUCCESS_2XX.OK)
     {
-        throw new CustomError('Failure retrieving profile data.', profileStatus);
+        logInfo(`On fill profile with picture error: ${status} ${MSG_FAILURE_RETRIEVING_PROFILE_DATA}`);
+        throw new CustomError(MSG_FAILURE_RETRIEVING_PROFILE_DATA, status);
     }     
 
-    if ( status == 200 || status == 404 )
+    if ( status == HTTP_SUCCESS_2XX.OK || status == HTTP_CLIENT_ERROR_4XX.NOT_FOUND )
     {   
+        const returnData = status == HTTP_CLIENT_ERROR_4XX.NOT_FOUND ? [] : data.pictures;
+        logInfo(`On fill profile with picture return: ${status} ${JSON.stringify(data)}`);
         return {
             profileData,
-            pictures: status == 404 ? [] : data.pictures,
+            pictures: returnData,
         }
     }
 
-    throw new CustomError('Failure retrieving profile images.', status);
+    log(`On fill profile with picture error: ${status} ${MSG_FAILURE_RETRIEVING_PROFILE_IMAGES}`);
+    throw new CustomError(MSG_FAILURE_RETRIEVING_PROFILE_IMAGES, status);
 } 
 
 const handler =  async (req, res, next) => {
@@ -45,7 +60,8 @@ const handler =  async (req, res, next) => {
             url: `/user/${req.query.profileId}/matchs`,
         })
 
-        if (status != 200) {
+        if (status != HTTP_SUCCESS_2XX.OK) {
+            logInfo(`On handler (getCrushes) response: ${status} ${JSON.stringify(data)}`);
             return res.status(status).json(data);
         }
 
@@ -53,7 +69,8 @@ const handler =  async (req, res, next) => {
 
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
         const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(profileId, profileServiceBaseUrl)));
-
+        
+        logInfo(`On handler (getCrushes) response: ${axios.HttpStatusCode.Ok} ${JSON.stringify(crushes)}`);
         return res.status(axios.HttpStatusCode.Ok).json({
             'ok': true,
             'data': crushes
@@ -62,9 +79,10 @@ const handler =  async (req, res, next) => {
     }
 
     catch(exception) {
-        console.log(exception);
+        logDebug(`On handler (getCrushes): ${JSON.stringify(exception)}`);
         const error = typeof exception === 'CustomError' ? exception 
-            : new CustomError(message="Failure retrieving matchs.", statusCode=axios.HttpStatusCode.InternalServerError);
+            : new CustomError(message=MSG_FAILURE_RETRIEVING_MATCHS, statusCode=axios.HttpStatusCode.InternalServerError);
+        logWarning(`On handler error: ${JSON.stringify(error)}`);
         next(error);
     }
 }

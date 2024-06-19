@@ -3,6 +3,9 @@ const {HTTP_SUCCESS_2XX} = require('../helpers/httpCodes');
 const {SERVICES} = require('../types/services');
 const {requestServiceStatus} = require('../helpers/statusHelper');
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const {
+    logInfo,
+    logWarning} = require('../helpers/log/log');
 
 /**
  * 
@@ -10,10 +13,12 @@ const {getServiceStatus} = require('../servicesStatus/servicesStatus');
  * @returns respuesta con los servicios con su estado.
  */
 const getStatus = async (req, res = response) => {
-    return res.status(HTTP_SUCCESS_2XX.OK).json({
+    const dataToResponse = {
         ok: true,
         services: await getAllServicesCompleteStatus()
-    })
+    };
+    logInfo(`On get status response: ${JSON.stringify(dataToResponse)}`);
+    return res.status(HTTP_SUCCESS_2XX.OK).json(dataToResponse)
 }
 
 /**
@@ -63,7 +68,7 @@ const getServiceCompleteStatus = async (service) => {
             online: false,
             detail: error.message
         };
-        console.log(`On check service ${service.name} online: ${error.message} url: ${service.target}`);
+        logWarning(`On check service ${service.name} online: ${error.message} url: ${service.target}`);
     };
     return serviceStatus;    
 }

@@ -5,6 +5,7 @@ const {
     sendRequestAxios
 } = require('../helpers/axiosHelper');
 const {SERVICES} = require('../types/services');
+const {logDebug} = require('../helpers/log/log');
 
 /**
  * @returns Respuesta de la solicitud http
@@ -72,67 +73,77 @@ const get_user_profile_pictures = async (req, res = response) => {
 
     await doChainRequestAxios(req, res, SERVICES.PROFILES, null, 
         async (req, res, data_perfil, status_perfil) => {
-            if (status_perfil != HTTP_SUCCESS_2XX.OK)
+            if (status_perfil != HTTP_SUCCESS_2XX.OK) {
+                const dataToResponse = {
+                    steperror: "get_userprofile",
+                    errormsj: data_perfil
+                };
+                logDebug(`On do chain request: ${status_perfil} ${JSON.stringify(dataToResponse)}`);
                 return {
                     status: status_perfil,
-                    data: {
-                        steperror: "get_userprofile",
-                        errormsj: data_perfil
-                    }
+                    data: dataToResponse
                 };
-
+            }
             const {status: status_pictures, data: data_pictures} = 
                 await sendRequestAxios(req, res, SERVICES.PROFILES, url_pictures);
             
-            if (status_pictures != HTTP_SUCCESS_2XX.OK)
+            if (status_pictures != HTTP_SUCCESS_2XX.OK) {
+                const dataToResponse = {
+                    ...data_perfil,
+                    steperror: "get_pictures",
+                    errormsj: data_pictures
+                };
+                logDebug(`On do chain request: ${status_pictures} ${JSON.stringify(dataToResponse)}`);
                 return {
                     status: status_perfil,
-                    data: {
-                        ...data_perfil,
-                        steperror: "get_pictures",
-                        errormsj: data_pictures
-                    }
+                    data: dataToResponse
                 };
-            
+            }
             const {status: status_match_profile, data: data_match_profile} = 
                 await sendRequestAxios(req, res, SERVICES.MATCHES, url_match_profile);
             
-            if (status_match_profile != HTTP_SUCCESS_2XX.OK)
+            if (status_match_profile != HTTP_SUCCESS_2XX.OK) {
+                const dataToResponse = {
+                    ...data_perfil,
+                    pictures: data_pictures.pictures,
+                    steperror: "get_matchprofile",
+                    errormsj: data_match_profile
+                };
+                logDebug(`On do chain request: ${status_match_profile} ${JSON.stringify(dataToResponse)}`);
                 return {
                     status: status_perfil,
-                    data: {
-                        ...data_perfil,
-                        pictures: data_pictures.pictures,
-                        steperror: "get_matchprofile",
-                        errormsj: data_match_profile
-                    }
+                    data: dataToResponse
                 };
-            
+            }
             const {status: status_filter, data: data_filter} = 
                 await sendRequestAxios(req, res, SERVICES.MATCHES, url_filter);
             
-            if (status_filter != HTTP_SUCCESS_2XX.OK)
-                return {
-                    status: status_perfil,
-                    data: {
-                        ...data_perfil,
-                        pictures: data_pictures.pictures,
-                        is_match_plus: data_match_profile.is_match_plus,
-                        steperror: "get_getfilter",
-                        errormsj: data_filter
-                    }
-                };
-
-            return {
-                status: status_perfil,
-                data: {
+            if (status_filter != HTTP_SUCCESS_2XX.OK) {
+                const dataToResponse = {
                     ...data_perfil,
                     pictures: data_pictures.pictures,
                     is_match_plus: data_match_profile.is_match_plus,
-                    filter: data_filter,                    
-                    steperror: "",
-                    errormsj: {}
-                }
+                    steperror: "get_getfilter",
+                    errormsj: data_filter
+                };
+                logDebug(`On do chain request: ${status_filter} ${JSON.stringify(dataToResponse)}`);
+                return {
+                    status: status_perfil,
+                    data: dataToResponse
+                };
+            }
+            const dataToResponse = {
+                ...data_perfil,
+                pictures: data_pictures.pictures,
+                is_match_plus: data_match_profile.is_match_plus,
+                filter: data_filter,                    
+                steperror: "",
+                errormsj: {}
+            };
+            logDebug(`On do chain request: ${status_perfil} ${JSON.stringify(dataToResponse)}`);
+            return {
+                status: status_perfil,
+                data: dataToResponse
             };
         }, 
     );
