@@ -61,7 +61,7 @@ const handler =  async (req, res, next) => {
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
         const candidates = await Promise.all(candidatesProfiles.map(async (profile) => await fillProfileWithPictures(profile, profileServiceBaseUrl)));
         
-        logInfo(`On handler (get candidates) response: ${status} ${JSON.stringify(candidates[0])}`);
+        //logInfo(`On handler (get candidates) response: ${status} ${JSON.stringify(candidates[0])}`);
         return res.status(axios.HttpStatusCode.Ok).json({
             'ok': true,
             'data': candidates[0]

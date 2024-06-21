@@ -22,7 +22,7 @@ const fillProfileWithPicture = async(profileId, profileServiceBaseUrl) => {
         url: `/user/profile/${profileId}`,
     })
 
-    logDebug(`On fill profile with picture: ${status} ${JSON.stringify(data)}`);
+    //logDebug(`On fill profile with picture: ${status} ${JSON.stringify(data)}`);
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
         baseURL: profileServiceBaseUrl,
