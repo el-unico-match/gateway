@@ -10,14 +10,14 @@ const {
     HTTP_CLIENT_ERROR_4XX} = require('../../helpers/httpCodes');
 
 const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
-    logDebug(`On fill profile with pictures, profile: ${JSON.stringify(profile)}`);
-    logDebug(`On fill profile with pictures, profile service base url: ${JSON.stringify(profileServiceBaseUrl)}`);
+    //logDebug(`On fill profile with pictures, profile: ${JSON.stringify(profile)}`);
+    //logDebug(`On fill profile with pictures, profile service base url: ${JSON.stringify(profileServiceBaseUrl)}`);
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
         baseURL: profileServiceBaseUrl,
         url: `/user/profile/pictures/${profile.userid}`,
     })
-    logDebug(`On fill profile with pictures: ${status} ${JSON.stringify(data)}`);
+    //logDebug(`On fill profile with pictures: ${status} ${JSON.stringify(data)}`);
     if ( status == HTTP_SUCCESS_2XX.OK || status == HTTP_CLIENT_ERROR_4XX.NOT_FOUND )
     {   
         return {
