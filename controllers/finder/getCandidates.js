@@ -70,10 +70,8 @@ const handler =  async (req, res, next) => {
 
     catch(exception)
     {
-        const error = typeof exception === 'CustomError' ? exception 
-            : new CustomError(message="Failure retrieving candidates.", statusCode=axios.HttpStatusCode.InternalServerError);
-        logWarning(`On handler (get candidates) error: ${JSON.stringify(error)}`);
-        next(error);
+        logWarning(`On handler (get candidates) error: ${JSON.stringify(exception)}`);
+        next(exception);
     }
 }
 

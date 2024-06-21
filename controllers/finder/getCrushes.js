@@ -80,10 +80,7 @@ const handler =  async (req, res, next) => {
 
     catch(exception) {
         logDebug(`On handler (getCrushes): ${JSON.stringify(exception)}`);
-        const error = typeof exception === 'CustomError' ? exception 
-            : new CustomError(message=MSG_FAILURE_RETRIEVING_MATCHS, statusCode=axios.HttpStatusCode.InternalServerError);
-        logWarning(`On handler error: ${JSON.stringify(error)}`);
-        next(error);
+        next(exception);
     }
 }
 
