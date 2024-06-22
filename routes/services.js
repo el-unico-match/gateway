@@ -13,6 +13,6 @@ router.use(validateJWT);
 /**
  * Ruta única para el servicio Services
  */
-router.get('/', services);
+router.all('/', services);
 
 module.exports = router;
