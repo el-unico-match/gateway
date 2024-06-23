@@ -108,4 +108,34 @@ router.get('/candidates', getCandidates.handler);
 
 router.get('/crushes', getCrushes.handler);
 
+
+/**
+ * @swagger
+ * /api/finder/likes/:
+ *   get:
+ *     summary: Lista de Like
+ *     description: Devuelve la lista de Like      
+ *     parameters:
+ *       - in: header
+ *         name: x-token
+ *         description: The user active JWT token
+ *         schema:
+ *          type: string
+ *          format: JWT
+ *         required: true
+ *       - in: query
+ *         name: profileId
+ *         description: The user profile identifier
+ *         schema:
+ *           type: string
+ *         required: true
+ *     tags: [Finder]
+ *     responses:
+ *       200:
+ *         description: Una lista de candidatos
+ */
+
+router.get('/likes', getLike.handler);
+
+
 module.exports = router;
