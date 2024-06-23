@@ -5,7 +5,6 @@
 const {Router} = require('express');
 const getCandidates = require('../controllers/finder/getCandidates');
 const getCrushes = require('../controllers/finder/getCrushes');
-const getLikes = require('../controllers/finder/getLikes');
 const {validateJWT} = require('../middlewares/validateJWT');
 
 /**
@@ -136,7 +135,7 @@ router.get('/crushes', getCrushes.handler);
  *         description: Una lista de candidatos
  */
 
-router.get('/likes', getLikes.handler);
+router.get('/likes', getLike.handler);
 
 
 module.exports = router;
