@@ -5,6 +5,7 @@
 const {Router} = require('express');
 const getCandidates = require('../controllers/finder/getCandidates');
 const getCrushes = require('../controllers/finder/getCrushes');
+const getLikes = require('../controllers/finder/getLikes');
 const {validateJWT} = require('../middlewares/validateJWT');
 
 /**
@@ -107,5 +108,35 @@ router.get('/candidates', getCandidates.handler);
  */
 
 router.get('/crushes', getCrushes.handler);
+
+
+/**
+ * @swagger
+ * /api/finder/potencial/:
+ *   get:
+ *     summary: Lista de Like
+ *     description: Devuelve la lista de Like      
+ *     parameters:
+ *       - in: header
+ *         name: x-token
+ *         description: The user active JWT token
+ *         schema:
+ *          type: string
+ *          format: JWT
+ *         required: true
+ *       - in: query
+ *         name: profileId
+ *         description: The user profile identifier
+ *         schema:
+ *           type: string
+ *         required: true
+ *     tags: [Finder]
+ *     responses:
+ *       200:
+ *         description: Una lista de candidatos
+ */
+
+router.get('/potencial', getLikes.handler);
+
 
 module.exports = router;
