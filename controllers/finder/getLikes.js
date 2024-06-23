@@ -57,11 +57,11 @@ const handler =  async (req, res, next) => {
         const {status, data} =  await handleAxiosRequestConfig({
             method: 'GET',
             baseURL: matchServiceBaseUrl,
-            url: `/user/${req.query.profileId}/matchs`,
+            url: `/user/${req.query.profileId}/likes`,
         })
 
         if (status != HTTP_SUCCESS_2XX.OK) {
-            logInfo(`On handler (getCrushes) response: ${status} ${JSON.stringify(data)}`);
+            logInfo(`On handler (likes) response: ${status} ${JSON.stringify(data)}`);
             return res.status(status).json(data);
         }
 
@@ -70,7 +70,7 @@ const handler =  async (req, res, next) => {
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
         const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(profileId, profileServiceBaseUrl)));
         
-        logInfo(`On handler (getCrushes) response: ${axios.HttpStatusCode.Ok} ${JSON.stringify(crushes)}`);
+        logInfo(`On handler (likes) response: ${axios.HttpStatusCode.Ok} ${JSON.stringify(crushes)}`);
         return res.status(axios.HttpStatusCode.Ok).json({
             'ok': true,
             'data': crushes
@@ -79,7 +79,7 @@ const handler =  async (req, res, next) => {
     }
 
     catch(exception) {
-        logDebug(`On handler (getCrushes): ${JSON.stringify(exception)}`);
+        logDebug(`On handler (likes): ${JSON.stringify(exception)}`);
         next(exception);
     }
 }
