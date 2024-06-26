@@ -11,7 +11,7 @@ const TIMEOUT = 120000;
 const parseRequest = (req, serviceName, newUrl) => {
      
     const axiosConfig = {
-        headers: {'x-token': req.header('x-token')},
+        headers: parseHeaders(req),
         method: req.method,
         baseURL: getServiceStatus(serviceName).target + req.baseUrl.replace('/api',''),
         url: newUrl ? newUrl : req.url != '/' ? req.url : undefined,
@@ -23,6 +23,24 @@ const parseRequest = (req, serviceName, newUrl) => {
     return axiosConfig;
 }
 
+
+const parseHeaders = (req) => {
+    let x_token = req.header('x-token');
+    let x_apikey = req.header('x-apikey')
+    let response = {}
+    if (x_token) {
+        response = {'x-token': x_token};
+    }
+    if (x_apikey) {
+        response = {
+            'x-apikey': x_apikey,
+            ...retorno
+        }
+    }
+    return response;
+}
+
 module.exports = {
-    parseRequest
+    parseRequest,
+    parseHeaders
 }

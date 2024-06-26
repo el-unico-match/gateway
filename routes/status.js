@@ -12,6 +12,7 @@ const {getStatus} = require('../controllers/status');
  * /status:
  *  get:
  *      summary: info about backend services
+ *      tags: [Status]
  *      responses:
  *          200: 
  *              description: services status!

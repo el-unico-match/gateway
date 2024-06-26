@@ -79,6 +79,9 @@ app.use('/api/match', require('./routes/match'));
 app.use('/api/restorer', require('./routes/restorer'));
 app.use('/api/pin', require('./routes/pin'));
 
+// Ruta log
+app.use('/api/log', require('./routes/log'));
+
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
     logInfo(`Api GATEWAY running on ${process.env.HOST}:${process.env.PORT}`);
