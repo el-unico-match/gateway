@@ -14,7 +14,7 @@ const parseRequest = (req, serviceName, newUrl) => {
         headers: {'x-token': req.header('x-token')},
         method: req.method,
         baseURL: getServiceStatus(serviceName).target + req.baseUrl.replace('/api',''),
-        url: newUrl ? newUrl : req.url,
+        url: newUrl ? newUrl : req.url != '/' ? req.url : undefined,
         params: req.query,
         data: req.body,
         timeout: TIMEOUT,
