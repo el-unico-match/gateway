@@ -24,6 +24,10 @@ jobs:
           echo "SERVICES_API_DOMAIN=${{ vars.SERVICES_API_DOMAIN }}" >> .env
           echo "SECRET_JWT_SEED=${{ secrets.SECRET_JWT_SEED }}" >> .env
           
+          echo "APIKEY_VALUE=${{ secrets.APIKEY_VALUE }}" >> .env
+          echo "APIKEY_WHITELIST=${{ secrets.APIKEY_WHITELIST }}" >> .env
+          echo "APIKEY_ACTIVATE_ENDPOINT=${{ vars.APIKEY_ACTIVATE_ENDPOINT }}" >> .env
+
           echo "LOG_FILENAME=${{ vars.LOG_FILENAME }}" >> .env
           echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> .env
       - name: Set up Docker Buildx

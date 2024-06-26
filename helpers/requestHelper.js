@@ -1,4 +1,6 @@
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const {getSelfApikey} = require('../helpers/apikeys');
+const { head } = require('../routes/apikeys');
 const TIMEOUT = 120000;
 
 /**
@@ -10,8 +12,15 @@ const TIMEOUT = 120000;
  */
 const parseRequest = (req, serviceName, newUrl) => {
      
+    const apiKey = getSelfApikey();
+
+    headers = {'x-token': req.header('x-token')};
+    if (apiKey != '') {
+        headers['x-apikey'] = apiKey;
+    }
+
     const axiosConfig = {
-        headers: parseHeaders(req),
+        headers: headers,
         method: req.method,
         baseURL: getServiceStatus(serviceName).target + req.baseUrl.replace('/api',''),
         url: newUrl ? newUrl : req.url != '/' ? req.url : undefined,
