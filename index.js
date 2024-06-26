@@ -6,6 +6,11 @@ const {
 
 // Importar y configurar variables de entorno
 require('dotenv').config();
+const {setApikeys, setSelfApikey, setActiveApiKeyEndpoint, enableApiKey} = require('./helpers/apikeys')
+setApikeys(process.env.APIKEY_WHITELIST);
+setSelfApikey(process.env.APIKEY_VALUE);
+setActiveApiKeyEndpoint(process.env.APIKEY_ACTIVATE_ENDPOINT);
+enableApiKey();
 
 // Inicializar log
 initLog();
@@ -78,6 +83,7 @@ app.use('/api/finder', require('./routes/finder'));
 app.use('/api/match', require('./routes/match'));
 app.use('/api/restorer', require('./routes/restorer'));
 app.use('/api/pin', require('./routes/pin'));
+app.use('/whitelist', require('./routes/apikeys'));
 
 // Escuchar peticiones
 app.listen(process.env.PORT, process.env.HOST, () => {
