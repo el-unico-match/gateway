@@ -8,8 +8,12 @@ const {MSG_LOG_FILE_NOT_EXISTS} = require('../../messages/uncategorized');
 const DEFAULT_FILE = "log.txt";
 const LOG_FILENAME = process.env.LOG_FILENAME ? process.env.LOG_FILENAME : DEFAULT_FILE;
 const LOG_LEVEL = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : LOG_LEVELS.DEBUG.level;
+const BUFFER_MAX_LINES = 5000;
 
 let fileStream = null;
+
+let buffer = [];
+let linesBuffer = 0;
 
 const initLog = () => {
     try {
@@ -61,6 +65,7 @@ const writeLog = (logLevel, message) => {
         const messageToLog = `${date} [GATEWAY] ${logLevel.tag}: ${message}`;
             console.log(messageToLog);
         try {
+            writeBuffer(messageToLog);
             fileStream.write(`${messageToLog}\n`);
         } catch (error) {
             if (fileStream) {
@@ -70,6 +75,10 @@ const writeLog = (logLevel, message) => {
             }            
         }        
     }
+}
+
+const readLog = () => {
+    return buffer;
 }
 
 /**
@@ -82,10 +91,20 @@ const checkLevel = (logLevel) => {
     return logLevel.level >= LOG_LEVEL
 }
 
+const writeBuffer = (line) => {
+    if (line > BUFFER_MAX_LINES) {
+        linesBuffer = 0;
+        buffer = []
+    }
+    buffer.push(line);
+    linesBuffer++;
+}
+
 module.exports = {
     logDebug,
     logInfo,
     logError,
     logWarning,
-    initLog
+    initLog,
+    readLog
 }

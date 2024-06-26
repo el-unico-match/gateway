@@ -1,0 +1,144 @@
+paths:
+  /api/log/{service}:
+    get:
+        summary: return microservice log 
+        tags: [Log]
+        parameters:
+            - in: header
+              name: x-apikey
+              schema:
+                type: string
+                required: false
+                description: gateway apikey
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: service
+              required: true
+              schema:
+                type: string
+        responses:
+            200: 
+                description: aplication status!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: true
+                                status:
+                                    type: string
+            401:
+                description: return error invalidad token!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Invalidad token
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available! "Invalidad Apikey" or "The apikeys does not match"!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Invalidad Apikey"
+  /api/log:
+    get:
+        summary: return gateway log 
+        tags: [Log]
+        parameters:
+            - in: header
+              name: x-apikey
+              schema:
+                type: string
+                required: false
+                description: gateway apikey
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+        responses:
+            200: 
+                description: aplication status!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: true
+                                status:
+                                    type: string
+            401:
+                description: return error invalidad token!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Invalidad token
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available! "Invalidad Apikey" or "The apikeys does not match"!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Invalidad Apikey"

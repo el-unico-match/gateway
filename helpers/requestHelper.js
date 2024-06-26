@@ -32,6 +32,24 @@ const parseRequest = (req, serviceName, newUrl) => {
     return axiosConfig;
 }
 
+
+const parseHeaders = (req) => {
+    let x_token = req.header('x-token');
+    let x_apikey = req.header('x-apikey')
+    let response = {}
+    if (x_token) {
+        response = {'x-token': x_token};
+    }
+    if (x_apikey) {
+        response = {
+            'x-apikey': x_apikey,
+            ...retorno
+        }
+    }
+    return response;
+}
+
 module.exports = {
-    parseRequest
+    parseRequest,
+    parseHeaders
 }
