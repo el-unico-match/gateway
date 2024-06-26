@@ -26,6 +26,14 @@ const getApikeys = () => {
 
 /**
  * 
+ * @returns devuelve el estado del apikey
+ */
+const getApiKeyState = () => {
+    return apiKeyState;
+}
+
+/**
+ * 
  * @returns retorn la apikey de este microservicio
  */
 const getSelfApikey = () => {
@@ -88,5 +96,6 @@ module.exports = {
     setSelfApikey,
     setActiveApiKeyEndpoint,
     enableApiKey,
+    getApiKeyState
 }
 

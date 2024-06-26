@@ -3,6 +3,7 @@ const {HTTP_SUCCESS_2XX} = require('../helpers/httpCodes');
 const {SERVICES} = require('../types/services');
 const {requestServiceStatus} = require('../helpers/statusHelper');
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
+const {getApikeys, getApiKeyState} = require('../helpers/apikeys')
 const {
     logInfo,
     logWarning} = require('../helpers/log/log');
@@ -15,6 +16,8 @@ const {
 const getStatus = async (req, res = response) => {
     const dataToResponse = {
         ok: true,
+        apiKey: getApiKeyState(),
+        whitelistApiKeys: getApikeys()?.length,
         services: await getAllServicesCompleteStatus()
     };
     logInfo(`On get status response: ${JSON.stringify(dataToResponse)}`);
