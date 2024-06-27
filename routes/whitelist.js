@@ -5,7 +5,7 @@
 
 const {Router} = require('express');
 const router = Router();
-const {whitelist} = require('../controllers/apikeys');
+const {whitelist} = require('../controllers/whitelist');
 
 /**
  * Única ruta para todos los request de pin

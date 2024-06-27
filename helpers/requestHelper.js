@@ -1,6 +1,6 @@
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
 const {getSelfApikey} = require('../helpers/apikeys');
-const { head } = require('../routes/apikeys');
+const { head } = require('../routes/whitelist');
 const TIMEOUT = 120000;
 
 /**
