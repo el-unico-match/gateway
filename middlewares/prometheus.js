@@ -17,7 +17,7 @@ const routeRequestCounter = new promClient.Counter({
 const initializePrometheus = function(app) {
     app.use((req, res, next) => {
         // Increment the counter with method and route labels
-        routeRequestCounter.inc({ method: req.method, route: req.route ? req.route.path : req.path, answer:res.statusCode });
+        routeRequestCounter.inc({ method: req.method, route: req.route ? req.route.path : req.path, code:res.statusCode });
         next();
     });
 
