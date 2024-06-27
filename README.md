@@ -1,4 +1,8 @@
-# gateway
+# Gateway
+
+<center><image src="https://adictosaltrabajo.com/wp-content/uploads/2020/05/client-mssc-with-gateway-1.png" alt="Client or Admin"></center>
+
+
 
 # Ejecución sobre servicios remotos:
 
