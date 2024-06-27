@@ -44,6 +44,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/profile/{id}:
     get:
         summary: user or admin get a profile with pictures.
@@ -88,6 +101,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
     put:
         summary: user updates profile
         tags: [Profile]
@@ -137,6 +163,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
     delete:
         summary: user or admin deletes profile
         tags: [Profile]
@@ -179,6 +218,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/profile/pictures:
     post:
         summary: user creates pictures
@@ -224,6 +276,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/profile/pictures/{id}:
     get:
         summary: user of admin view user pictures
@@ -268,6 +333,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
     put:
         summary: user update pictures 
         tags: [Picture]
@@ -317,6 +395,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/users/profiles:
     get:
         summary: user or admin get profiles list 
@@ -348,3 +439,16 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"

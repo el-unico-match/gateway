@@ -45,6 +45,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/{id}/profiles/filter:
     get:
         summary: gets a filtered match
@@ -113,6 +126,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/{id}/match/preference:
     post:
         summary: add new match
@@ -163,6 +189,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/match/profile:
     post:
         summary: creates a new profile
@@ -207,6 +246,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/{id}/match/profile:
     put:
         summary: updates a profile
@@ -257,6 +309,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/match/notification:
     post:
         summary: notifies messages has ben sended
@@ -302,6 +367,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/match/block:
     post:
         summary: block user
@@ -347,6 +425,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
 /api/match/swipes/:
     get:
       summary: Lista de swipes dados
@@ -366,7 +457,7 @@ paths:
             type: string
           required: false
         - in: query
-          name: swiper_name 
+          name: swiper_names 
           description: The name or part of the name of one of either the qualificated or qualificator.
           schema:
             type: string
@@ -384,8 +475,17 @@ paths:
             type: bool
           required: false
         - in: query
+          name: pending
+          schema:
+            type: bool
+          required: false
+        - in: query
           name: likes
-          description: True if retrieved swiped should not be matchs and only not matched ones 
+          schema:
+            type: bool
+          required: false
+        - in: query
+          name: dislikes
           schema:
             type: bool
           required: false
@@ -397,5 +497,18 @@ paths:
           required: false
       tags: [Match]
       responses:
-        200:
-          description: Devuele un array vacío si no encuentra resultados o con los swipes que satisfacen las condiciones.
+            200:
+                description: Devuele un array vacío si no encuentra resultados o con los swipes que satisfacen las condiciones.
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"

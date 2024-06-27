@@ -77,6 +77,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/login:
     post:
         summary: login user 
@@ -315,6 +328,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/user/{id}:
     put:
         summary: updates user
@@ -407,6 +433,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
     get:
         summary: get user data
         tags: [User]
@@ -488,6 +527,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
     delete:
         summary: delete user
         tags: [User]
@@ -566,6 +618,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/users:
     get:
         summary: get all the users
@@ -632,6 +697,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/pin:
     post:
         summary: init user's verification 
@@ -705,6 +783,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/pin/{pin}:
     post:
         summary: check pin and verificate the user 
@@ -790,6 +881,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/restorer:
     post:
         summary: init password restore 
@@ -863,6 +967,19 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
   /api/restorer/{pin}:
     post:
         summary: checks pin and restore password 
@@ -958,3 +1075,16 @@ paths:
                                 msg:
                                     type: string
                                     example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
