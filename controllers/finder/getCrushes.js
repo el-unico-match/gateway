@@ -1,6 +1,7 @@
 const axios  = require('axios'); 
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
 const {SERVICES} = require('../../types/services');
+const {parseHeaders} = require('../../helpers/requestHelper')
 const { handleAxiosRequestConfig, checkIfGatewayApiKeyIsActive } = require('../../helpers/axiosHelper')
 const { CustomError } = require("../../middlewares/errorHandlerMiddleware")
 const {
@@ -14,10 +15,11 @@ const {
     logDebug,
     logWarning} = require('../../helpers/log/log');
 
-const fillProfileWithPicture = async(profileId, profileServiceBaseUrl) => {
+const fillProfileWithPicture = async(headers, profileId, profileServiceBaseUrl) => {
 
     const {data: profileData, status: profileStatus} = await handleAxiosRequestConfig({
         method: 'GET',
+        headers: headers,
         baseURL: profileServiceBaseUrl,
         url: `/user/profile/${profileId}`,
     })
@@ -25,6 +27,7 @@ const fillProfileWithPicture = async(profileId, profileServiceBaseUrl) => {
     //logDebug(`On fill profile with picture: ${status} ${JSON.stringify(data)}`);
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
+        headers: headers,
         baseURL: profileServiceBaseUrl,
         url: `/user/profile/pictures/${profileId}`,
     })
@@ -54,8 +57,11 @@ const handler =  async (req, res, next) => {
     try {
         const matchServiceBaseUrl = getServiceStatus(SERVICES.MATCHES).target;
 
+        const headers = parseHeaders(req);
+
         const {status, data} =  await handleAxiosRequestConfig({
             method: 'GET',
+            headers: headers,
             baseURL: matchServiceBaseUrl,
             url: `/user/${req.query.profileId}/matchs`,
         })
@@ -68,7 +74,7 @@ const handler =  async (req, res, next) => {
         const crushesProfilesIds = data.map( x => x.matched.userid != req.query.profileId ? x.matched.userid : x.myself.userid)
 
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
-        const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(profileId, profileServiceBaseUrl)));
+        const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(headers, profileId, profileServiceBaseUrl)));
         
         logInfo(`On handler (getCrushes) response: ${axios.HttpStatusCode.Ok} ${JSON.stringify(crushes)}`);
         return checkIfGatewayApiKeyIsActive(res, axios.HttpStatusCode.Ok, {

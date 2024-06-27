@@ -1,5 +1,6 @@
 const axios  = require('axios');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
+const {parseHeaders} = require('../../helpers/requestHelper')
 const { handleAxiosRequestConfig, checkIfGatewayApiKeyIsActive} = require('../../helpers/axiosHelper')
 const {SERVICES} = require('../../types/services');
 const {MSG_FAILURE_RETRIEVING_PROFILE_IMAGES} = require('../../messages/finder');
@@ -9,11 +10,12 @@ const {
     HTTP_SUCCESS_2XX,
     HTTP_CLIENT_ERROR_4XX} = require('../../helpers/httpCodes');
 
-const fillProfileWithPictures = async(profile, profileServiceBaseUrl) => {
+const fillProfileWithPictures = async(headers, profile, profileServiceBaseUrl) => {
     //logDebug(`On fill profile with pictures, profile: ${JSON.stringify(profile)}`);
     //logDebug(`On fill profile with pictures, profile service base url: ${JSON.stringify(profileServiceBaseUrl)}`);
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
+        headers: headers,
         baseURL: profileServiceBaseUrl,
         url: `/user/profile/pictures/${profile.userid}`,
     })
@@ -34,8 +36,11 @@ const handler =  async (req, res, next) => {
     try {
         const matchServiceBaseUrl = getServiceStatus(SERVICES.MATCHES).target;
         
+        const headers = parseHeaders(req);
+
         const {data, status} =  await handleAxiosRequestConfig({
             method: 'GET',
+            headers: headers,
             baseURL: matchServiceBaseUrl,
             url: `/user/${req.query.profileId}/profiles/filter`,
             params: req.query,
@@ -59,7 +64,7 @@ const handler =  async (req, res, next) => {
         const candidatesProfiles = [data];
 
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
-        const candidates = await Promise.all(candidatesProfiles.map(async (profile) => await fillProfileWithPictures(profile, profileServiceBaseUrl)));
+        const candidates = await Promise.all(candidatesProfiles.map(async (profile) => await fillProfileWithPictures(headers, profile, profileServiceBaseUrl)));
         
         //logInfo(`On handler (get candidates) response: ${status} ${JSON.stringify(candidates[0])}`);
         return checkIfGatewayApiKeyIsActive(res,axios.HttpStatusCode.Ok,{
