@@ -10,16 +10,9 @@ const TIMEOUT = 120000;
  * @returns 
  */
 const parseRequest = (req, serviceName, newUrl) => {
-     
-    const apiKey = getSelfApikey();
-
-    headers = {'x-token': req.header('x-token')};
-    if (apiKey != '') {
-        headers['x-apikey'] = apiKey;
-    }
 
     const axiosConfig = {
-        headers: headers,
+        headers: parseHeaders(req),
         method: req.method,
         baseURL: getServiceStatus(serviceName).target + req.baseUrl.replace('/api',''),
         url: newUrl ? newUrl : req.url != '/' ? req.url : undefined,
@@ -33,16 +26,19 @@ const parseRequest = (req, serviceName, newUrl) => {
 
 
 const parseHeaders = (req) => {
+    const gatewayApiKey = getSelfApikey();
+
     let x_token = req.header('x-token');
-    let x_apikey = req.header('x-apikey')
+    let x_apikey =  req.header('x-apikey');
+    x_apikey ||= gatewayApiKey;
     let response = {}
     if (x_token) {
         response = {'x-token': x_token};
     }
     if (x_apikey) {
         response = {
+            ...response,
             'x-apikey': x_apikey,
-            ...retorno
         }
     }
     return response;
