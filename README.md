@@ -91,7 +91,7 @@ APIKEY_ACTIVATE_ENDPOINT='http://localhost:4003/api/v1/services/'
 
 IS_APIKEY_CHECKING_DISABLED=false
 ```
-**NOTA: En este ejemplo no se hará el chequeo de apikey's.**
+**NOTA: En este ejemplo se hará el chequeo de apikey's.**
 
 2) Ejecutar el siguiente comando:
 
