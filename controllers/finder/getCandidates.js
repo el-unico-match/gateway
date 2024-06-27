@@ -1,6 +1,6 @@
 const axios  = require('axios');
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
-const { handleAxiosRequestConfig} = require('../../helpers/axiosHelper')
+const { handleAxiosRequestConfig, checkIfGatewayApiKeyIsActive} = require('../../helpers/axiosHelper')
 const {SERVICES} = require('../../types/services');
 const {MSG_FAILURE_RETRIEVING_PROFILE_IMAGES} = require('../../messages/finder');
 const {CustomError} = require('../../middlewares/errorHandlerMiddleware');
@@ -62,7 +62,7 @@ const handler =  async (req, res, next) => {
         const candidates = await Promise.all(candidatesProfiles.map(async (profile) => await fillProfileWithPictures(profile, profileServiceBaseUrl)));
         
         //logInfo(`On handler (get candidates) response: ${status} ${JSON.stringify(candidates[0])}`);
-        return res.status(axios.HttpStatusCode.Ok).json({
+        return checkIfGatewayApiKeyIsActive(res,axios.HttpStatusCode.Ok,{
             'ok': true,
             'data': candidates[0]
         });

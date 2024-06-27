@@ -13,6 +13,7 @@ const {
     logInfo,
     logDebug,
     logWarning} = require('../../helpers/log/log');
+const { checkIfGatewayApiKeyIsActive } = require('../../helpers/axiosHelper')
 
 const fillProfileWithPicture = async(profileId, profileServiceBaseUrl) => {
 
@@ -62,7 +63,7 @@ const handler =  async (req, res, next) => {
 
         if (status != HTTP_SUCCESS_2XX.OK) {
             logInfo(`On handler (likes) response: ${status} ${JSON.stringify(data)}`);
-            return res.status(status).json(data);
+            return checkIfGatewayApiKeyIsActive(res, status, data);
         }
 
         const crushesProfilesIds = data.map( x => x.matched.userid != req.query.profileId ? x.matched.userid : x.myself.userid)
@@ -71,7 +72,7 @@ const handler =  async (req, res, next) => {
         const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(profileId, profileServiceBaseUrl)));
         
         logInfo(`On handler (likes) response: ${axios.HttpStatusCode.Ok} ${JSON.stringify(crushes)}`);
-        return res.status(axios.HttpStatusCode.Ok).json({
+        return checkIfGatewayApiKeyIsActive(res, axios.HttpStatusCode.Ok, {
             'ok': true,
             'data': crushes
         });

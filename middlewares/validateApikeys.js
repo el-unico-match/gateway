@@ -15,31 +15,29 @@ const {
  */
 const validateApikeys = (req, res = response, next) => {
 
-    if (isApiKeyCheckingEnabled() ) {
-        const requestApikey = req.header('x-apikey');
-        logDebug(`On validate apikey: ${requestApikey}`);
-        if (!requestApikey) {
-            const dataToResponse = {
-                ok: false,
-                msg: MSG_NO_APIKEY
-            };
-            logDebug(`On validate apikey null`);
-            logInfo(`On validate apikey response: ${HTTP_CLIENT_ERROR_4XX.BAD_REQUEST}; ${JSON.stringify(dataToResponse)}`)
-            return res.status(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST).json(dataToResponse);
-        } 
-        try {
-            doValidateApikey(requestApikey);
-        } catch (error) {
-            const dataToResponse = {
-                ok: false,
-                msg: MSG_INVALID_APIKEY
-            };
-            const statusToResponse = HTTP_SERVER_ERROR_5XX.SERVICE_NOT_AVAILABLE;
-            logDebug(`On validate request apikey error: ${error}`);
-            logInfo(`On validate request apikey response: ${statusToResponse}; ${JSON.stringify(dataToResponse)}`)
-            return res.status(statusToResponse).json(dataToResponse)
-        }; 
-    }
+    const requestApikey = req.header('x-apikey');
+    logDebug(`On validate apikey: ${requestApikey}`);
+    if (!requestApikey) {
+        const dataToResponse = {
+            ok: false,
+            msg: MSG_NO_APIKEY
+        };
+        logDebug(`On validate apikey null`);
+        logInfo(`On validate apikey response: ${HTTP_CLIENT_ERROR_4XX.BAD_REQUEST}; ${JSON.stringify(dataToResponse)}`)
+        return res.status(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST).json(dataToResponse);
+    } 
+    try {
+        doValidateApikey(requestApikey);
+    } catch (error) {
+        const dataToResponse = {
+            ok: false,
+            msg: MSG_INVALID_APIKEY
+        };
+        const statusToResponse = HTTP_SERVER_ERROR_5XX.SERVICE_NOT_AVAILABLE;
+        logDebug(`On validate request apikey error: ${error}`);
+        logInfo(`On validate request apikey response: ${statusToResponse}; ${JSON.stringify(dataToResponse)}`)
+        return res.status(statusToResponse).json(dataToResponse)
+    }; 
 
     next();
 }
@@ -65,12 +63,11 @@ const doValidateApikey = (apikeyToValidate) =>  {
 }
 
 const validateApikeysOnResponse = () => {
-    if (isApiKeyCheckingEnabled()) {
-        doValidateApikey(getSelfApikey());
-    }
+    doValidateApikey(getSelfApikey());
 }
 
 module.exports = {
+    doValidateApikey,
     validateApikeys,
     validateApikeysOnResponse
 }
