@@ -1,4 +1,5 @@
 const express = require('express');
+const { initializePrometheus } = require('./middlewares/prometheus');
 const cors = require('cors');
 const {
     initLog,
@@ -69,6 +70,8 @@ const options = {
 logInfo(`Swagger initialized: ${JSON.stringify(swaggerSpec.definition)}`);
 
 app.use(["/api-doc","/api-docs"], swaggerUI.serve, swaggerUI.setup(swaggerJsDoc(swaggerSpec),options))
+
+initializePrometheus(app);
 
 // Rutas Status Servicios
 app.use('/status', require('./routes/status'));
