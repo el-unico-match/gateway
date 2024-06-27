@@ -9,6 +9,7 @@ const DEFAULT_FILE = "log.txt";
 const LOG_FILENAME = process.env.LOG_FILENAME ? process.env.LOG_FILENAME : DEFAULT_FILE;
 const LOG_LEVEL = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : LOG_LEVELS.DEBUG.level;
 const BUFFER_MAX_LINES = 5000;
+const LINES_TO_REMOVE = BUFFER_MAX_LINES/4;
 
 let fileStream = null;
 
@@ -92,9 +93,9 @@ const checkLevel = (logLevel) => {
 }
 
 const writeBuffer = (line) => {
-    if (line > BUFFER_MAX_LINES) {
-        linesBuffer = 0;
-        buffer = []
+    if (linesBuffer > BUFFER_MAX_LINES) {
+        linesBuffer -= LINES_TO_REMOVE;
+        buffer.splice(0, LINES_TO_REMOVE);
     }
     buffer.push(line);
     linesBuffer++;
