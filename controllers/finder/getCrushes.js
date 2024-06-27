@@ -1,8 +1,8 @@
 const axios  = require('axios'); 
 const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
 const {SERVICES} = require('../../types/services');
-const { handleAxiosRequestConfig } = require('../../helpers/axiosHelper')
-const { CustomError } = require("../../middlewares/errorHandlerMiddleware") 
+const { handleAxiosRequestConfig, checkIfGatewayApiKeyIsActive } = require('../../helpers/axiosHelper')
+const { CustomError } = require("../../middlewares/errorHandlerMiddleware")
 const {
     MSG_FAILURE_RETRIEVING_PROFILE_IMAGES,
     MSG_FAILURE_RETRIEVING_PROFILE_DATA} = require('../../messages/finder');
@@ -62,7 +62,7 @@ const handler =  async (req, res, next) => {
 
         if (status != HTTP_SUCCESS_2XX.OK) {
             logInfo(`On handler (getCrushes) response: ${status} ${JSON.stringify(data)}`);
-            return res.status(status).json(data);
+            return checkIfGatewayApiKeyIsActive(res, status, data);
         }
 
         const crushesProfilesIds = data.map( x => x.matched.userid != req.query.profileId ? x.matched.userid : x.myself.userid)
@@ -71,7 +71,7 @@ const handler =  async (req, res, next) => {
         const crushes = await Promise.all(crushesProfilesIds.map(async (profileId) => await fillProfileWithPicture(profileId, profileServiceBaseUrl)));
         
         logInfo(`On handler (getCrushes) response: ${axios.HttpStatusCode.Ok} ${JSON.stringify(crushes)}`);
-        return res.status(axios.HttpStatusCode.Ok).json({
+        return checkIfGatewayApiKeyIsActive(res, axios.HttpStatusCode.Ok, {
             'ok': true,
             'data': crushes
         });

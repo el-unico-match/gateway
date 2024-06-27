@@ -33,7 +33,7 @@ HOST=<host>
 ```
 docker compose -f docker-compose.yml up --build
 ```
-3) Acceder a documentación en el servidor de desarrollo: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api-doc
+3) Acceder a documentación en el servidor de desarrollo: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api-docs
 
 4) Endpoint GET para testear rápidamente desde un browser si la app funciona correctamente: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/services
 

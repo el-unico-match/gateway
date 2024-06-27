@@ -7,7 +7,7 @@ const {
 // Importar y configurar variables de entorno
 require('dotenv').config();
 const {setApikeys, setSelfApikey, setActiveApiKeyEndpoint, enableApiKey} = require('./helpers/apikeys')
-setApikeys(process.env.APIKEY_WHITELIST);
+setApikeys(process.env.APIKEY_WHITELIST.split(' '));
 setSelfApikey(process.env.APIKEY_VALUE);
 setActiveApiKeyEndpoint(process.env.APIKEY_ACTIVATE_ENDPOINT);
 enableApiKey();
@@ -83,7 +83,7 @@ app.use('/api/finder', require('./routes/finder'));
 app.use('/api/match', require('./routes/match'));
 app.use('/api/restorer', require('./routes/restorer'));
 app.use('/api/pin', require('./routes/pin'));
-app.use('/whitelist', require('./routes/apikeys'));
+app.use('/whitelist', require('./routes/whitelist'));
 
 // Ruta log
 app.use('/api/log', require('./routes/log'));

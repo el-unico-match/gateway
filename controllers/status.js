@@ -1,6 +1,7 @@
 const {response} = require('express');
 const {HTTP_SUCCESS_2XX} = require('../helpers/httpCodes');
 const {SERVICES} = require('../types/services');
+const {checkIfGatewayApiKeyIsActive} = require('../helpers/axiosHelper')
 const {requestServiceStatus} = require('../helpers/statusHelper');
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
 const {getApikeys, getApiKeyState} = require('../helpers/apikeys')
@@ -20,8 +21,9 @@ const getStatus = async (req, res = response) => {
         whitelistApiKeys: getApikeys()?.length,
         services: await getAllServicesCompleteStatus()
     };
+    
     logInfo(`On get status response: ${JSON.stringify(dataToResponse)}`);
-    return res.status(HTTP_SUCCESS_2XX.OK).json(dataToResponse)
+    return checkIfGatewayApiKeyIsActive(res, HTTP_SUCCESS_2XX.OK, dataToResponse);
 }
 
 /**

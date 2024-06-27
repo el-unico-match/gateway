@@ -1,10 +1,11 @@
 const {setApikeys} = require('../helpers/apikeys');
 const {logInfo} = require('../helpers/log/log');
+const {checkIfGatewayApiKeyIsActive} = require('../helpers/axiosHelper')
 
 /**
  * @returns Respuesta de la solicitud http
  */
-const whitelist =  async (req, res) => {
+const whitelist = (req, res) => {
     const apikeys = req.body?.apiKeys
     const statusToResponse = 200;
     const dataToReponse = {
@@ -13,7 +14,7 @@ const whitelist =  async (req, res) => {
     };
     setApikeys(apikeys);
     logInfo(`On get status response: ${statusToResponse}; ${JSON.stringify(dataToReponse)}`);
-    res.status(statusToResponse).json(dataToReponse);    
+    checkIfGatewayApiKeyIsActive(res, statusToResponse, dataToReponse);    
 }
 
 module.exports = {
