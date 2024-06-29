@@ -22,6 +22,9 @@ Enlace: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api-docs
 * Documentación de endpoints Swagger-Jsdoc: https://www.npmjs.com/package/swagger-jsdoc
 * Manejo de formatos de tiempo Moment: https://www.npmjs.com/package/moment
 * Realización de solicitudes REST a otros microservicios Axios: https://www.npmjs.com/package/axios
+* Test's automáticos:
+    * JEST: https://jestjs.io/docs/getting-started
+    * Axios Mock Adapter: https://www.npmjs.com/package/axios-mock-adapter
 
 # Instrucciones de uso:
 
@@ -104,3 +107,17 @@ docker compose -f docker-compose.yml up --build
 NOTA 1: PORT normalmente es 4001 o sea: http://localhost:4001/api-docs/
 
 NOTA 2: Verificar que la opción Servers de Swagger sea "localhost".
+
+## Testing
+<center><image src="https://cdn-icons-png.flaticon.com/256/1581/1581882.png" alt="Local DB"></center>
+
+
+
+Ejecutar los siguientes comandos en consola:
+
+```
+npm install
+
+npm test
+
+```

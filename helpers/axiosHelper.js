@@ -1,5 +1,5 @@
-const {parseRequest} = require('../helpers/requestHelper');
 const axios = require('axios');
+const {parseRequest} = require('../helpers/requestHelper');
 const {MSG_NO_APIKEY, MSG_INVALID_APIKEY} = require('../messages/apikey')
 const {doValidateApikey} = require('../middlewares/validateApikeys')
 const {getSelfApikey, isApiKeyCheckingEnabled} = require('../helpers/apikeys')
@@ -23,7 +23,7 @@ const handleAxiosRequestConfig = async (axiosConfig, retryAttempt) => {
 
         if ( serviceRetunedStatus !== undefined ) {
             const dataToResponse = error?.response?.data;
-            logWarning(`On handle axios request: ${JSON.stringify(dataToResponse)}`)
+            logWarning(`On handle axios request status error: ${serviceRetunedStatus} ${JSON.stringify(dataToResponse)}`)
             return {
                 status: serviceRetunedStatus, 
                 data: dataToResponse,

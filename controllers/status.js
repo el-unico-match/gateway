@@ -65,7 +65,7 @@ const getServiceCompleteStatus = async (service) => {
         serviceStatus = {
             target: service.target,
             online: true,
-            detail: result.data.status
+            detail: result.data?.status
         };
     } catch (error) {
         serviceStatus = {
