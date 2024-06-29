@@ -4,6 +4,7 @@
 */
 const {Router} = require('express');
 const getCandidates = require('../controllers/finder/getCandidates');
+const getCandidatesRewind = require('../controllers/finder/getCandidatesRewind');
 const getCrushes = require('../controllers/finder/getCrushes');
 const getLikes = require('../controllers/finder/getLikes');
 const {validateJWT} = require('../middlewares/validateJWT');
@@ -80,6 +81,34 @@ router.use(validateJWT);
  */
 
 router.get('/candidates', getCandidates.handler);
+
+/**
+ * @swagger
+ * /api/finder/candidatesRewind/:
+ *   get:
+ *     summary: El candidato anterior
+ *     description: Devuelve El candidato anterior    
+ *     parameters:
+ *       - in: header
+ *         name: x-token
+ *         description: The user active JWT token
+ *         schema:
+ *          type: string
+ *          format: JWT
+ *         required: true
+ *       - in: query
+ *         name: profileId
+ *         description: The user profile identifier
+ *         schema:
+ *           type: string
+ *         required: true
+ *     tags: [Finder]
+ *     responses:
+ *       200:
+ *         description: El candidato anterior
+ */
+
+router.get('/candidatesRewind', getCandidatesRewind.handler);
 
 /**
  * @swagger
