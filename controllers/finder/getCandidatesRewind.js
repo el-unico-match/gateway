@@ -42,7 +42,7 @@ const handler =  async (req, res, next) => {
             method: 'GET',
             headers: headers,
             baseURL: matchServiceBaseUrl,
-            url: `/user/${req.query.profileId}/profiles/filter`,
+            url: `/user/${req.query.profileId}/rewind/`,
             params: req.query,
         });
 
