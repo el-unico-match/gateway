@@ -25,14 +25,18 @@ const match_filter = async (req, res) => {
  * @returns Respuesta de la solicitud http
  */
 const user = async (req, res) => {
-    await doRequestAxios(req, res, SERVICES.USERS);
+    const newUrl = req.baseUrl.replace('/api','');
+    req.baseUrl = '';    
+    await doRequestAxios(req, res, SERVICES.USERS, newUrl);
 }
 
 /**
  * @returns Respuesta de la solicitud http
  */
 const user_id = async (req, res) => {
-    await doRequestAxios(req, res, SERVICES.USERS);
+    const newUrl = req.baseUrl.replace('/api','');
+    req.baseUrl = '';    
+    await doRequestAxios(req, res, SERVICES.USERS, newUrl);
 }
 
 /**

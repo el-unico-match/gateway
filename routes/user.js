@@ -65,5 +65,4 @@ router.all('/:id', user_id);
  */
 router.all('/', user);
 
-//https://colaboratorio.net/x11tete11x/terminal/2017/como-comprobar-firmas-pgp-con-makepkg/
 module.exports = router;
