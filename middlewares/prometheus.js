@@ -49,13 +49,13 @@ const initializePrometheus = function(app) {
         const hasGID = (idx >= 0);
         const isUser = hasGID;
         if (isUser) {
-            routeRequestCounter.inc(params);
-            const end = httpRequestDurationMicroseconds.startTimer();
-            res.on('finish', () => { end(params); });
-        } else {
             params.userid = parts[idx];
             routeClientRequestCounter.inc(params);
             const end = httpClientRequestDurationMicroseconds.startTimer();
+            res.on('finish', () => { end(params); });
+        } else {
+            routeRequestCounter.inc(params);
+            const end = httpRequestDurationMicroseconds.startTimer();
             res.on('finish', () => { end(params); });
         }
 
