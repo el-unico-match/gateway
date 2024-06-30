@@ -1,4 +1,6 @@
 const promClient = require('prom-client');
+const { v4: uuidv4 } = require('uuid');
+
 promClient.collectDefaultMetrics();
 
 const httpRequestDurationMicroseconds = new promClient.Histogram({
@@ -14,22 +16,23 @@ const routeRequestCounter = new promClient.Counter({
     labelNames: ['method', 'route', 'code'] // Labels to differentiate metrics
 });
 
+
 const initializePrometheus = function(app) {
     app.use((req, res, next) => {
-        // Increment the counter with method and route labels
-        routeRequestCounter.inc({ method: req.method, route: req.route ? req.route.path : req.path, code:res.statusCode });
-        next();
-    });
+        const params = {
+            method: req.method, 
+            code: res.statusCode, 
+            processid: uuidv4(),
+            route: req.route ? req.route.path : req.path,
+        };
 
-    // Custom metrics (e.g., HTTP request duration)
-    app.use((req, res, next) => {
+        routeRequestCounter.inc(params);
         const end = httpRequestDurationMicroseconds.startTimer();
-        res.on('finish', () => {
-        end({ method: req.method, route: req.path, code: res.statusCode });
-        });
+        res.on('finish', () => { end(params); });
+
         next();
     });
-
+    
     app.get('/metrics', async (req, res) => {
         res.set('Content-Type', promClient.register.contentType);
         res.end(await promClient.register.metrics());
