@@ -4,16 +4,15 @@ const { v4: uuidv4 } = require('uuid');
 promClient.collectDefaultMetrics();
 
 const httpRequestDurationMicroseconds = new promClient.Histogram({
-    name: 'http_request_duration_ms',
-    help: 'Duration of HTTP requests in ms',
-    labelNames: ['method', 'route', 'code']
+    name: 'http_request_duration_ms', // Metric name
+    help: 'Duration of HTTP requests in ms', // Description
+    labelNames: ['method', 'route', 'code', 'processid'] // Labels to differentiate metrics
 });
 
-// Define a counter for counting calls to /stats
 const routeRequestCounter = new promClient.Counter({
     name: 'route_endpoint_calls_total', // Metric name
     help: 'Total number of calls to all routes', // Description
-    labelNames: ['method', 'route', 'code'] // Labels to differentiate metrics
+    labelNames: ['method', 'route', 'code', 'processid'] // Labels to differentiate metrics
 });
 
 const initializePrometheus = function(app) {
