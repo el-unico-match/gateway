@@ -16,7 +16,6 @@ const routeRequestCounter = new promClient.Counter({
     labelNames: ['method', 'route', 'code'] // Labels to differentiate metrics
 });
 
-
 const initializePrometheus = function(app) {
     app.use((req, res, next) => {
         const params = {
@@ -32,7 +31,7 @@ const initializePrometheus = function(app) {
 
         next();
     });
-    
+
     app.get('/metrics', async (req, res) => {
         res.set('Content-Type', promClient.register.contentType);
         res.end(await promClient.register.metrics());
