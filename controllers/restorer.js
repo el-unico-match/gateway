@@ -5,7 +5,8 @@ const {SERVICES} = require('../types/services');
  * @returns Respuesta de la solicitud http
  */
 const restorer =  async (req, res) => {
-    await doRequestAxios(req, res, SERVICES.USERS);
+    req.baseUrl = '';
+    await doRequestAxios(req, res, SERVICES.USERS, 'restorer');
 }
 
 module.exports = {
