@@ -15,7 +15,6 @@ const routeRequestCounter = new promClient.Counter({
     labelNames: ['method', 'route', 'code', 'processid'] // Labels to differentiate metrics
 });
 
-
 const httpClientRequestDurationMicroseconds = new promClient.Histogram({
     name: 'http_user_request_duration_ms', // Metric name
     help: 'Duration of HTTP requests in ms', // Description
