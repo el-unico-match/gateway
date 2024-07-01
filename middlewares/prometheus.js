@@ -17,13 +17,13 @@ const routeRequestCounter = new promClient.Counter({
 
 const httpClientRequestDurationMicroseconds = new promClient.Histogram({
     name: 'http_user_request_duration_ms', // Metric name
-    help: 'Duration of HTTP requests in ms', // Description
+    help: 'Duration of HTTP requests in ms per user', // Description
     labelNames: ['method', 'route', 'code', 'processid', 'userid'] // Labels to differentiate metrics
 });
 
 const routeClientRequestCounter = new promClient.Counter({
     name: 'route_user_endpoint_calls_total', // Metric name
-    help: 'Total number of calls to all routes', // Description
+    help: 'Total number of calls to all routes per user', // Description
     labelNames: ['method', 'route', 'code', 'processid', 'userid'] // Labels to differentiate metrics
 });
 
@@ -56,6 +56,7 @@ const initializePrometheus = function(app) {
         };
         
         const userid = obtainUserid(params.route);
+        
         if (userid != null) {
             params.userid = userid;
             storeEvents(res, params, 
