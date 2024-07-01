@@ -38,6 +38,11 @@ router.all('/match/*', validateJWT, user_match);
 /**
  * Retorna el perfil con las url de las imágenes
  */
+router.get('/profile/pictures', validateJWT, user_pictures);
+
+/**
+ * Retorna el perfil con las url de las imágenes
+ */
 router.get('/profile/:id', validateJWT, get_user_profile_pictures);
 
 /**

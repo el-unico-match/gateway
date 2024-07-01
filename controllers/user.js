@@ -70,6 +70,16 @@ const user_profile = async (req, res) => {
 /**
  * @returns Respuesta de la solicitud http
  */
+const user_pictures = async (req, res) => {
+    await doRequestAxios(req, res, SERVICES.PROFILES);
+    req.query.userid
+    const url_complete = req.url.replace('/profile/pictures','')+`/${req.query.userid}/match/profile/complete`;
+    await doRequestAxios(req, res, SERVICES.MATCHES,url_complete);
+}
+
+/**
+ * @returns Respuesta de la solicitud http
+ */
 const get_user_profile_pictures = async (req, res = response) => {
     const url_pictures = req.url.replace('/profile','/profile/pictures');
     const url_filter = req.url.replace('/profile','')+'/match/filter/';
@@ -162,5 +172,6 @@ module.exports = {
     user_match,
     user_profile,
     get_user_profile_pictures,
+    user_pictures,
     match_filter,
 }
