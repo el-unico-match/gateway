@@ -71,10 +71,30 @@ const user_profile = async (req, res) => {
  * @returns Respuesta de la solicitud http
  */
 const user_pictures = async (req, res) => {
-    await doRequestAxios(req, res, SERVICES.PROFILES);
-    req.query.userid
-    const url_complete = req.url.replace('/profile/pictures','')+`/${req.query.userid}/match/profile/complete`;
-    await doRequestAxios(req, res, SERVICES.MATCHES,url_complete);
+    await doChainRequestAxios(req, res, SERVICES.PROFILES, null, 
+        async (req, res, data_profile, status_profile) => { console.log(data_profile);
+            if (status_profile ===  HTTP_SUCCESS_2XX.OK) {
+                const url_complete = req.url.replace(`/profile/pictures/${req.params.id}`,'')+`/${req.params.id}/match/profile/complete`;
+                const {status, data} =  await sendRequestAxios(req, res, SERVICES.MATCHES, url_complete);
+                const dataToResponse = {
+                    ...data
+                };
+                logDebug(`On set profile pictures on match: ${status} ${JSON.stringify(dataToResponse)}`);
+                return {
+                    status: status,
+                    data: dataToResponse
+                };
+            } else {
+                const dataToResponse = {
+                    ...data_profile
+                };
+                logDebug(`On set profile pictures: ${status_profile} ${JSON.stringify(dataToResponse)}`);
+                return {
+                    status: status_profile,
+                    data: dataToResponse
+                };
+            }
+    });
 }
 
 /**

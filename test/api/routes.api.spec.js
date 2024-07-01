@@ -4,7 +4,7 @@ const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 require('dotenv').config();
-const {HTTP_SUCCESS_2XX, HTTP_CLIENT_ERROR_4XX} = require('../../helpers/httpCodes');
+const {HTTP_SUCCESS_2XX, HTTP_CLIENT_ERROR_4XX, HTTP_SERVER_ERROR_5XX} = require('../../helpers/httpCodes');
 
 process.env.PORT ||= 4001;
 process.env.MATCHES_API_DOMAIN ||= "https://match-api-uniquegroup-match-fiuba.azurewebsites.net"; 
@@ -1041,6 +1041,98 @@ describe('Pruebas sobre la API de trips', () => {
             jest.restoreAllMocks();
         });
     });
+
+    describe('User profile pictures', () => {       
+
+        let token;
+
+        let user;
+
+        let profile;
+
+        let pictures;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+            pictures = {
+                userid: profile.userid,
+                pictures: [
+                  {
+                    name: "picture1",
+                    url: "picture1.jpg",
+                    order: 0
+                  }
+                ]
+              }
+        });
+
+        test('Set user profile pictures', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onPut(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            const mockResponsePictures = {
+                ...pictures
+            }
+            mock.onPut(`${urlMatches}/user/${profile.userid}/match/profile/complete`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            });
+            let response = await request(app).put(`/api/user/profile/pictures/${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+            expect(JSON.stringify(response.body.pictures)).toBe(JSON.stringify(pictures.pictures));
+        });
+
+        test('Fail on set user profile pictures', async () => {               
+            const mockResponseProfile = {
+                msg: "Fail profile"
+            };
+            mock.onPut(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_CLIENT_ERROR_4XX.BAD_REQUEST, mockResponseProfile];
+            });
+            let response = await request(app).put(`/api/user/profile/pictures/${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST);
+            expect(response.headers['content-type']).toContain('json');            
+            console.log(response.body);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(mockResponseProfile));
+        });
+
+        test('Fail on set user profile pictures', async () => {               
+            mock.onPut(`${urlProfiles}/user/profile/pictures/${profile.userid}`).networkErrorOnce();
+
+            let response = await request(app).put(`/api/user/profile/pictures/${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR);
+            expect(response.headers['content-type']).toContain('json');                        
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
 
 
 });
