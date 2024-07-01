@@ -27,14 +27,8 @@ const routeClientRequestCounter = new promClient.Counter({
     labelNames: ['method', 'route', 'code', 'processid', 'userid'] // Labels to differentiate metrics
 });
 
-const obtainUserid = function(path) {
-    const parts = path.split('/');
-    for (let idx = 0; idx < parts.lenght; idx++) {
-        if (parts[idx].lenght > 22) {
-            return parts[idx];
-        }
-    }
-    return null;
+const obtainUserid = function(req) {
+    return req.params.id;
 }
 
 const storeEvents = function(res, params, timer, counter) {
@@ -55,9 +49,9 @@ const initializePrometheus = function(app) {
             route: req.route ? req.route.path : req.path,
         };
         
-        const userid = obtainUserid(params.route);
-        
-        if (userid != null) {
+        const userid = obtainUserid(req);
+
+        if (userid) {
             params.userid = userid;
             storeEvents(res, params, 
                 httpClientRequestDurationMicroseconds,
