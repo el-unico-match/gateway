@@ -705,7 +705,59 @@ describe('Pruebas sobre la API de trips', () => {
             }
             mock.onGet(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
                 return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            }); 
+            let response = await request(app).get(`/api/user/profile/${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+            expect(JSON.stringify(response.body.profile)).toBe(JSON.stringify(profile));
+            expect(JSON.stringify(response.body.pictures)).toBe(JSON.stringify(pictures.pictures));
+        });
+
+        test('Get user profile', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
             });
+            const mockResponsePictures = {
+                ...pictures
+            }
+            mock.onGet(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            }); 
+            mock.onGet(`${urlMatches}/user/${profile.userid}/match/profile/`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            }); 
+            mock.onGet(`${urlMatches}/user/${profile.userid}/match/filter/`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            }); 
+            let response = await request(app).get(`/api/user/profile/${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+            expect(JSON.stringify(response.body.profile)).toBe(JSON.stringify(profile));
+            expect(JSON.stringify(response.body.pictures)).toBe(JSON.stringify(pictures.pictures));
+        });
+
+        test('Get user fail match filter profile', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            const mockResponsePictures = {
+                ...pictures
+            }
+            mock.onGet(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            }); 
+            mock.onGet(`${urlMatches}/user/${profile.userid}/match/profile/`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            }); 
+            mock.onGet(`${urlMatches}/user/${profile.userid}/match/filter/`).networkErrorOnce();
             let response = await request(app).get(`/api/user/profile/${profile.userid}`)
                 .set('x-token', token);
             expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
@@ -744,6 +796,25 @@ describe('Pruebas sobre la API de trips', () => {
                 .set('x-token', token);
             expect(response.status).toBe(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST);
             expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get user profile', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            const mockResponsePictures = {
+                ...pictures
+            }
+            mock.onGet(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_CLIENT_ERROR_4XX.BAD_REQUEST, mockResponsePictures];
+            });
+            let response = await request(app).get(`/api/user/profile/${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');
         });
 
         afterEach(() => {
@@ -821,7 +892,7 @@ describe('Pruebas sobre la API de trips', () => {
 
         let profile;
 
-        let profileMatch;
+        let profileMatch; 
 
         beforeAll( async () => {
             user = {
@@ -1115,7 +1186,6 @@ describe('Pruebas sobre la API de trips', () => {
                 .set('x-token', token);
             expect(response.status).toBe(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST);
             expect(response.headers['content-type']).toContain('json');            
-            console.log(response.body);
             expect(JSON.stringify(response.body)).toBe(JSON.stringify(mockResponseProfile));
         });
 
@@ -1132,7 +1202,6 @@ describe('Pruebas sobre la API de trips', () => {
             jest.restoreAllMocks();
         });
     });
-
 
 
 });
