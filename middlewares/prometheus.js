@@ -31,16 +31,6 @@ const routeClientRequestCounter = new promClient.Counter({
 const obtainUserid = function(req) {
     const url = req.route ? req.route.path : req.path;
     const slices = url.split('/')
-
-    logDebug(`ObtainUserID: path(${url})`);
-    for (let i = 0; i < slices.length; i++) {
-        logDebug(`          val[${i}] = ${slices[i]}`);
-        if (slices[i].length > 22) {
-            return slices[i];
-        }
-    }
-
-    //logDebug(`obtainUserid (${req.tokenExtractedData.uid}) from (${req.route ? req.route.path : req.path})`);
     if (req.tokenExtractedData && req.tokenExtractedData.uid)
         return req.tokenExtractedData.uid;
     if (req.params &&  req.params.id)
@@ -49,6 +39,12 @@ const obtainUserid = function(req) {
         return req.query.id;
     if (req.body && req.body.id)
         return req.body.id;
+    
+    for (let i = 0; i < slices.length; i++) {
+        if (slices[i].length > 22) {
+            return slices[i];
+        }
+    }
     return undefined;
 }
 
