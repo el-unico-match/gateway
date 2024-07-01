@@ -29,14 +29,16 @@ const routeClientRequestCounter = new promClient.Counter({
 });
 
 const obtainUserid = function(req) {
-    logDebug(`ObtainUserID: (${Object.keys(req)})`)
+    logDebug(`ObtainUserID: param(${Object.keys(req.params)}) query(${Object.keys(req.query)}) body(${Object.keys(req.body)})`)
     //logDebug(`obtainUserid (${req.tokenExtractedData.uid}) from (${req.route ? req.route.path : req.path})`);
-    if (req.tokenExtractedData)
+    if (req.tokenExtractedData && req.tokenExtractedData.uid)
         return req.tokenExtractedData.uid;
-    if (req.params)
+    if (req.params &&  req.params.id)
         return req.params.id;
-    if (req.query)
+    if (req.query && req.query.id)
         return req.query.id;
+    if (req.body && req.body.id)
+        return req.body.id;
     return null;
 }
 
