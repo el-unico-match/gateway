@@ -29,6 +29,7 @@ const routeClientRequestCounter = new promClient.Counter({
 });
 
 const obtainUserid = function(req) {
+    logDebug(`ObtainUserID: (${JSON.stringify(req)})`)
     //logDebug(`obtainUserid (${req.tokenExtractedData.uid}) from (${req.route ? req.route.path : req.path})`);
     if (req.tokenExtractedData)
         return req.tokenExtractedData.uid;
