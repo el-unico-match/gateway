@@ -18,6 +18,7 @@ const {
     user_profile,
     get_user_profile_pictures,
     match_filter,
+    user_pictures,
 } = require('../controllers/user');
 
 /**
