@@ -27,35 +27,46 @@ const routeClientRequestCounter = new promClient.Counter({
     labelNames: ['method', 'route', 'code', 'processid', 'userid'] // Labels to differentiate metrics
 });
 
+const obtainUserid = function(path) {
+    const parts = path.split('/');
+    for (let idx = 0; idx < parts.lenght; idx++) {
+        if (parts[idx].lenght > 22) {
+            return parts[idx];
+        }
+    }
+    return null;
+}
+
+const storeEvents = function(res, params, timer, counter) {
+    const end = timer.startTimer();
+    res.on('finish', () => { 
+        params.code = res.statusCode;
+        counter.inc(params);
+        end(params); 
+    });
+}
+
 const initializePrometheus = function(app) {
     app.use((req, res, next) => {
         let params = {
             method: req.method, 
-            code: res.statusCode, 
             processid: uuidv4(),
+            code: res.statusCode,
             route: req.route ? req.route.path : req.path,
         };
         
-        let idx = -1;
-        const parts = params.route.split('/');
-        for (let i = 0; i < parts.lenght; i++) {
-            if (parts[i].lenght > 22 && (parts[i-1] == 'user' || parts[i-1] == 'users' || parts[i-1] == 'profile')) {
-                idx = i;
-                break;
-            }
-        }
-        
-        const hasGID = (idx >= 0);
-        const isUser = hasGID;
-        if (isUser) {
-            params.userid = parts[idx];
-            routeClientRequestCounter.inc(params);
-            const end = httpClientRequestDurationMicroseconds.startTimer();
-            res.on('finish', () => { end(params); });
+        const userid = obtainUserid(params.route);
+        if (userid != null) {
+            params.userid = userid;
+            storeEvents(res, params, 
+                httpClientRequestDurationMicroseconds,
+                routeClientRequestCounter
+            );
         } else {
-            routeRequestCounter.inc(params);
-            const end = httpRequestDurationMicroseconds.startTimer();
-            res.on('finish', () => { end(params); });
+            storeEvents(res, params, 
+                httpRequestDurationMicroseconds,
+                routeRequestCounter
+            );
         }
 
         next();
