@@ -1,5 +1,6 @@
 const promClient = require('prom-client');
 const { v4: uuidv4 } = require('uuid');
+const { logDebug } = require('../helpers/log/log')
 
 promClient.collectDefaultMetrics();
 
@@ -28,6 +29,7 @@ const routeClientRequestCounter = new promClient.Counter({
 });
 
 const obtainUserid = function(req) {
+    logDebug(`obtainUserid (${req.params.id}) from (${req.route ? req.route.path : req.path})`);
     return req.params.id;
 }
 
