@@ -5,21 +5,20 @@ const { handleAxiosRequestConfig, checkIfGatewayApiKeyIsActive} = require('../..
 const {SERVICES} = require('../../types/services');
 const {MSG_FAILURE_RETRIEVING_PROFILE_IMAGES} = require('../../messages/finder');
 const {CustomError} = require('../../middlewares/errorHandlerMiddleware');
-const { logInfo, logWarning } = require('../../helpers/log/log');
+const { 
+    logInfo, 
+    logWarning} = require('../../helpers/log/log');
 const {
     HTTP_SUCCESS_2XX,
     HTTP_CLIENT_ERROR_4XX} = require('../../helpers/httpCodes');
 
 const fillProfileWithPictures = async(headers, profile, profileServiceBaseUrl) => {
-    //logDebug(`On fill profile with pictures, profile: ${JSON.stringify(profile)}`);
-    //logDebug(`On fill profile with pictures, profile service base url: ${JSON.stringify(profileServiceBaseUrl)}`);
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
         headers: headers,
         baseURL: profileServiceBaseUrl,
         url: `/user/profile/pictures/${profile.userid}`,
     })
-    //logDebug(`On fill profile with pictures: ${status} ${JSON.stringify(data)}`);
     if ( status == HTTP_SUCCESS_2XX.OK || status == HTTP_CLIENT_ERROR_4XX.NOT_FOUND )
     {   
         return {
@@ -66,7 +65,7 @@ const handler =  async (req, res, next) => {
         const profileServiceBaseUrl = getServiceStatus(SERVICES.PROFILES).target;
         const candidates = await Promise.all(candidatesProfiles.map(async (profile) => await fillProfileWithPictures(headers, profile, profileServiceBaseUrl)));
         
-        //logInfo(`On handler (get candidates) response: ${status} ${JSON.stringify(candidates[0])}`);
+        logInfo(`On handler (get candidates) response: ${status}`);
         return checkIfGatewayApiKeyIsActive(res,axios.HttpStatusCode.Ok,{
             'ok': true,
             'data': candidates[0]

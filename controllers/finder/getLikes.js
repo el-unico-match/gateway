@@ -12,8 +12,7 @@ const {
     HTTP_CLIENT_ERROR_4XX} = require('../../helpers/httpCodes');
 const {
     logInfo,
-    logDebug,
-    logWarning} = require('../../helpers/log/log');
+    logDebug} = require('../../helpers/log/log');
 const { checkIfGatewayApiKeyIsActive } = require('../../helpers/axiosHelper')
 
 const fillProfileWithPicture = async(headers, profileId, profileServiceBaseUrl) => {
@@ -25,7 +24,6 @@ const fillProfileWithPicture = async(headers, profileId, profileServiceBaseUrl) 
         url: `/user/profile/${profileId}`,
     })
 
-    //logDebug(`On fill profile with picture: ${status} ${JSON.stringify(data)}`);
     const {data, status} = await handleAxiosRequestConfig({
         method: 'GET',
         headers: headers,

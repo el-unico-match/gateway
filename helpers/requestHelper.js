@@ -24,7 +24,6 @@ const parseRequest = (req, serviceName, newUrl) => {
     return axiosConfig;
 }
 
-
 const parseHeaders = (req) => {
     const gatewayApiKey = getSelfApikey();
 

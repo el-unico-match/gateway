@@ -1,6 +1,6 @@
 /*
     Rutas de Api /
-    host + /api/pin
+    host + /whitelist
 */
 
 const {Router} = require('express');

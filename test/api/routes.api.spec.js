@@ -103,8 +103,6 @@ describe('Pruebas sobre la API de trips', () => {
             expect(response.body.services.profiles.online).toBe(true);
             expect(response.body.services.profiles.detail).toBe(`Service is online on ${urlProfiles}`);
             expect(response.body.services.services.target).toBe(urlServices);
-            //expect(response.body.services.services.online).toBe(true);
-            //expect(response.body.services.services.detail).toBe(`Service is online on ${urlServices}`);
             expect(response.body.services.users.target).toBe(urlUsers);
             expect(response.body.services.users.online).toBe(true);
             expect(response.body.services.users.detail).toBe(`Service is online on ${urlUsers}`);
@@ -1202,6 +1200,370 @@ describe('Pruebas sobre la API de trips', () => {
             jest.restoreAllMocks();
         });
     });
+   
+    describe('Test Whitelist', () => {       
+
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Set whitelist', async () => {               
+            const payload = {
+                apikeys: `${token} ${token}`
+            };     
+            let response = await request(app).put(`/whitelist`)
+                .send(payload)
+                .set('x-token', token);               
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test get candidates', () => {       
+
+        let token;
+
+        let user;
+
+        let profile;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+            pictures = {
+                userid: profile.userid,
+                pictures: [
+                {
+                    name: "picture1",
+                    url: "picture1.jpg",
+                    order: 0
+                }
+                ]
+            }
+        });
+
+        test('Get candidates', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            const mockResponsePictures = {
+                ...pictures
+            }
+            mock.onGet(`${urlMatches}/user/${profile.userid}/profiles/filter`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
+            }); 
+            let response = await request(app).get(`/api/finder/candidates?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get candidates bad request', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            const mockResponsePictures = {
+                ...pictures
+            }
+            mock.onGet(`${urlMatches}/user/${profile.userid}/profiles/filter`).replyOnce( (config) => {
+                return [HTTP_CLIENT_ERROR_4XX.BAD_REQUEST, mockResponsePictures];
+            }); 
+            let response = await request(app).get(`/api/finder/candidates?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get candidates no content to return', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.NO_CONTENT_TO_RETURN, mockResponseProfile];
+            });
+            const mockResponsePictures = {
+                ...pictures
+            }
+            mock.onGet(`${urlMatches}/user/${profile.userid}/profiles/filter`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.NO_CONTENT_TO_RETURN, mockResponsePictures];
+            }); 
+            let response = await request(app).get(`/api/finder/candidates?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test get candidates Rewind', () => {       
+
+        let token;
+
+        let user;
+
+        let profile;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+            pictures = {
+                userid: profile.userid,
+                pictures: [
+                {
+                    name: "picture1",
+                    url: "picture1.jpg",
+                    order: 0
+                }
+                ]
+            }
+        });
+
+        test('Get candidates rewind', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlMatches}/user/${profile.userid}/rewind/`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/candidatesRewind?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get candidates rewind no content to return', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlMatches}/user/${profile.userid}/rewind/`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.NO_CONTENT_TO_RETURN, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/candidatesRewind?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get candidates rewind not Ok', async () => {               
+            const mockResponseProfile = {
+                profile
+            };
+            mock.onGet(`${urlMatches}/user/${profile.userid}/rewind/`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.BAD_REQUEST, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/candidatesRewind?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test get crushes', () => {       
+
+        let token;
+
+        let user;
+
+        let profile;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+            pictures = {
+                userid: profile.userid,
+                pictures: 
+                {
+                    name: "picture1",
+                    url: "picture1.jpg",
+                    order: 0
+                }
+            }
+        });
+
+        test('Get crushes', async () => {               
+            const mockResponseProfile = [];
+            mock.onGet(`${urlMatches}/user/${profile.userid}/matchs`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/crushes/?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get crushes Bad Request', async () => {               
+            const mockResponseProfile = [];
+            mock.onGet(`${urlMatches}/user/${profile.userid}/matchs`).replyOnce( (config) => {
+                return [HTTP_CLIENT_ERROR_4XX.BAD_REQUEST, mockResponseProfile];
+            });
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/crushes/?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+//----
+/*
+    describe('Test get crushes', () => {       
+
+        let token;
+
+        let user;
+
+        let profile;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+            pictures = {
+                userid: profile.userid,
+                pictures: 
+                {
+                    name: "picture1",
+                    url: "picture1.jpg",
+                    order: 0
+                }
+            }
+        });
+
+        test('Get crushes', async () => {               
+            const mockResponseProfile = [];
+            mock.onGet(`${urlMatches}/user/${profile.userid}/likes`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/potencial/?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get crushes Bad Request', async () => {               
+            const mockResponseProfile = [];
+            mock.onGet(`${urlMatches}/user/${profile.userid}/matchs`).replyOnce( (config) => {
+                return [HTTP_CLIENT_ERROR_4XX.BAD_REQUEST, mockResponseProfile];
+            });
+            mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/crushes/?profileId=${profile.userid}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });*/
 
 
 });
