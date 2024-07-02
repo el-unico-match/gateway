@@ -31,8 +31,11 @@ const swaggerSpec = {
         },
         servers: [
             {
-                url: `https://gateway-uniquegroup-match-fiuba.azurewebsites.net`
+                url: `https://br-gateway-uniquegroup-match-fiuba.azurewebsites.net`
             },
+            {
+                url: `https://gateway-uniquegroup-match-fiuba.azurewebsites.net`
+            },            
             {
                 url: `http://localhost:${process.env.PORT}`
             }
