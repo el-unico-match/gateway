@@ -9,7 +9,7 @@ La responsabilidad de este módulo esta dada por el enrutamiento de las solicitu
 <center><image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_9WelGnPrPva68rnqGLSPDnb-wNIAgv7ziQ&s" alt="Swagger"></center>
 
 
-Enlace: https://gateway-uniquegroup-match-fiuba.azurewebsites.net/api-docs
+Enlace: https://br-gateway-uniquegroup-match-fiuba.azurewebsites.net/api-docs
 
 ## Liberías utilizadas:
 <center><image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSJscx615heuSsv1tw02aEq7gBPkLohEBuxw&s" alt="Nodejs"></center>
