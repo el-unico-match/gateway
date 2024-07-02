@@ -11,7 +11,7 @@ const {
     logDebug} = require('./log/log');
 const { HTTP_CLIENT_ERROR_4XX, HTTP_SERVER_ERROR_5XX } = require('./httpCodes');
 
-const handleAxiosRequestConfig = async (axiosConfig, retryAttempt) => { 
+const handleAxiosRequestConfig = async (axiosConfig) => { 
 
     try {
         return await axios(axiosConfig);

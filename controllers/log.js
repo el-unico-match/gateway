@@ -1,5 +1,4 @@
 const {handleAxiosRequestConfig} = require('../helpers/axiosHelper');
-const {SERVICES} = require('../types/services');
 const {parseHeaders} = require('../helpers/requestHelper');
 const {getServiceStatus} = require('../servicesStatus/servicesStatus');
 const {isService} = require('../types/services');
@@ -23,13 +22,6 @@ const getLogGateway =  async (req, res) => {
         log: readLog()            
     };
     res.status(HTTP_SUCCESS_2XX.OK).json(dataToReponse);
-}
-
-/**
- * @returns Respuesta de la solicitud http
- */
-const getLogUser =  async (req, res) => {
-    await getLogService(req, res, SERVICES.USERS);
 }
 
 /**
@@ -66,7 +58,6 @@ const getLogService =  async (req, res, serviceName) => {
 }
 
 module.exports = {
-    getLogUser,
     getLog,
     getLogGateway
 }

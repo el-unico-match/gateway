@@ -13,9 +13,6 @@ setSelfApikey(process.env.APIKEY_VALUE);
 setActiveApiKeyEndpoint(process.env.APIKEY_ACTIVATE_ENDPOINT);
 enableApiKey();
 
-// Inicializar log
-initLog();
-
 // Paths
 const path = require("path");
 

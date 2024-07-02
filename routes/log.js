@@ -6,17 +6,11 @@
 const {Router} = require('express');
 const {validateJWT} = require('../middlewares/validateJWT');
 const {
-    getLogUser,
     getLog,
     getLogGateway
 } = require('../controllers/log');
 
 const router = Router();
-
-/**
- * Log de usuario
-*/
-router.get('/user', getLogUser);
 
 /**
  * Log del resto de microservicios

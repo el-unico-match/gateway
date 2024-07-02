@@ -3,26 +3,14 @@ const moment = require('moment');
 const {
     LOG_LEVELS,
     getLogLevel} = require('./logLevel');
-const {MSG_LOG_FILE_NOT_EXISTS} = require('../../messages/uncategorized');
-
-const DEFAULT_FILE = "log.txt";
-const LOG_FILENAME = process.env.LOG_FILENAME ? process.env.LOG_FILENAME : DEFAULT_FILE;
 const LOG_LEVEL = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : LOG_LEVELS.DEBUG.level;
 const BUFFER_MAX_LINES = 5000;
 const LINES_TO_REMOVE = BUFFER_MAX_LINES/4;
-
-let fileStream = null;
-
 let buffer = [];
 let linesBuffer = 0;
 
 const initLog = () => {
-    try {
-        fileStream = fs.createWriteStream(LOG_FILENAME);
-        logInfo(`Log init on file ${LOG_FILENAME} with level ${getLogLevel(LOG_LEVEL).tag}`);
-    } catch (error) {
-        logWarning(`Error on init log in file ${LOG_FILENAME} with level ${LOG_LEVEL}: ${error}`);
-    }
+    logInfo(`Init log with level ${getLogLevel(LOG_LEVEL).tag}`);
 }
 
 /**
@@ -64,17 +52,8 @@ const writeLog = (logLevel, message) => {
     if (checkLevel(logLevel)) {
         const date = moment();
         const messageToLog = `${date} [GATEWAY] ${logLevel.tag}: ${message}`;
-            console.log(messageToLog);
-        try {
-            writeBuffer(messageToLog);
-            fileStream.write(`${messageToLog}\n`);
-        } catch (error) {
-            if (fileStream) {
-                console.log(`[GATEWAY] WARNING: ${error}`);
-            } else {
-                console.log(`[GATEWAY] WARNING: ${MSG_LOG_FILE_NOT_EXISTS} - ${LOG_FILENAME}`);
-            }            
-        }        
+        console.log(messageToLog);
+        writeBuffer(messageToLog);        
     }
 }
 
@@ -101,11 +80,13 @@ const writeBuffer = (line) => {
     linesBuffer++;
 }
 
+// Inicialización del log
+initLog();
+
 module.exports = {
     logDebug,
     logInfo,
     logError,
     logWarning,
-    initLog,
     readLog
 }

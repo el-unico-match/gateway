@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 require('dotenv').config();
 const {HTTP_SUCCESS_2XX, HTTP_CLIENT_ERROR_4XX, HTTP_SERVER_ERROR_5XX} = require('../../helpers/httpCodes');
+const { SERVICES } = require('../../types/services');
 
 process.env.PORT ||= 4001;
 process.env.MATCHES_API_DOMAIN ||= "https://match-api-uniquegroup-match-fiuba.azurewebsites.net"; 
@@ -1491,9 +1492,8 @@ describe('Pruebas sobre la API de trips', () => {
             jest.restoreAllMocks();
         });
     });
-//----
-/*
-    describe('Test get crushes', () => {       
+
+    describe('Test get likes', () => {       
 
         let token;
 
@@ -1532,12 +1532,15 @@ describe('Pruebas sobre la API de trips', () => {
             }
         });
 
-        test('Get crushes', async () => {               
+        test('Get likes', async () => {               
             const mockResponseProfile = [];
             mock.onGet(`${urlMatches}/user/${profile.userid}/likes`).replyOnce( (config) => {
                 return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
             });
             mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            mock.onGet(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
                 return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
             });
             let response = await request(app).get(`/api/finder/potencial/?profileId=${profile.userid}`)
@@ -1546,15 +1549,18 @@ describe('Pruebas sobre la API de trips', () => {
             expect(response.headers['content-type']).toContain('json');            
         });
 
-        test('Get crushes Bad Request', async () => {               
+        test('Get likes bad request', async () => {               
             const mockResponseProfile = [];
-            mock.onGet(`${urlMatches}/user/${profile.userid}/matchs`).replyOnce( (config) => {
+            mock.onGet(`${urlMatches}/user/${profile.userid}/likes`).replyOnce( (config) => {
                 return [HTTP_CLIENT_ERROR_4XX.BAD_REQUEST, mockResponseProfile];
             });
             mock.onGet(`${urlProfiles}/user/profile/${profile.userid}`).replyOnce( (config) => {
                 return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
             });
-            let response = await request(app).get(`/api/finder/crushes/?profileId=${profile.userid}`)
+            mock.onGet(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
+            });
+            let response = await request(app).get(`/api/finder/potencial/?profileId=${profile.userid}`)
                 .set('x-token', token);
             expect(response.status).toBe(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST);
             expect(response.headers['content-type']).toContain('json');            
@@ -1563,7 +1569,148 @@ describe('Pruebas sobre la API de trips', () => {
         afterEach(() => {
             jest.restoreAllMocks();
         });
-    });*/
+    });
+
+    describe('Test log', () => {       
+
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Get log user service', async () => {               
+            mock.onGet(`${urlUsers}/log`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, {}];
+            });
+            let response = await request(app).get(`/api/log/${SERVICES.USERS}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get log profile service', async () => {               
+            mock.onGet(`${urlProfiles}/log`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, {}];
+            });
+            let response = await request(app).get(`/api/log/${SERVICES.PROFILES}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get log matches service', async () => {               
+            mock.onGet(`${urlMatches}/log`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, {}];
+            });
+            let response = await request(app).get(`/api/log/${SERVICES.MATCHES}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get log micro-service services', async () => {               
+            mock.onGet(`${urlServices}/log`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, {}];
+            });
+            let response = await request(app).get(`/api/log/${SERVICES.SERVICES}`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get log micro-service bad request', async () => {               
+            let response = await request(app).get(`/api/log/FAKESERVICE`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_CLIENT_ERROR_4XX.BAD_REQUEST);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Get log gateway', async () => {               
+            let response = await request(app).get(`/api/log`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.headers['content-type']).toContain('json');            
+        });
+        
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    
+    describe('Test handelAxiosRequestConfig', () => {       
+
+        const {handleAxiosRequestConfig} = require('../../helpers/axiosHelper');
+
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Test handleAxiosRequestConfig', async () => {               
+            const expectedData = {...user};
+            mock.onGet(`${urlUsers}/user`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            const {data, status} = await handleAxiosRequestConfig({
+                method: 'GET',
+                headers: {},
+                baseURL: urlUsers,
+                url: `/user`,
+            });            
+            expect(status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(data)).toBe(JSON.stringify(expectedData));
+        });
+
+        test('Test handleAxiosRequestConfig network error', async () => {               
+            mock.onGet(`${urlUsers}/user`).networkErrorOnce();;
+            const {data, status} = await handleAxiosRequestConfig({
+                method: 'GET',
+                headers: {},
+                baseURL: urlUsers,
+                url: `/user`,
+            });            
+            expect(status).toBe(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR);
+        });
+
+        test('Test handleAxiosRequestConfig', async () => {               
+            const expectedData = {...user};
+            mock.onGet(`${urlUsers}/user`).replyOnce( (config) => {
+                throw new Error();
+            });
+            const {_data, status} = await handleAxiosRequestConfig({
+                method: 'GET',
+                headers: {},
+                baseURL: urlUsers,
+                url: `/user`,
+            });            
+            expect(status).toBe(HTTP_SERVER_ERROR_5XX.INTERNAL_SERVER_ERROR);
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
 
 
 });

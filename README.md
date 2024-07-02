@@ -42,7 +42,6 @@ PROFILES_API_DOMAIN=<url servicio profiles>
 USERS_API_DOMAIN=<url servicio users>
 SERVICES_API_DOMAIN=<url servicio services>
 SECRET_JWT_SEED=******
-LOG_FILENAME=<log file name>
 LOG_LEVEL=<log level>
 HOST=<host>
 
@@ -61,7 +60,6 @@ PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
 SECRET_JWT_SEED=<API KEY pasada por privado solicitar a rafaelputaro@gmail.com>
-LOG_FILENAME="log.txt"
 LOG_LEVEL=10
 HOST=0.0.0.0
 
@@ -82,7 +80,6 @@ PROFILES_API_DOMAIN=https://profile-uniquegroup-match-fiuba.azurewebsites.net
 SERVICES_API_DOMAIN=https://services-uniquegroup-match-fiuba.azurewebsites.net
 USERS_API_DOMAIN=https://users-uniquegroup-match-fiuba.azurewebsites.net/api
 SECRET_JWT_SEED=<API KEY pasada por privado solicitar a rafaelputaro@gmail.com>
-LOG_FILENAME="log.txt"
 LOG_LEVEL=10
 HOST=0.0.0.0
 
