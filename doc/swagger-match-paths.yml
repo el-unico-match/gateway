@@ -1,5 +1,5 @@
 paths:
-  /api/user/{id}/matchs:
+  /api/user/{id}/matchs/:
     get:
         summary: get list of matchs for the user 
         tags: [Match]
@@ -322,6 +322,63 @@ paths:
                                 msg:
                                     type: string
                                     example: "Service not available"
+    get:
+        summary: get a profile
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200:
+                description: a profile 
+                content:
+                    application/json:
+                        schema:
+                            type: string
+                            $ref: '#/components/schemas/MatchProfile'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+
   /api/user/match/notification:
     post:
         summary: notifies messages has ben sended
@@ -353,7 +410,7 @@ paths:
                     application/json:
                         schema:
                             type: object
-                            $ref: '#/components/schemas/ValidationError'
+                            $ref: '#/components/schemas/HTTPValidationError'
             500:
                 description: return internal error!
                 content:
@@ -411,7 +468,7 @@ paths:
                     application/json:
                         schema:
                             type: object
-                            $ref: '#/components/schemas/ValidationError'
+                            $ref: '#/components/schemas/HTTPValidationError'
             500:
                 description: return internal error!
                 content:
@@ -438,10 +495,71 @@ paths:
                                 msg:
                                     type: string
                                     example: "Service not available"
-/api/match/swipes/:
+    put:
+        summary: change the lock status of a match
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+            - in: query
+              name: swiper_userid
+              schema:
+                type: string
+            - in: query
+              name: swiped_userid
+              schema:
+                type: string
+            - in: query
+              name: isBlocked
+              schema:
+                type: boolean
+        responses:
+            200:
+                description: successful profile creation
+                content:
+                    application/json:
+                        schema:
+                            type: string
+                            $ref: '#/components/schemas/MatchProfile'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+  /api/match/swipes/:
     get:
-      summary: Lista de swipes dados
-      description: Devuelve la lista de candidatos con su perfil completo      
+      summary: Returns a list with all the matches
       parameters:
         - in: header
           name: x-token
@@ -498,7 +616,21 @@ paths:
       tags: [Match]
       responses:
             200:
-                description: Devuele un array vacío si no encuentra resultados o con los swipes que satisfacen las condiciones.
+                description: Successful response
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                type: object
+                                $ref: '#/components/schemas/MatchSwipesItem'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
             503:
                 description: service not available!
                 content:
@@ -512,3 +644,481 @@ paths:
                                 msg:
                                     type: string
                                     example: "Service not available"
+  /api/user/match/push_notification/:
+    post:
+      summary: Send notification.
+      parameters:
+        - in: header
+          name: x-token
+          description: The user active JWT token
+          schema:
+           type: string
+           format: JWT
+          required: true
+        - in: query
+          name: destinationid
+          description: Id from the target user.
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: title
+          description: Message's title.
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: message
+          description: Message's text. 
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: match
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: type
+          schema:
+            type: string
+          required: true
+      tags: [Match]
+      responses:
+            200:
+                description: successful message
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+  /api/user/{id}/likes:
+    get:
+        summary: returns a list of likes 
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200:
+                description: successful Response
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                type: object
+                                $ref: '#/components/schemas/MatchOut'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+  /api/user/{id}/rewind:
+    get:
+        summary: returns the last profile to which preference was applied. 
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200:
+                description: successful Response
+                content:
+                    application/json:
+                        schema:
+                            type: array
+                            items:
+                                type: object
+                                $ref: '#/components/schemas/ProfileRewind'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/ValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+  /api/user/{id}/match/profile/complete:
+    put:
+        summary: indicates whether the profile has been completed
+        tags: [Match]
+        requestBody:
+            required: true
+            content: 
+                application/json:
+                    schema:
+                        type: object
+                        $ref: '#/components/schemas/MatchProfile'
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200:
+                description: successful response 
+                content:
+                    application/json:
+                        schema:
+                            type: string
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+  /api/user/{id}/match/profile/block:
+    put:
+        summary: block a profile
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200:
+                description: successful response 
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/MatchProfile'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+  /api/user/{id}/match/profile/unblock:
+    put:
+        summary: unblock a profile
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200:
+                description: successful response 
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/MatchProfile'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+  /api/user/{id}/match/filter:
+    get:
+        summary: gets a filter
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        responses:
+            200:
+                description: Successful Response
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/MatchFilter'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+    put:
+        summary: update fiter
+        tags: [Match]
+        parameters:
+            - in: header
+              name: x-token
+              schema:
+                type: string
+                required: true
+                description: user token
+            - in: path
+              name: id
+              required: true
+              schema:
+                type: string
+        requestBody:
+            required: true
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        $ref: '#/components/schemas/MatchFilter'
+        responses:
+            200:
+                description: Successful Response
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/MatchFilter'
+            422:
+                description: Validation Error.
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            $ref: '#/components/schemas/HTTPValidationError'
+            500:
+                description: return internal error!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: Please talk to the administrator
+            503:
+                description: service not available!
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                ok:
+                                    type: boolean
+                                    example: false
+                                msg:
+                                    type: string
+                                    example: "Service not available"
+
+
+

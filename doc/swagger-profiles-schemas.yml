@@ -96,3 +96,31 @@ components:
             items: 
               type: object
               $ref: '#/components/schemas/Picture'
+      ProfileRewind:
+        type: object
+        properties:
+          userid: 
+            type: string
+            description: unique user id
+          username:
+            type: string
+          gender:
+            type: string
+            enum: [Hombre, Mujer]
+          looking_for:
+            type: string
+            enum: [Hombre, Mujer]
+          age:
+            type: integer
+          education:
+            type: string
+          ethnicity:
+            type: string
+          is_match_plus:
+            type: integer
+          latitud: 
+            type: integer
+          like_counter:
+            type: integer
+          superlike_counter:
+            type: integer

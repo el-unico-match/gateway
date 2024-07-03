@@ -67,6 +67,11 @@ router.all('/current', current);
 router.all('/:id/profiles/filter', validateJWT, match_filter);
 
 /**
+ * Ruta consulta match rewind
+ */
+router.all('/:id/rewind', user_id_match);
+
+/**
  * Ruta consulta usuarios
  */
 router.all('/:id', user_id);

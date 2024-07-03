@@ -79,11 +79,54 @@ components:
               like_counter: 0
               superlike_counter: 0
         UserOutModel:
+          type: object
+          properties:
             userid: 
               type: string
             username: 
               type: string
             qualification:
               type: string
-        
-            
+        MatchSwipesItem:
+            type: object
+            properties:
+              is_match: 
+                type: boolean
+              qualificator_id:
+                type: string
+              qualificator_name:
+                type: string
+              qualificator_swipe:
+                type: string
+              qualificator_date:
+                type: string
+              qualificator_blocked  :
+                type: boolean
+              qualificated_id:
+                type: string
+              qualificated_name:
+                type: string
+              qualificated_swipe:
+                type: string
+              qualificated_date:
+                type: string
+              qualificated_blocked:
+                type: boolean
+        MatchFilter:
+            type: object
+            properties:
+              userid: 
+                type: string
+              gender:
+                type: string
+                enum: [Hombre, Mujer]
+              age_from:
+                type: integer
+              age_to:
+                type: integer
+              education:
+                type: string
+              ethnicity:
+                type: string
+              distance: 
+                type: integer

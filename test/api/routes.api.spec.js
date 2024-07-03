@@ -1647,7 +1647,6 @@ describe('Pruebas sobre la API de trips', () => {
         });
     });
 
-    
     describe('Test handelAxiosRequestConfig', () => {       
 
         const {handleAxiosRequestConfig} = require('../../helpers/axiosHelper');
@@ -1712,5 +1711,319 @@ describe('Pruebas sobre la API de trips', () => {
         });
     });
 
+    describe('Test /api/user/match/push_notification', () => {       
 
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Test push notification', async () => {               
+            const expectedData = {msg: "sended"};
+            mock.onPost(`${urlMatches}/user/match/push_notification`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).post(`/api/user/match/push_notification`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test /user/{id}/rewind', () => {       
+
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Test rewind', async () => {               
+            const expectedData = {msg: "sended"};
+            mock.onGet(`${urlMatches}/user/${user.id}/rewind`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).get(`/api/user/${user.id}/rewind`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test /user/{id}/match/preference', () => {       
+
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Test preference', async () => {               
+            const expectedData = {msg: "sended"};
+            mock.onPost(`${urlMatches}/user/${user.id}/match/preference`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).post(`/api/user/${user.id}/match/preference`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test /user/{id}/match/profile/block and /user/{id}/match/profile/unblock ', () => {       
+
+        let token;
+
+        let user;
+
+        let profile
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+        });
+
+        test('Test block', async () => {               
+            const expectedData = {...profile};
+            mock.onPut(`${urlMatches}/user/${profile.userid}/match/profile/block`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).put(`/api/user/${profile.userid}/match/profile/block`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Test unblock', async () => {               
+            const expectedData = {...profile};
+            mock.onPut(`${urlMatches}/user/${profile.userid}/match/profile/unblock`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).put(`/api/user/${profile.userid}/match/profile/unblock`)
+                .set('x-token', token);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test /user/match/notification', () => {       
+
+        let token;
+
+        let user;
+
+        let profile
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+        });
+
+        test('Send notification', async () => {               
+            const expectedData = {...profile};
+            const payload = {
+                userid_bloquer: profile.userid,
+                userid_blocked: "66304a6b2891cdcfebdbdcAA"
+            }
+            mock.onPut(`${urlMatches}/user/match/notification`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).put(`/api/user/match/notification`)
+                .set('x-token', token).send(payload);;
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test /user/match/block', () => {       
+
+        let token;
+
+        let user;
+
+        let profile
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+            profile = {
+                userid: "66304a6b2891cdcfebdbdc6c",
+                username: "Carlos Carlin",
+                email: "carlin@mail.com",
+                description: "Argentino. Estudié en la UBA.",
+                gender: "Hombre",
+                looking_for: "Mujer",
+                age: 33,
+                education: "Ingeniero Civil",
+                ethnicity: "europeo"
+            }
+        });
+
+        test('Test /user/match/block', async () => {               
+            const expectedData = {msg: "Ok"};
+            const payload = {
+                userid_bloquer: profile.userid,
+                userid_blocked: "66304a6b2891cdcfebdbdcAA"
+            }
+            mock.onPost(`${urlMatches}/user/match/block`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).post(`/api/user/match/block`)
+                .set('x-token', token).send(payload);;
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        test('Chande block state', async () => {               
+            const expectedData = {...profile};
+            const payload = {
+                swiper_userid: profile.userid,
+                swiped_userid: "66304a6b2891cdcfebdbdcAA",
+                isBlocked: true
+            }
+            mock.onPut(`${urlMatches}/user/match/block`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).put(`/api/user/match/block`)
+                .set('x-token', token).send(payload);;
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    describe('Test /user/match/block', () => {       
+
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: false,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Test get /user/match/swipes', async () => {               
+            const expectedData = [];
+            mock.onGet(`${urlMatches}/user/match/swipes`).replyOnce( (config) => {
+                return [HTTP_SUCCESS_2XX.OK, expectedData];
+            });
+            let response = await request(app).get(`/api/user/match/swipes`)
+                .set('x-token', token).send({});
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(expectedData));
+            expect(response.headers['content-type']).toContain('json');            
+        });
+
+        afterEach(() => {
+            jest.restoreAllMocks();
+        });
+    });
+
+    
 });
