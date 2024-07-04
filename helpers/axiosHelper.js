@@ -14,6 +14,7 @@ const { HTTP_CLIENT_ERROR_4XX, HTTP_SERVER_ERROR_5XX } = require('./httpCodes');
 const handleAxiosRequestConfig = async (axiosConfig) => { 
 
     try {
+        logDebug(`On handle axios request config: ${JSON.stringify(axiosConfig)}`);
         return await axios(axiosConfig);
     } 
     
