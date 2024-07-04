@@ -1592,7 +1592,7 @@ describe('Pruebas sobre la API de trips', () => {
             mock.onGet(`${urlUsers}/log`).replyOnce( (config) => {
                 return [HTTP_SUCCESS_2XX.OK, {}];
             });
-            let response = await request(app).get(`/api/log/${SERVICES.USERS}`)
+            let response = await request(app).get(`/api/log`)
                 .set('x-token', token);
             expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
             expect(response.headers['content-type']).toContain('json');            
@@ -1619,12 +1619,12 @@ describe('Pruebas sobre la API de trips', () => {
         });
 
         test('Get log micro-service services', async () => {               
-            mock.onGet(`${urlServices}/log/${SERVICES.SERVICES}`).replyOnce( (config) => {
+            mock.onGet(`${urlServices}/log`).replyOnce( (config) => {
                 return [HTTP_SUCCESS_2XX.OK, {}];
             });
             let response = await request(app).get(`/api/log/${SERVICES.SERVICES}`)
                 .set('x-token', token);
-            //expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
+            expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
             expect(response.headers['content-type']).toContain('json');            
         });
 
