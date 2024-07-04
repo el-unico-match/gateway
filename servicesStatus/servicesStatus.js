@@ -33,6 +33,10 @@ class ServicesStatus {
         this.users = {
             name: SERVICES.USERS,
             target: process.env.USERS_API_DOMAIN,
+        };
+        this.events = {
+            name: SERVICES.EVENTS,
+            target: process.env.EVENTS_API_DOMAIN,
         };        
     }
 
@@ -54,6 +58,8 @@ class ServicesStatus {
                 return this.services;
             case SERVICES.USERS:
                 return this.users;
+            case SERVICES.EVENTS:
+                return this.events;
         }
     }
 }

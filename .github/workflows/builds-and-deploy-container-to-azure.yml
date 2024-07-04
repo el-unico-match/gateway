@@ -25,6 +25,7 @@ jobs:
           echo "MATCHES_API_DOMAIN=${{ vars.MATCHES_API_DOMAIN }}" >> .env
           echo "PROFILES_API_DOMAIN=${{ vars.PROFILES_API_DOMAIN }}" >> .env
           echo "SERVICES_API_DOMAIN=${{ vars.SERVICES_API_DOMAIN }}" >> .env
+          echo "EVENTS_API_DOMAIN=${{ vars.EVENTS_API_DOMAIN }}" >> .env
           echo "SECRET_JWT_SEED=${{ secrets.SECRET_JWT_SEED }}" >> .env
           echo "APIKEY_VALUE=${{ secrets.APIKEY_VALUE }}" >> .env
           echo "APIKEY_WHITELIST=${{ secrets.APIKEY_WHITELIST }}" >> .env
