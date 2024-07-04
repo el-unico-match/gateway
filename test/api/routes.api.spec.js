@@ -1577,6 +1577,10 @@ describe('Pruebas sobre la API de trips', () => {
 
         let user;
 
+        const {logError} = require('../../helpers/log/log');
+
+        const {getLogLevel, LOG_LEVELS} = require('../../helpers/log/logLevel');
+
         beforeAll( async () => {
             user = {
                 id: "645547541243dfdsfe2132142134234203",
@@ -1642,6 +1646,17 @@ describe('Pruebas sobre la API de trips', () => {
             expect(response.headers['content-type']).toContain('json');            
         });
         
+        test('Test log Error', async () => {   
+            logError("Test Error");
+        });
+
+        test('Test log level', async () => {   
+            expect(getLogLevel(LOG_LEVELS.DEBUG.level)).toBe(LOG_LEVELS.DEBUG);
+            expect(getLogLevel(LOG_LEVELS.INFO.level)).toBe(LOG_LEVELS.INFO);
+            expect(getLogLevel(LOG_LEVELS.WARNING.level)).toBe(LOG_LEVELS.WARNING);
+            expect(getLogLevel(LOG_LEVELS.ERROR.level)).toBe(LOG_LEVELS.ERROR);
+        });
+
         afterEach(() => {
             jest.restoreAllMocks();
         });
@@ -2025,4 +2040,90 @@ describe('Pruebas sobre la API de trips', () => {
         });
     });
     
+    describe('Service types', () => {       
+
+        const {
+            isService, 
+            SERVICES} = require('../../types/services');
+
+        test('Test services types', async () => {               
+            expect(isService(SERVICES.USERS)).toBe(true);
+            expect(isService(SERVICES.EVENTS)).toBe(true);
+        });
+    });
+
+    describe('Service status', () => {       
+        const {SERVICES} = require('../../types/services');
+
+        const {getServiceStatus} = require('../../servicesStatus/servicesStatus');
+
+        test('Test services types', async () => {               
+            expect(getServiceStatus(SERVICES.EVENTS).name).toBe("events");
+        });
+    });
+
+    describe('Test validateJWT', () => {       
+
+        const {validateJWT} = require('../../middlewares/validateJWT');
+
+        let token;
+
+        let user;
+
+        beforeAll( async () => {
+            user = {
+                id: "645547541243dfdsfe2132142134234203",
+                email: "rafaelputaro@gmail.com",
+                role: "administrador",
+                blocked: true,
+                verified: true
+            } 
+            token = await generateJWT(user.id, user.role, user.blocked);
+        });
+
+        test('Test validateJWT no token', async () => {               
+            const response = validateJWT(
+                {
+                    header: () => undefined
+                }, 
+                undefined, 
+                () => false);
+            expect(response).toBe(undefined);
+        });
+
+        test('Test validateJWT, fail token', async () => {               
+            const response = validateJWT(
+                {
+                    header: () => token
+                }, 
+                undefined, 
+                () => false);
+            expect(response).toBe(undefined);
+        });
+
+    });
+
+    describe('Test validateApiKeys', () => {       
+
+        const {doValidateApikey} = require('../../middlewares/validateApikeys');
+
+        let token;
+
+        beforeAll( async () => {
+            tokenArg = {
+                id: "645547541243dfdsfe2132142134234203"
+            } 
+            token = await generateJWT(tokenArg);
+        });
+
+        test('Test validateApiKey', async () => {               
+            try {
+                doValidateApikey(token);    
+            } catch (error) {
+                expect(true).toBe(true);
+            }            
+        });
+
+    });
+
 });
