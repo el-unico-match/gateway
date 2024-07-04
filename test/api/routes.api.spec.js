@@ -1176,22 +1176,16 @@ describe('Pruebas sobre la API de trips', () => {
 
         test('Get user profile pictures', async () => {               
             const mockResponseProfile = {
-                profile
+                ...pictures
             };
             mock.onGet(`${urlProfiles}/user/profile/pictures/${profile.userid}`).replyOnce( (config) => {
                 return [HTTP_SUCCESS_2XX.OK, mockResponseProfile];
-            });
-            const mockResponsePictures = {
-                ...pictures
-            }
-            mock.onGet(`${urlMatches}/user/${profile.userid}/match/profile/complete`).replyOnce( (config) => {
-                return [HTTP_SUCCESS_2XX.OK, mockResponsePictures];
             });
             let response = await request(app).get(`/api/user/profile/pictures/${profile.userid}`)
                 .set('x-token', token);
             expect(response.status).toBe(HTTP_SUCCESS_2XX.OK);
             expect(response.headers['content-type']).toContain('json');            
-            expect(JSON.stringify(response.body.pictures)).toBe(JSON.stringify(pictures.pictures));
+            expect(JSON.stringify(response.body)).toBe(JSON.stringify(pictures));
         });
 
         test('Fail on set user profile pictures', async () => {               

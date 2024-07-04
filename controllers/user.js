@@ -193,5 +193,5 @@ module.exports = {
     user_profile,
     get_user_profile_pictures,
     user_pictures,
-    match_filter,
+    match_filter
 }
