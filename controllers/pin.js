@@ -5,8 +5,9 @@ const {SERVICES} = require('../types/services');
  * @returns Respuesta de la solicitud http
  */
 const pin =  async (req, res) => {
-    req.baseUrl = '';
-    await doRequestAxios(req, res, SERVICES.USERS, 'pin');
+    const newUrl = req.originalUrl.replace('/api','');
+    req.baseUrl = '';    
+    await doRequestAxios(req, res, SERVICES.USERS, newUrl);
 }
 
 module.exports = {

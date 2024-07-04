@@ -25,7 +25,7 @@ const match_filter = async (req, res) => {
  * @returns Respuesta de la solicitud http
  */
 const user = async (req, res) => {
-    const newUrl = req.baseUrl.replace('/api','');
+    const newUrl = req.originalUrl.replace('/api','');
     req.baseUrl = '';    
     await doRequestAxios(req, res, SERVICES.USERS, newUrl);
 }
@@ -34,8 +34,8 @@ const user = async (req, res) => {
  * @returns Respuesta de la solicitud http
  */
 const user_id = async (req, res) => {
-    const newUrl = req.baseUrl.replace('/api','');
-    req.baseUrl = '';    
+    const newUrl = req.originalUrl.replace('/api','');
+    req.baseUrl = ''; 
     await doRequestAxios(req, res, SERVICES.USERS, newUrl);
 }
 
