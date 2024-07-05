@@ -1,4 +1,5 @@
 # Gateway
+[![Coverage Status](https://coveralls.io/repos/github/el-unico-match/gateway/badge.svg?branch=dev)](https://coveralls.io/github/el-unico-match/gateway?branch=dev)
 
 <center><image src="https://adictosaltrabajo.com/wp-content/uploads/2020/05/client-mssc-with-gateway-1.png" alt="Gateway"></center>
 
